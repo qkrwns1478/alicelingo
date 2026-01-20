@@ -1,0 +1,798 @@
+{
+  "part2": [
+    {
+      "english": "This is a picture taken at a park",
+      "korean": "이것은 공원에서 찍힌 사진이에요"
+    },
+    {
+      "english": "The first thing I can see in this picture is two women",
+      "korean": "이 사진에서 가장 먼저 볼 수 있는 것은 두 명의 여자예요"
+    },
+    {
+      "english": "In the foreground of the picture, I can see a fountain",
+      "korean": "사진의 전경에는 분수대가 보여요"
+    },
+    {
+      "english": "In the middle of the picture, I can see a fountain",
+      "korean": "사진의 중앙에는 분수대가 보여요"
+    },
+    {
+      "english": "In the background of the picture, I can see a fountain",
+      "korean": "사진의 배경에는 분수대가 보여요"
+    },
+    {
+      "english": "On the left side of the picture, there is a sidewalk",
+      "korean": "사진의 왼쪽에는 인도가 있어요"
+    },
+    {
+      "english": "On the right side of the picture, there is a sidewalk",
+      "korean": "사진의 오른쪽에는 인도가 있어요"
+    },
+    {
+      "english": "Next to her, there is another woman",
+      "korean": "그녀의 옆에 또 다른 여자가 있어요"
+    },
+    {
+      "english": "I can see two men standing behind her",
+      "korean": "그녀의 뒤에서 있는 두 명의 남성이 보여요"
+    },
+    {
+      "english": "Most of them are wearing formal clothes",
+      "korean": "그들 중 대부분은 정장을 입고 있어요"
+    },
+    {
+      "english": "Some of them are wearing casual clothes",
+      "korean": "그들 중 일부는 캐주얼한 옷을 입고 있어요"
+    },
+    {
+      "english": "She is looking at a menu",
+      "korean": "그녀는 메뉴판을 보고 있어요"
+    },
+    {
+      "english": "He is writing something down",
+      "korean": "그는 무언가를 적고 있어요"
+    },
+    {
+      "english": "She is serving food to customers",
+      "korean": "그녀는 고객들에게 음식을 제공하고 있어요"
+    },
+    {
+      "english": "She is holding a cup",
+      "korean": "그녀는 컵을 들고 있어요"
+    },
+    {
+      "english": "They are standing at the cashier",
+      "korean": "그들은 계산대에서 있어요"
+    },
+    {
+      "english": "They are having a conversation",
+      "korean": "그들은 대화를 나누고 있어요"
+    },
+    {
+      "english": "She is looking into a bag",
+      "korean": "그녀는 가방 안을 들여다보고 있어요"
+    },
+    {
+      "english": "He is helping customers",
+      "korean": "그는 고객들을 돕고 있어요"
+    },
+    {
+      "english": "They are sitting at a table",
+      "korean": "그들은 테이블에 앉아 있어요"
+    },
+    {
+      "english": "He is looking for something",
+      "korean": "그는 무언가를 찾고 있어요"
+    },
+    {
+      "english": "He is handing over a credit card",
+      "korean": "그는 신용 카드를 건네주고 있어요"
+    },
+    {
+      "english": "He is pushing a cart",
+      "korean": "그는 카트를 밀고 있어요"
+    },
+    {
+      "english": "He is looking at a product",
+      "korean": "그는 제품을 보고 있어요"
+    },
+    {
+      "english": "They are waiting in line",
+      "korean": "그들은 줄을 서서 기다리고 있어요"
+    },
+    {
+      "english": "They are arranging items",
+      "korean": "그들은 물건들을 정리하고 있어요"
+    },
+    {
+      "english": "She is holding a shopping bag",
+      "korean": "그녀는 쇼핑백을 들고 있어요"
+    },
+    {
+      "english": "He is reaching for an item",
+      "korean": "그는 물건을 집으려고 손을 뻗고 있어요"
+    },
+    {
+      "english": "He is holding a plastic bag",
+      "korean": "그는 비닐봉지를 들고 있어요"
+    },
+    {
+      "english": "He is raising his hand",
+      "korean": "그는 한 손을 들고 있어요"
+    },
+    {
+      "english": "She is holding a document",
+      "korean": "그녀는 문서를 들고 있어요"
+    },
+    {
+      "english": "He is making a presentation",
+      "korean": "그는 발표를 하고 있어요"
+    },
+    {
+      "english": "He is using a tablet PC",
+      "korean": "그는 태블릿을 사용하고 있어요"
+    },
+    {
+      "english": "They are reading a document",
+      "korean": "그들은 문서를 읽고 있어요"
+    },
+    {
+      "english": "He is hanging his clothes on a rack",
+      "korean": "그는 옷걸리에 옷을 걸고 있어요"
+    },
+    {
+      "english": "She is picking up a piece of paper",
+      "korean": "그녀는 종이 한 장을 줍고 있어요"
+    },
+    {
+      "english": "There is a man taking a picture",
+      "korean": "사진을 찍고 있는 한 남자가 있어요"
+    },
+    {
+      "english": "She is walking a dog",
+      "korean": "그녀는 개를 산책시키고 있어요"
+    },
+    {
+      "english": "He is lying on the ground",
+      "korean": "그는 바닥에 누워 있어요"
+    },
+    {
+      "english": "She is pushing a baby stroller",
+      "korean": "그녀는 유모차를 밀고 있어요"
+    },
+    {
+      "english": "He is riding a boat",
+      "korean": "그는 보트를 타고 있어요"
+    },
+    {
+      "english": "He is loading a box into a truck",
+      "korean": "그는 트럭에 상자를 싣고 있어요"
+    },
+    {
+      "english": "He is relaxing on a beach chair",
+      "korean": "그는 해변 의자에서 쉬고 있어요"
+    },
+    {
+      "english": "They are walking down the stairs",
+      "korean": "그들은 계단을 내려가고 있어요"
+    },
+    {
+      "english": "They are crossing the street",
+      "korean": "그들은 길을 건너고 있어요"
+    },
+    {
+      "english": "They are walking on the street",
+      "korean": "그들은 길을 걸어가고 있어요"
+    },
+    {
+      "english": "She is looking at a smartphone",
+      "korean": "그녀는 스마트폰을 보고 있어요"
+    },
+    {
+      "english": "They are performing",
+      "korean": "그들은 공연하고 있어요"
+    }
+  ],
+  "part3": [
+    {
+      "english": "It relieves my stress",
+      "korean": "그것은 저의 스트레스를 풀어 줘요"
+    },
+    {
+      "english": "It's cheaper so I can save money",
+      "korean": "그것은 더 저렴해서 저는 돈을 절약할 수 있어요"
+    },
+    {
+      "english": "The price is reasonable",
+      "korean": "가격이 합리적이에요"
+    },
+    {
+      "english": "It's faster so I can save time",
+      "korean": "그것은 더 빨라서 나는 시간을 절약할 수 있어요"
+    },
+    {
+      "english": "I can get a lot of useful information from my friends",
+      "korean": "저는 친구들에게서 많은 유용한 정보를 얻을 수 있어요"
+    },
+    {
+      "english": "It's more reliable so the information is more trustworthy",
+      "korean": "그것은 더 믿을 만해서 정보가 더 신뢰가 가요"
+    },
+    {
+      "english": "I can get information anytime anywhere on my smartphone",
+      "korean": "언제나 정보를 내 스마트폰에서 얻을 수 있어요"
+    },
+    {
+      "english": "It has great facilities",
+      "korean": "그것은 좋은 시설들을 가지고 있어요"
+    },
+    {
+      "english": "They are too old so I think it's good to have new ones",
+      "korean": "그것들은 너무 오래되어서 새로운 것이 생기면 좋을 것 같아요"
+    },
+    {
+      "english": "If we had more stores here, it would be more convenient",
+      "korean": "여기에 더 많은 가게들이 있다면 더 편리할 거예요"
+    },
+    {
+      "english": "I'm a student so my budget is tight",
+      "korean": "저는 학생이라 예산이 빠듯해요"
+    },
+    {
+      "english": "I can't afford to buy expensive things",
+      "korean": "저는 비싼 것을 살 여유가 없어요"
+    },
+    {
+      "english": "I don't want to waste too much money on that",
+      "korean": "저는 그것에 돈을 너무 많이 낭비하고 싶지 않아요"
+    },
+    {
+      "english": "It's a waste of money",
+      "korean": "그건 돈 낭비예요"
+    },
+    {
+      "english": "I'm a student so I'm busy with my school work",
+      "korean": "저는 학생이어서 학업에 바빠요"
+    },
+    {
+      "english": "I don't have much time",
+      "korean": "저는 시간이 별로 없어요"
+    },
+    {
+      "english": "I don't want to waste time on that",
+      "korean": "저는 그것의 시간을 낭비하고 싶지 않아요"
+    },
+    {
+      "english": "It's a waste of time",
+      "korean": "그것은 시간 낭비예요"
+    },
+    {
+      "english": "It's necessary for me",
+      "korean": "그것은 저한테 꼭 필요해요"
+    },
+    {
+      "english": "I frequently use it",
+      "korean": "저는 그것을 자주 이용해요"
+    },
+    {
+      "english": "It makes me happy and I can have a great experience",
+      "korean": "그것은 저를 행복하게 해주고 좋은 경험을 할 수 있게 해 줘요"
+    },
+    {
+      "english": "They provide a good environment and a pleasant experience",
+      "korean": "그들은 좋은 환경과 즐거운 경험을 제공해요"
+    },
+    {
+      "english": "I like to try new things",
+      "korean": "저는 새로운 것들을 도전해 보는 것을 좋아해요"
+    },
+    {
+      "english": "It's reliable so I can trust the product",
+      "korean": "그것은 믿을 만해서 저는 그 제품을 신뢰할 수 있어요"
+    },
+    {
+      "english": "It's a popular item, so people will love it",
+      "korean": "그것은 인기 있는 것이라 사람들이 좋아할 거예요"
+    },
+    {
+      "english": "It has sentimental value",
+      "korean": "그것은 정서적인 가치가 담겨 있어요"
+    },
+    {
+      "english": "It's a good gift",
+      "korean": "그것은 좋은 선물이에요"
+    },
+    {
+      "english": "It's part of my routine",
+      "korean": "그것은 제 일상의 일부예요"
+    },
+    {
+      "english": "It's my habit",
+      "korean": "그것은 제 습관이에요"
+    },
+    {
+      "english": "I really liked it",
+      "korean": "저는 그것이 정말 좋았어요"
+    },
+    {
+      "english": "It was great",
+      "korean": "그것은 훌륭했어요"
+    },
+    {
+      "english": "It was awesome",
+      "korean": "그것은 근사했어요"
+    },
+    {
+      "english": "It's cheaper and faster",
+      "korean": "그것은 더 싸고 더 빨라요"
+    },
+    {
+      "english": "It's very convenient and useful",
+      "korean": "그것은 매우 편리하고 유용해요"
+    },
+    {
+      "english": "It's very helpful to me",
+      "korean": "그것은 저에게 매우 도움이 돼요"
+    },
+    {
+      "english": "It's my favorite thing to do",
+      "korean": "그것은 제가 가장 좋아하는 일이에요"
+    },
+    {
+      "english": "It makes me happy so I can forget about my worries",
+      "korean": "그것은 저를 행복하게 해 줘서 저는 걱정을 잊을 수 있어요"
+    },
+    {
+      "english": "It's more fun and entertaining so I don't get bored",
+      "korean": "그것은 더 재미있고 즐거움을 줘서 저는 지루해지지 않아요"
+    },
+    {
+      "english": "I think it's more fun to do things in a group",
+      "korean": "저는 함께 하는 것이 더 재미있다고 생각해요"
+    },
+    {
+      "english": "I can meet new people and make friends",
+      "korean": "저는 새로운 사람들을 만날 수 있고 친구들을 사귈 수 있어요"
+    },
+    {
+      "english": "I feel more comfortable and I can focus better",
+      "korean": "저는 더 편안함을 느끼고 더 잘 집중할 수 있어요"
+    },
+    {
+      "english": "I don't have to waste time waiting for others",
+      "korean": "저는 다른 사람들을 기다리느라 시간을 낭비할 필요가 없어요"
+    },
+    {
+      "english": "I feel more comfortable at home",
+      "korean": "저는 집에서 더 편안함을 느껴요"
+    },
+    {
+      "english": "I can save time because I don't have to waste time going out",
+      "korean": "외출하느라 시간을 낭비할 필요가 없기 때문에 저는 시간을 절약할 수 있어요"
+    },
+    {
+      "english": "It's more personal and builds a closer relationship",
+      "korean": "그것은 더 개인적이고 더 밀접한 관계를 만들 수 있어요"
+    },
+    {
+      "english": "It causes less misunderstanding",
+      "korean": "그것은 오해를 덜 불러일으켜요"
+    }
+  ],
+  "part4": [
+    {
+      "english": "The conference will be held on June 20th at Hilton Hotel",
+      "korean": "회의가 6월 20일에 힐튼 호텔에서 개최될 예정이에요"
+    },
+    {
+      "english": "The seminar will end at 5 pm",
+      "korean": "세미나는 오후 5시에 끝날 거예요"
+    },
+    {
+      "english": "No, I'm afraid that you have the wrong information Actually the registration and coffee session will start at 9 am",
+      "korean": "아니 유감스럽지만 잘못 알고 계십니다 사실은 등록 및 커피 타임은 오전 9시에 시작할 거예요"
+    },
+    {
+      "english": "There are two sessions First at 1 pm there is a workshop on social media marketing by Ray Kingston Next at 2:30 PM there is a discussion on appealing to sports fans through marketing by Kevin Delmont",
+      "korean": "두 개의 세션이 있어요 먼저 오후 1시에는 레이 킹스턴의 소셜 미디어 마케팅에 관한 워크숍이 있어요 다음으로 오후 2시 30분에는 마케팅을 통해 스포츠 팬들에게 어필하기에 대한 케빈 델몬트의 토론이 있어요"
+    },
+    {
+      "english": "You will depart from San Francisco at 10 am",
+      "korean": "당신은 오전 10시에 샌프란시스코에서 출발할 거예요"
+    },
+    {
+      "english": "You will arrive in Los Angeles at 3 pm",
+      "korean": "당신은 오후 3시에 로스앤젤레스에 도착할 거예요"
+    },
+    {
+      "english": "You will take Korean Air Flight 105",
+      "korean": "당신은 대한항공 105편을 탈 거예요"
+    },
+    {
+      "english": "You will stay at Glen Hotel",
+      "korean": "당신은 글렌 호텔에 머무를 거예요"
+    },
+    {
+      "english": "You will have lunch",
+      "korean": "당신은 점심 식사를 할 거예요"
+    },
+    {
+      "english": "You will have dinner",
+      "korean": "당신은 저녁 식사를 할 거예요"
+    },
+    {
+      "english": "You will have a meeting",
+      "korean": "당신은 회의를 할 거예요"
+    },
+    {
+      "english": "You will give a speech",
+      "korean": "당신은 연설을 할 거예요"
+    },
+    {
+      "english": "You will give a presentation",
+      "korean": "당신은 프레젠테이션을 할 거예요"
+    },
+    {
+      "english": "You will give a lecture",
+      "korean": "당신은 강의를 할 거예요"
+    },
+    {
+      "english": "There was supposed to be an interview but it has been canceled",
+      "korean": "인터뷰가 예정되어 있었으나 취소되었어요"
+    },
+    {
+      "english": "There was supposed to be a meeting, but it has been postponed",
+      "korean": "미팅이 예정되어 있었으나 연기되었어요"
+    },
+    {
+      "english": "There was supposed to be a meeting with Jane White at 2 PM on Tuesday but it has been rescheduled to Friday",
+      "korean": "화요일 오후 2시에 제인 화이트 씨와의 미팅이 예정되어 있었으나 금요일로 조정되었어요"
+    },
+    {
+      "english": "She got a master degree in design from Vancouver Art University in 2010",
+      "korean": "그녀는 2010년에 밴쿠버 예술대학교에서 디자인 전공으로 석사학위를 취득했어요"
+    },
+    {
+      "english": "From 2015 to 2017 she worked at Jasper Fashion magazine as a director",
+      "korean": "2015년부터 2017년까지 그녀는 제스퍼 패션 잡지사에서 이사로 일했어요"
+    },
+    {
+      "english": "From 2017 up to now she has worked at Toronto Fashion magazine as a chief editor",
+      "korean": "2017년부터 지금까지 그녀는 토론토 패션 잡지사에서 편집장으로 일해오고 있어요"
+    },
+    {
+      "english": "I think she is qualified because",
+      "korean": "저는 그녀가 자격을 갖췄다고 생각해요 왜냐하면"
+    },
+    {
+      "english": "He is fluent in Spanish",
+      "korean": "그는 스페인어를 유창하게 구사해요"
+    },
+    {
+      "english": "She is certified in Pilates",
+      "korean": "그녀는 필라테스 자격증이 있어요"
+    },
+    {
+      "english": "He has experience in education",
+      "korean": "그는 교육 분야의 경험이 있어요"
+    },
+    {
+      "english": "You will interview Jessica Anderson at 9 am",
+      "korean": "당신은 제시카 앤더슨과 오전 9시에 면접을 볼 거예요"
+    },
+    {
+      "english": "I have an interview with John White from EcoTech who is applying for the Marketing Manager position",
+      "korean": "마케팅 부장직에 지원하는 에코전자의 존 화이트 씨와 면접이 있어요"
+    },
+    {
+      "english": "She has five years of experience",
+      "korean": "그녀는 5년의 경력이 있어요"
+    },
+    {
+      "english": "He is applying for the editor position",
+      "korean": "그는 편집자 직책에 지원하고 있어요"
+    },
+    {
+      "english": "You have to pay $20 for the oil painting class",
+      "korean": "5일 페인팅 수업으로 20달러를 지불하셔야 해요"
+    },
+    {
+      "english": "You should register by January 3rd",
+      "korean": "1월 3일까지 등록하셔야 해요"
+    },
+    {
+      "english": "If you are a member, it's $20",
+      "korean": "당신이 회원이라면 20달러예요"
+    },
+    {
+      "english": "It's free",
+      "korean": "그것은 무료예요"
+    },
+    {
+      "english": "It's for members",
+      "korean": "그것은 회원들을 위한 것이에요"
+    },
+    {
+      "english": "There is a cooking for beginners class",
+      "korean": "초보자를 위한 요리 수업이 있어요"
+    },
+    {
+      "english": "Sean Ken will teach the painting class",
+      "korean": "강사가 회화 수업을 지도할 거예요"
+    },
+    {
+      "english": "There is a class on French art history",
+      "korean": "프랑스 예술사에 관한 수업이 있어요"
+    },
+    {
+      "english": "Jennifer Houston will teach a class on computer skills",
+      "korean": "제니퍼 휴스턴 강사가 컴퓨터 기술에 관한 수업을 지도할 예정이에요"
+    }
+  ],
+  "part5": [
+    {
+      "english": "They can learn new things",
+      "korean": "그들은 새로운 것들을 배울 수 있어요"
+    },
+    {
+      "english": "They can meet new people and expand their network",
+      "korean": "그들은 새로운 사람들을 만나고 인맥을 넓힐 수 있어요"
+    },
+    {
+      "english": "They can have a lot of new experiences and broaden their perspective",
+      "korean": "그들은 많은 것을 경험하고 그들의 견문을 넓힐 수 있어요"
+    },
+    {
+      "english": "They can't make good decisions because they are not mature enough",
+      "korean": "그들은 올바른 결정을 하지 못하는데 왜냐하면 그들은 아직 충분히 성숙하지 않기 때문이에요"
+    },
+    {
+      "english": "They will be distracted",
+      "korean": "그들은 집중력이 분산될 거예요"
+    },
+    {
+      "english": "They can't focus on their studies",
+      "korean": "그들은 공부에 집중할 수가 없어요"
+    },
+    {
+      "english": "They can't focus on their work",
+      "korean": "그들은 일에 집중할 수가 없어요"
+    },
+    {
+      "english": "They can't get good grades at school",
+      "korean": "그들은 학교에서 좋은 성적을 받을 수 없어요"
+    },
+    {
+      "english": "They will fall behind in class",
+      "korean": "그들은 학급에서 뒤쳐질 거예요"
+    },
+    {
+      "english": "They can't work efficiently",
+      "korean": "그들은 효율적으로 일할 수 없어요"
+    },
+    {
+      "english": "They can save money",
+      "korean": "그들은 돈을 절약할 수 있어요"
+    },
+    {
+      "english": "The cost of living is too high",
+      "korean": "생활비가 너무 비싸요"
+    },
+    {
+      "english": "They can't make a living",
+      "korean": "그들은 생계를 유지할 수 없어요"
+    },
+    {
+      "english": "I can get a high salary",
+      "korean": "저는 높은 급여을 받을 수 있어요"
+    },
+    {
+      "english": "I can get a higher salary",
+      "korean": "저는 더 높은 급여을 받을 수 있어요"
+    },
+    {
+      "english": "That's a good investment because it makes lives better",
+      "korean": "그것은 삶을 더 낫게 만들어 주기 때문에 좋은 투자예요"
+    },
+    {
+      "english": "They can focus better",
+      "korean": "그들은 더 잘 집중할 수 있어요"
+    },
+    {
+      "english": "They will not be distracted by others",
+      "korean": "그들은 다른 사람들 때문에 방해받지 않을 거예요"
+    },
+    {
+      "english": "They can set their own schedule",
+      "korean": "그들은 그들만의 일정을 짤 수 있어요"
+    },
+    {
+      "english": "They can have more freedom",
+      "korean": "그들은 더 많은 자유를 가질 수 있어요"
+    },
+    {
+      "english": "They can get information and share it with other people",
+      "korean": "그들은 정보를 얻고 그것을 다른 사람들과 공유할 수 있어요"
+    },
+    {
+      "english": "It feels more like a family",
+      "korean": "그것은 더 가족처럼 느껴져요"
+    },
+    {
+      "english": "They can get a lot of useful information on the internet",
+      "korean": "그들은 인터넷상에서 많은 유용한 정보를 얻을 수 있어요"
+    },
+    {
+      "english": "They can get a lot of latest information on the internet",
+      "korean": "그들은 인터넷상에서 많은 최신 정보를 얻을 수 있어요"
+    },
+    {
+      "english": "It's faster and more convenient",
+      "korean": "그것은 더 빠르고 더 편리해요"
+    },
+    {
+      "english": "There is a lot of inaccurate information on the internet so it's not reliable",
+      "korean": "인터넷에는 많은 부정확한 정보가 있어서 믿을 만하지가 않아요"
+    },
+    {
+      "english": "It is very distracting for students So students can't focus on their studies",
+      "korean": "그것은 학생들의 집중을 분산시켜서 학생들은 공부에 집중할 수 없어요"
+    },
+    {
+      "english": "It is very distracting for students So students can't focus on their work",
+      "korean": "그것은 학생들의 집중을 분산시켜서 학생들은 일에 집중할 수 없어요"
+    },
+    {
+      "english": "I can get responses right away",
+      "korean": "저는 즉시 답변을 받을 수 있어요"
+    },
+    {
+      "english": "I can understand the speaker's feeling more accurately",
+      "korean": "저는 화자의 감정을 더 정확하게 이해할 수 있어요"
+    },
+    {
+      "english": "They can create a friendly work atmosphere",
+      "korean": "그들은 친근한 업무 분위기를 만들 수 있어요"
+    },
+    {
+      "english": "They can communicate with others better",
+      "korean": "그들은 다른 사람들과 더 잘 소통할 수 있어요"
+    },
+    {
+      "english": "They can be good team players and make good relationships with others",
+      "korean": "그들은 훌륭한 팀원이 될 수 있고 다른 사람들과 좋은 관계를 맺을 수 있어요"
+    },
+    {
+      "english": "They can have a good reputation",
+      "korean": "그들은 좋은 평판을 받을 수 있어요"
+    },
+    {
+      "english": "They can be very influential",
+      "korean": "그들은 매우 영향력이 있을 수 있어요"
+    },
+    {
+      "english": "They can motivate others",
+      "korean": "그들은 다른 사람들을 동기 부여할 수 있어요"
+    },
+    {
+      "english": "Everything is always changing and there is a lot of competition",
+      "korean": "모든 것이 항상 변화하고 경쟁이 치열해요"
+    },
+    {
+      "english": "They face a lot of challenges and difficulties",
+      "korean": "그들은 많은 도전과 어려움에 직면해요"
+    },
+    {
+      "english": "He is able to handle a variety of situations due to his confidence",
+      "korean": "그는 그의 자신감 덕분에 다양한 상황을 처리할 수 있어요"
+    },
+    {
+      "english": "They have a lot of knowledge",
+      "korean": "그들은 많은 지식을 가지고 있어요"
+    },
+    {
+      "english": "Employees can work more efficiently and productively",
+      "korean": "직원들은 더 효율적이고 더 생산적으로 일할 수 있어요"
+    },
+    {
+      "english": "Employees can be more satisfied with their jobs",
+      "korean": "직원들은 그들의 직업에 더 만족할 수 있어요"
+    },
+    {
+      "english": "It can make a better work environment",
+      "korean": "그것은 더 나은 업무 환경을 만들 수 있어요"
+    },
+    {
+      "english": "They might appear less professional",
+      "korean": "그들은 덜 전문적으로 보일 수 있어요"
+    },
+    {
+      "english": "Customers will feel satisfied and remain loyal",
+      "korean": "고객들은 만족감을 느낄 것이고 계속 충성할 거예요"
+    },
+    {
+      "english": "It will attract more customers",
+      "korean": "그것은 더 많은 고객을 유치할 거예요"
+    },
+    {
+      "english": "The business will be more successful",
+      "korean": "그 사업은 더 성공할 거예요"
+    },
+    {
+      "english": "People frequently use social media so it will be very effective",
+      "korean": "사람들은 소셜 미디어를 자주 이용해서 그것은 매우 효과적일 거예요"
+    },
+    {
+      "english": "It relieves their stress and they can relax",
+      "korean": "그것은 그들의 스트레스를 풀어주고 그들은 편히 쉴 수 있어요"
+    },
+    {
+      "english": "It is good for their physical health",
+      "korean": "그것은 그들의 신체적 건강에 좋아요"
+    },
+    {
+      "english": "It is good for their mental health",
+      "korean": "그것은 그들의 정신적 건강에 좋아요"
+    },
+    {
+      "english": "It is good for their health",
+      "korean": "그것은 그들의 건강에 좋아요"
+    },
+    {
+      "english": "It is not good for their health",
+      "korean": "그것은 그들의 건강에 좋지 않아요"
+    },
+    {
+      "english": "It can develop healthy habits",
+      "korean": "그것은 건강한 습관들을 기를 수 있어요"
+    },
+    {
+      "english": "It can develop unhealthy habits",
+      "korean": "그것은 건강하지 않은 습관들을 기를 수 있어요"
+    },
+    {
+      "english": "It is good for the environment",
+      "korean": "그것은 환경에 좋아요"
+    },
+    {
+      "english": "Pollution is a serious issue these days",
+      "korean": "환경오염은 요즘 심각한 문제예요"
+    },
+    {
+      "english": "It can make a cleaner environment",
+      "korean": "그것은 더 깨끗한 환경을 만들 수 있어요"
+    },
+    {
+      "english": "We will be able to protect the environment",
+      "korean": "우리는 환경을 보호할 수 있을 거예요"
+    },
+    {
+      "english": "Most of all, people can find answers very quickly on the internet so they can save time and get the information right away",
+      "korean": "무엇보다도 사람들은 인터넷에서 아주 빠르게 답을 찾을 수 있어요 그래서 시간을 절약할 수 있고 정보를 바로 얻을 수 있어요"
+    },
+    {
+      "english": "However, in the past people had to go to the library and look through books So, it took a long time to find what they were looking for",
+      "korean": "하지만 예전에는 사람들이 도서관에 가서 책을 뒤져야 했어요 그래서 그들이 찾고 있던 것을 찾는데 시간이 오래 걸렸어요"
+    },
+    {
+      "english": "Previously, students had to go to a classroom to study",
+      "korean": "예전에는 학생들이 공부를 하기 위해 교실에 가야만 했어요"
+    },
+    {
+      "english": "But these days they can study online without going anywhere",
+      "korean": "하지만 요즘은 그들은 어디 가지 않아도 온라인으로 공부할 수 있어요"
+    },
+    {
+      "english": "People used to wait for a taxi, but now they use mobile apps to call a taxi",
+      "korean": "사람들이 예전에는 택시를 기다리곤 했지만 지금은 택시를 부르기 위해 모바일 애플리케이션을 사용해요"
+    },
+    {
+      "english": "Compared to the past, people can get information more easily and quickly online",
+      "korean": "과거와 비교하면 사람들은 온라인에서 정보를 더욱 쉽고 빠르게 얻을 수 있어요"
+    },
+    {
+      "english": "Thanks to technology many workers can work from home and save time",
+      "korean": "기술 덕분에 많은 직장인들이 재택 근무를 하고 시간을 절약할 수 있어요"
+    }
+  ]
+}
