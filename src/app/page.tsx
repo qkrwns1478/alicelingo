@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import { BookOpen, Mic, Layers, MessageCircle, GraduationCap, PlayCircle } from 'lucide-react';
+import { Rabbit, BookOpen, Mic, MicVocal, Image, Table, MessageCircle, Pencil, GraduationCap, PlayCircle } from 'lucide-react';
 
 const parts = [
-  { id: 'part2', title: 'Part 2', desc: '사진 묘사하기', icon: <BookOpen className="w-8 h-8" /> },
+  { id: 'part1', title: 'Part 1', desc: '지문 읽기', icon: <MicVocal className="w-8 h-8" /> },
+  { id: 'part2', title: 'Part 2', desc: '사진 묘사하기', icon: <Image className="w-8 h-8" /> },
   { id: 'part3', title: 'Part 3', desc: '질문에 답하기', icon: <MessageCircle className="w-8 h-8" /> },
-  { id: 'part4', title: 'Part 4', desc: '정보 사용하여 답하기', icon: <Layers className="w-8 h-8" /> },
+  { id: 'part4', title: 'Part 4', desc: '정보 사용하여 답하기', icon: <Table className="w-8 h-8" /> },
   { id: 'part5', title: 'Part 5', desc: '의견 제시하기', icon: <Mic className="w-8 h-8" /> },
 ];
 
@@ -15,17 +16,14 @@ export default function Home() {
         
         <header className="mb-16 text-center space-y-4">
           <div className="inline-flex items-center justify-center p-3 bg-indigo-100 rounded-2xl mb-4">
-            <Mic className="w-8 h-8 text-indigo-600" />
+            <Rabbit className="w-8 h-8 text-indigo-600" />
           </div>
           <h1 className="text-5xl font-extrabold text-slate-800 tracking-tight">
             Alice<span className="text-indigo-600">Lingo</span>
           </h1>
-          <p className="text-lg text-slate-500 font-medium max-w-2xl mx-auto">
-            원하는 파트를 선택하여 문장을 학습하거나, 실전 모의고사를 통해 실력을 테스트해보세요.
-          </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {parts.map((part) => (
             <div 
               key={part.id} 
@@ -54,12 +52,34 @@ export default function Home() {
                   href={`/exam/${part.id}`}
                   className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-slate-200 active:scale-95"
                 >
-                  <GraduationCap className="w-4 h-4" />
-                  <span>모의고사</span>
+                  <Pencil className="w-4 h-4" />
+                  <span>문제풀기</span>
                 </Link>
               </div>
             </div>
           ))}
+
+          <div className="bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-start gap-6 group hover:-translate-y-1">
+              <div className="flex items-center gap-4 w-full">
+                <div className="p-4 bg-indigo-50 rounded-2xl text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300 shadow-inner">
+                  <GraduationCap className="w-8 h-8" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-slate-800">모의고사</h2>
+                  <p className="text-slate-400 font-medium text-sm">실전처럼 시험보기</p>
+                </div>
+              </div>
+
+              <div className="w-full mt-2">
+                <Link 
+                  href={`/`}
+                  className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-slate-200 active:scale-95"
+                >
+                  <Pencil className="w-4 h-4" />
+                  <span>문제풀기</span>
+                </Link>
+              </div>
+            </div>
         </div>
 
         <footer className="mt-20 text-center text-slate-400 text-sm">

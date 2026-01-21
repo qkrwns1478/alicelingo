@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import problemData from "../../../data/problems.json";
 import { calculateSimilarity } from "../../../utils/scoring";
 import Timer from "../../../components/Timer";
-import { ArrowLeft, Mic, BarChart2, List, CheckCircle2, Circle, PlayCircle } from "lucide-react";
+import { ArrowLeft, Mic, BarChart2, List, CheckCircle2, Circle, Play, RefreshCw } from "lucide-react";
 
 // 문제 데이터 타입 정의
 type ProblemData = typeof problemData;
@@ -27,18 +27,14 @@ export default function ExamPage() {
   const router = useRouter();
   const partKey = params.part as PartKey;
 
-  // State
-  const [examState, setExamState] = useState<"intro" | "prep" | "recording" | "processing" | "result">("intro");
+  const [examState, setExamState] = useState<"idle" | "prep" | "recording" | "processing" | "result">("idle");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userTranscript, setUserTranscript] = useState("");
-
-  // 결과 State
   const [score, setScore] = useState<number>(0);
   const [feedbackMsg, setFeedbackMsg] = useState<string[]>([]);
 
   const recognitionRef = useRef<any>(null);
 
-  // --- 1. 문제 데이터 가공 ---
   const questions: QuestionStep[] = useMemo(() => {
     const rawData = (problemData as any)[partKey];
     if (!rawData) return [];
@@ -46,7 +42,6 @@ export default function ExamPage() {
     const list: QuestionStep[] = [];
     let qCounter = 1;
 
-    // Helper to add question
     const addQ = (item: Omit<QuestionStep, "id" | "label">) => {
       list.push({
         ...item,
@@ -163,11 +158,7 @@ export default function ExamPage() {
     }
   }, []);
 
-  const startExam = () => {
-    if (questions.length === 0) {
-      alert("No questions found for this part.");
-      return;
-    }
+  const startCurrentQuestion = () => {
     setExamState("prep");
   };
 
@@ -209,7 +200,7 @@ export default function ExamPage() {
       recognitionRef.current?.stop();
     }
     setCurrentQuestionIndex(index);
-    setExamState("prep");
+    setExamState("idle");
     setUserTranscript("");
     setScore(0);
     setFeedbackMsg([]);
@@ -219,14 +210,18 @@ export default function ExamPage() {
     if (currentQuestionIndex < questions.length - 1) {
       jumpToQuestion(currentQuestionIndex + 1);
     } else {
-      alert("All questions completed!");
-      router.push("/");
+      // alert("All questions completed!");
+      // router.push("/");
+      jumpToQuestion(0);
     }
   };
 
   if (!questions || questions.length === 0) {
     return <div className="h-screen bg-slate-900 text-white flex justify-center items-center">Loading...</div>;
   }
+
+  // 화면 표시 여부: idle 상태일 때는 문제를 블러 처리하거나 숨김
+  const isContentVisible = examState !== "idle";
 
   return (
     <div className="h-screen bg-slate-900 text-white flex flex-col font-sans overflow-hidden relative">
@@ -252,33 +247,37 @@ export default function ExamPage() {
       <div className="flex flex-1 overflow-hidden z-10 relative">
         {/* Main Exam Area */}
         <main className="flex-1 flex flex-col items-center justify-center p-4 overflow-y-auto relative scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
-          {/* --- INTRO --- */}
-          {examState === "intro" && (
-            <div className="text-center max-w-md animate-in fade-in zoom-in duration-500 p-6 bg-slate-800/50 rounded-3xl border border-slate-700/50 backdrop-blur-sm">
-              <div className="w-20 h-20 bg-gradient-to-tr from-blue-600 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-blue-500/20 ring-4 ring-blue-500/10">
-                <PlayCircle className="w-10 h-10 text-white fill-white/20" />
-              </div>
-              <h1 className="text-3xl font-black mb-3 tracking-tight capitalize">{partKey} Test</h1>
-              <p className="text-slate-400 mb-8 text-sm leading-relaxed">
-                총 <strong className="text-white">{questions.length}</strong>개의 문제가 준비되어
-                있습니다.
-                <br />
-                실제 시험과 동일한 시간 제한이 적용됩니다.
-              </p>
-              <button
-                onClick={startExam}
-                className="w-full py-4 bg-white text-slate-900 rounded-xl font-bold hover:scale-105 transition-all shadow-lg hover:shadow-white/20"
-              >
-                Start Examination
-              </button>
-            </div>
-          )}
+          {/* Exam Container */}
+          <div className="w-full max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* 문제 표시 영역 (컨텐츠) */}
+            <div className="w-full bg-black/40 backdrop-blur-md border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl min-h-[400px] flex flex-col items-center justify-center relative p-6 transition-all">
+              {/* --- 1. Idle 오버레이 --- */}
+              {!isContentVisible && (
+                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-900/60 backdrop-blur-md">
+                  {examState === "idle" && (
+                    <div className="text-center animate-in zoom-in duration-300">
+                      <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/40 ring-4 ring-blue-500/20">
+                        <Play className="w-8 h-8 text-white ml-1" />
+                      </div>
+                      <h2 className="text-3xl font-bold text-white mb-2">
+                        Question {currentQuestionIndex + 1}
+                      </h2>
+                      <p className="text-slate-300 mb-8">Ready to start?</p>
+                      <button
+                        onClick={startCurrentQuestion}
+                        className="px-8 py-3 bg-white text-blue-900 rounded-xl font-bold hover:scale-105 active:scale-95 transition-all shadow-xl"
+                      >
+                        Start Question
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
 
-          {/* --- PREP & RECORDING --- */}
-          {(examState === "prep" || examState === "recording") && currentQuestion && (
-            <div className="w-full max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {/* 문제 표시 영역 */}
-              <div className="w-full bg-black/40 backdrop-blur-md border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl min-h-[300px] flex flex-col items-center justify-center relative p-6">
+              {/* --- 2. 실제 문제 컨텐츠 (블러 처리 또는 숨김) --- */}
+              <div
+                className={`w-full h-full flex flex-col items-center justify-center transition-all duration-500 ${!isContentVisible ? "opacity-30 blur-sm scale-95 grayscale" : "opacity-100 scale-100"}`}
+              >
                 {/* Image Type */}
                 {currentQuestion.type === "image" && (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -293,7 +292,7 @@ export default function ExamPage() {
                 {currentQuestion.type === "text" && (
                   <div className="p-4 md:p-10 text-center max-w-3xl">
                     <span className="text-blue-400 font-bold tracking-widest text-xs uppercase mb-6 block opacity-80">
-                      Question {currentQuestionIndex + 1} of {questions.length}
+                      Question {currentQuestionIndex + 1}
                     </span>
                     <h2 className="text-xl md:text-3xl font-bold leading-relaxed whitespace-pre-wrap text-slate-100">
                       {currentQuestion.content}
@@ -322,150 +321,162 @@ export default function ExamPage() {
                     </div>
                   </div>
                 )}
-
-                {/* Status Badge */}
-                <div
-                  className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wide backdrop-blur border ${
-                    examState === "prep"
-                      ? "bg-yellow-500/10 text-yellow-200 border-yellow-500/20"
-                      : "bg-red-500/10 text-red-200 border-red-500/20 animate-pulse"
-                  }`}
-                >
-                  {examState === "prep" ? "● Preparation Time" : "● Recording..."}
-                </div>
               </div>
 
-              {/* Controls & Feedback Area */}
-              <div className="flex flex-col items-center gap-6 w-full max-w-2xl">
-                {examState === "prep" ? (
-                  <Timer
-                    key={`prep-${currentQuestionIndex}`}
-                    duration={currentQuestion.prepTime}
-                    isActive={true}
-                    onComplete={startRecording}
-                    label="PREPARING"
-                    color="stroke-yellow-400"
-                  />
-                ) : (
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-red-500 blur-3xl opacity-20 animate-pulse rounded-full"></div>
-                    <Timer
-                      key={`rec-${currentQuestionIndex}`}
-                      duration={currentQuestion.responseTime}
-                      isActive={true}
-                      onComplete={stopRecordingAndAnalyze}
-                      label="SPEAK NOW"
-                      color="stroke-red-500"
-                    />
+              {/* Status Badge (문제 진행 중에만 표시) */}
+              {isContentVisible && (
+                <div
+                  className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wide backdrop-blur border z-10 ${
+                    examState === "prep"
+                      ? "bg-yellow-500/10 text-yellow-200 border-yellow-500/20"
+                      : examState === "recording"
+                        ? "bg-red-500/10 text-red-200 border-red-500/20 animate-pulse"
+                        : "bg-slate-700/50 text-slate-300 border-slate-600"
+                  }`}
+                >
+                  {examState === "prep"
+                    ? "● Preparation Time"
+                    : examState === "recording"
+                      ? "● Recording..."
+                      : "Review"}
+                </div>
+              )}
+            </div>
+
+            {/* Controls & Feedback Area */}
+            {isContentVisible && (
+              <div className="flex flex-col items-center gap-6 w-full max-w-2xl animate-in slide-in-from-bottom-4 fade-in">
+                {/* Timer */}
+                {(examState === "prep" || examState === "recording") && (
+                  <>
+                    {examState === "prep" ? (
+                      <Timer
+                        key={`prep-${currentQuestionIndex}`}
+                        duration={currentQuestion.prepTime}
+                        isActive={true}
+                        onComplete={startRecording}
+                        label="PREPARING"
+                        color="stroke-yellow-400"
+                      />
+                    ) : (
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-red-500 blur-3xl opacity-20 animate-pulse rounded-full"></div>
+                        <Timer
+                          key={`rec-${currentQuestionIndex}`}
+                          duration={currentQuestion.responseTime}
+                          isActive={true}
+                          onComplete={stopRecordingAndAnalyze}
+                          label="SPEAK NOW"
+                          color="stroke-red-500"
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Processing Spinner */}
+                {examState === "processing" && (
+                  <div className="flex items-center gap-3 text-slate-300">
+                    <RefreshCw className="w-5 h-5 animate-spin text-blue-500" />
+                    <span className="font-bold">Analyzing Answer...</span>
                   </div>
                 )}
 
                 {/* Live Transcript */}
-                <div
-                  className={`w-full text-center p-4 rounded-xl border border-slate-700/50 transition-all duration-300 ${
-                    userTranscript
-                      ? "opacity-100 bg-slate-800/80 translate-y-0"
-                      : "opacity-0 bg-transparent translate-y-4"
-                  }`}
-                >
-                  <p className="text-slate-300 font-medium text-lg break-words">"{userTranscript}"</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* --- PROCESSING --- */}
-          {examState === "processing" && (
-            <div className="text-center animate-pulse flex flex-col items-center justify-center h-full">
-              <div className="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mb-6">
-                <BarChart2 className="w-10 h-10 text-blue-500" />
-              </div>
-              <h2 className="text-2xl font-bold mb-2">Analyzing Answer...</h2>
-              <p className="text-slate-500">Checking similarity with model answer</p>
-            </div>
-          )}
-
-          {/* --- RESULT --- */}
-          {examState === "result" && currentQuestion && (
-            <div className="w-full max-w-3xl animate-in slide-in-from-bottom-8 p-4 pb-20">
-              <div className="bg-slate-800 border border-slate-700 rounded-3xl overflow-hidden shadow-2xl">
-                <div className="p-8 border-b border-slate-700 bg-slate-800/50 flex flex-col sm:flex-row justify-between items-center gap-4">
-                  <div>
-                    <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
-                      <CheckCircle2 className="w-6 h-6 text-emerald-500" /> Analysis Report
-                    </h2>
-                    <div className="flex flex-wrap gap-2">
-                      {feedbackMsg.map((msg, i) => (
-                        <span
-                          key={i}
-                          className="text-xs px-3 py-1 bg-slate-700 rounded-full text-slate-300 border border-slate-600"
-                        >
-                          {msg}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="text-right bg-slate-900/50 px-6 py-3 rounded-2xl border border-slate-700/50">
-                    <div
-                      className={`text-4xl font-black ${score >= 80 ? "text-emerald-400" : "text-orange-400"}`}
-                    >
-                      {score}
-                    </div>
-                    <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">
-                      Similarity Score
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-8 space-y-8 bg-slate-900/50">
-                  <div>
-                    <label className="text-xs font-bold text-slate-500 uppercase mb-3 block pl-1">
-                      Your Answer
-                    </label>
-                    <div className="p-5 bg-slate-800 rounded-xl text-slate-200 leading-relaxed border border-slate-700 shadow-inner">
-                      {userTranscript || (
-                        <span className="text-slate-500 italic flex items-center gap-2">
-                          <Mic className="w-4 h-4" /> No speech detected
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="relative">
-                    <div className="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full opacity-50"></div>
-                    <label className="text-xs font-bold text-blue-400 uppercase mb-3 block pl-1">
-                      Model Answer
-                    </label>
-                    <div className="p-5 bg-blue-950/10 border border-blue-500/20 rounded-xl text-blue-100/90 leading-relaxed shadow-sm">
-                      {currentQuestion.modelAnswer}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-6 bg-slate-800 border-t border-slate-700 flex justify-end">
-                  <button
-                    onClick={nextQuestion}
-                    className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-emerald-500/20 flex items-center justify-center gap-2"
+                {(examState === "prep" || examState === "recording") && (
+                  <div
+                    className={`w-full text-center p-4 rounded-xl border border-slate-700/50 transition-all duration-300 ${
+                      userTranscript ? "opacity-100 bg-slate-800/80" : "opacity-0"
+                    }`}
                   >
-                    Next Question <ArrowLeft className="w-5 h-5 rotate-180" />
-                  </button>
+                    <p className="text-slate-300 font-medium text-lg break-words">
+                      "{userTranscript}"
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* --- RESULT --- */}
+            {examState === "result" && (
+              <div className="w-full max-w-3xl animate-in slide-in-from-bottom-8 p-4 pb-20">
+                <div className="bg-slate-800 border border-slate-700 rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="p-8 border-b border-slate-700 bg-slate-800/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div>
+                      <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                        <CheckCircle2 className="w-6 h-6 text-emerald-500" /> Analysis Report
+                      </h2>
+                      <div className="flex flex-wrap gap-2">
+                        {feedbackMsg.map((msg, i) => (
+                          <span
+                            key={i}
+                            className="text-xs px-3 py-1 bg-slate-700 rounded-full text-slate-300 border border-slate-600"
+                          >
+                            {msg}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="text-right bg-slate-900/50 px-6 py-3 rounded-2xl border border-slate-700/50">
+                      <div
+                        className={`text-4xl font-black ${score >= 80 ? "text-emerald-400" : "text-orange-400"}`}
+                      >
+                        {score}
+                      </div>
+                      <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">
+                        Similarity Score
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-8 space-y-8 bg-slate-900/50">
+                    <div>
+                      <label className="text-xs font-bold text-slate-500 uppercase mb-3 block pl-1">
+                        Your Answer
+                      </label>
+                      <div className="p-5 bg-slate-800 rounded-xl text-slate-200 leading-relaxed border border-slate-700 shadow-inner">
+                        {userTranscript || (
+                          <span className="text-slate-500 italic flex items-center gap-2">
+                            <Mic className="w-4 h-4" /> No speech detected
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="relative">
+                      <div className="absolute -left-3 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-cyan-500 rounded-full opacity-50"></div>
+                      <label className="text-xs font-bold text-blue-400 uppercase mb-3 block pl-1">
+                        Model Answer
+                      </label>
+                      <div className="p-5 bg-blue-950/10 border border-blue-500/20 rounded-xl text-blue-100/90 leading-relaxed shadow-sm">
+                        {currentQuestion.modelAnswer}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-6 bg-slate-800 border-t border-slate-700 flex justify-end">
+                    <button
+                      onClick={nextQuestion}
+                      className="w-full sm:w-auto px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-emerald-500/20 flex items-center justify-center gap-2"
+                    >
+                      Next Question <ArrowLeft className="w-5 h-5 rotate-180" />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </main>
 
         {/* Right Sidebar */}
         <aside className="hidden md:flex w-72 bg-slate-900/80 backdrop-blur border-l border-slate-700 flex-col h-full shadow-2xl z-20">
-          {/* Sidebar Header */}
           <div className="p-5 border-b border-slate-700/50 flex-none">
             <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
               <List className="w-4 h-4 text-blue-400" /> Problem List
             </h3>
-            <p className="text-xs text-slate-500 mt-1">Select a question to jump directly.</p>
+            <p className="text-xs text-slate-500 mt-1">Select a question to jump.</p>
           </div>
 
-          {/* Sidebar List */}
           <div className="flex-1 overflow-y-auto p-3 space-y-1 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
             {questions.map((q, idx) => {
               const isActive = currentQuestionIndex === idx;
@@ -482,10 +493,10 @@ export default function ExamPage() {
                 >
                   <span className="truncate">{q.label}</span>
                   {isActive ? (
-                    <div className="w-2 h-2 rounded-full bg-white shadow-lg animate-pulse" />
+                    <div className="w-2 h-2 rounded-full bg-white shadow-lg" />
                   ) : (
                     <span className="text-[10px] text-slate-600 font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                      GO
+                      ▶
                     </span>
                   )}
                 </button>
@@ -493,8 +504,7 @@ export default function ExamPage() {
             })}
           </div>
 
-          {/* Sidebar Footer */}
-          <div className="p-4 border-t border-slate-700/50 bg-slate-900/50 flex-none">
+          {/* <div className="p-4 border-t border-slate-700/50 bg-slate-900/50 flex-none">
             <div className="flex justify-between text-xs text-slate-500">
               <span>Progress</span>
               <span>{Math.round(((currentQuestionIndex + 1) / questions.length) * 100)}%</span>
@@ -505,7 +515,7 @@ export default function ExamPage() {
                 style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
               />
             </div>
-          </div>
+          </div> */}
         </aside>
       </div>
     </div>
