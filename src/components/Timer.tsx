@@ -11,26 +11,25 @@ interface TimerProps {
 
 export default function Timer({ duration, onComplete, isActive, label, color = "stroke-indigo-500" }: TimerProps) {
   const [timeLeft, setTimeLeft] = useState(duration);
-  
-  // 원의 둘레 계산 (r=40)
+
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - ((duration - timeLeft) / duration) * circumference;
+
+  const progress = duration > 0 ? (duration - timeLeft) / duration : 0;
+  const strokeDashoffset = circumference - progress * circumference;
+
+  useEffect(() => {
+    setTimeLeft(duration);
+  }, [duration]);
 
   useEffect(() => {
     if (!isActive) return;
-    
-    // 타이머 리셋
-    if (timeLeft === 0 && duration > 0) {
-        // 이미 완료된 상태면 아무것도 안 함 (부모가 처리)
-        return;
-    }
+    if (timeLeft <= 0) return;
 
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
+        // 부동소수점 오차 등을 고려하여 0.1초 이하일 때 0으로 처리
         if (prev <= 0.1) {
-          clearInterval(interval);
-          onComplete();
           return 0;
         }
         return prev - 0.1;
@@ -38,12 +37,14 @@ export default function Timer({ duration, onComplete, isActive, label, color = "
     }, 100);
 
     return () => clearInterval(interval);
-  }, [isActive, duration, onComplete]);
+  }, [isActive, timeLeft]); // timeLeft를 의존성에 추가하여 0이 되면 인터벌 정지
 
-  // duration이 바뀌면 리셋
+  // timeLeft가 0이 되고, 활성 상태일 때만 onComplete 호출
   useEffect(() => {
-    setTimeLeft(duration);
-  }, [duration]);
+    if (timeLeft === 0 && isActive) {
+      onComplete();
+    }
+  }, [timeLeft, isActive, onComplete]);
 
   return (
     <div className="relative flex flex-col items-center justify-center w-32 h-32">

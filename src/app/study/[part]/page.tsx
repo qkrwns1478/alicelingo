@@ -8,7 +8,7 @@ import { SentenceData, PartKey, Sentence } from '../../../types';
 import { calculateSimilarity } from '../../../utils/scoring';
 import { 
   ArrowLeft, Volume2, Shuffle, Eye, EyeOff, 
-  ChevronRight, ChevronLeft, Mic, Languages, Play, Square, List, CheckCircle2
+  ChevronRight, ChevronLeft, Mic, Languages, Play, Square, List, CheckCircle2, Menu, X
 } from 'lucide-react';
 
 export default function StudyPage() {
@@ -27,6 +27,7 @@ export default function StudyPage() {
   const [score, setScore] = useState<number | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isPlayingMyVoice, setIsPlayingMyVoice] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const recognitionRef = useRef<any>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -62,6 +63,7 @@ export default function StudyPage() {
   const jumpToSentence = (index: number) => {
     setCurrentIndex(index);
     resetState();
+    setIsMobileMenuOpen(false);
   };
 
   const handleNext = () => {
@@ -190,7 +192,6 @@ export default function StudyPage() {
   if (sentences.length === 0) return <div className="flex h-screen items-center justify-center text-gray-400">Loading...</div>;
 
   const currentItem = sentences[currentIndex];
-  // const progress = ((currentIndex + 1) / sentences.length) * 100;
 
   return (
     <div className="h-screen bg-[#F2F4F8] text-slate-800 flex flex-col font-sans selection:bg-indigo-100 overflow-hidden relative">
@@ -198,13 +199,15 @@ export default function StudyPage() {
 
       {/* Header */}
       <header className="h-16 px-6 flex items-center justify-between bg-[#F2F4F8]/80 backdrop-blur-md z-20 border-b border-slate-200/50 flex-none">
-        <button 
-          onClick={() => router.push('/')} 
-          className="flex items-center gap-2 px-3 py-2 -ml-2 rounded-xl hover:bg-white transition-all text-slate-500 hover:text-slate-800"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span className="font-bold text-sm hidden sm:inline">Back to Home</span>
-        </button>
+        <div className="flex items-center gap-2">
+            <button 
+            onClick={() => router.push('/')} 
+            className="flex items-center gap-2 px-2 py-2 -ml-2 rounded-xl hover:bg-white transition-all text-slate-500 hover:text-slate-800"
+            >
+            <ArrowLeft className="w-5 h-5" />
+            <span className="font-bold text-sm hidden sm:inline">Back to Home</span>
+            </button>
+        </div>
         
         <div className="flex items-center gap-2">
           <button 
@@ -221,6 +224,14 @@ export default function StudyPage() {
           >
             <Shuffle className="w-5 h-5" />
           </button>
+          
+          {/* Mobile Menu Button */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="md:hidden p-2 rounded-full bg-white shadow-sm border border-slate-200 text-slate-600 hover:text-indigo-600 active:scale-95 transition-all"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
       </header>
 
@@ -230,21 +241,6 @@ export default function StudyPage() {
         {/* Main Content Area */}
         <main className="flex-1 flex flex-col relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
           
-          {/* Progress Bar */}
-          {/* <div className="px-6 py-6 sticky top-0 z-10 bg-[#F2F4F8]/90 backdrop-blur-sm">
-            <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-500 ease-out" 
-                style={{ width: `${progress}%` }} 
-              />
-            </div>
-            <div className="flex justify-between mt-2 text-xs font-medium text-slate-400">
-              <span>Progress</span>
-              <span>{currentIndex + 1} / {sentences.length}</span>
-            </div>
-          </div> */}
-
-          {/* Flashcard & Feedback Section */}
           <div className="flex-1 flex flex-col items-center px-6 pb-40 max-w-2xl mx-auto w-full">
             
             {/* Card */}
@@ -331,7 +327,7 @@ export default function StudyPage() {
 
           </div>
 
-          {/* Bottom Controls (Floating) */}
+          {/* Bottom Controls */}
           <div className="fixed bottom-8 left-0 md:left-0 md:right-72 right-0 px-6 flex justify-center z-30 pointer-events-none">
             <div className="bg-white/90 backdrop-blur-xl border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-[2.5rem] p-2 flex items-center gap-3 pointer-events-auto">
               
@@ -374,7 +370,7 @@ export default function StudyPage() {
 
         </main>
 
-        {/* Right Sidebar (Desktop only) */}
+        {/* Right Sidebar (Desktop) */}
         <aside className="hidden md:flex w-72 bg-white border-l border-slate-200 flex-col h-full shadow-xl z-20">
           <div className="p-5 border-b border-slate-100 flex-none bg-white">
             <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -410,6 +406,54 @@ export default function StudyPage() {
             })}
           </div>
         </aside>
+
+        {/* Mobile Sidebar (Overlay) */}
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 z-50 md:hidden">
+            {/* Backdrop */}
+            <div 
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+            />
+            {/* Drawer */}
+            <div className="absolute right-0 top-0 bottom-0 w-[80%] max-w-sm bg-white shadow-2xl p-4 flex flex-col animate-in slide-in-from-right duration-300">
+              <div className="flex justify-between items-center mb-4 pb-4 border-b border-slate-100">
+                <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                  <List className="w-5 h-5 text-indigo-600" /> Sentence List
+                </h3>
+                <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-slate-400 hover:text-slate-600">
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-1 space-y-1 scrollbar-thin scrollbar-thumb-slate-200">
+                {sentences.map((sent, idx) => {
+                  const isActive = currentIndex === idx;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => jumpToSentence(idx)}
+                      className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-start justify-between group gap-2
+                        ${isActive 
+                          ? 'bg-indigo-50 text-indigo-700 shadow-sm border border-indigo-100' 
+                          : 'text-slate-500 hover:bg-slate-50 border border-transparent'
+                        }`}
+                    >
+                      <div className="flex flex-col gap-0.5 overflow-hidden">
+                        <span className={`text-xs font-bold ${isActive ? 'text-indigo-500' : 'text-slate-400'}`}>
+                          #{idx + 1}
+                        </span>
+                        <span className="truncate w-full block opacity-90">
+                          {sent.english}
+                        </span>
+                      </div>
+                      {isActive && <CheckCircle2 className="w-4 h-4 text-indigo-500 flex-none mt-1" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>
