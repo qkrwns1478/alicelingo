@@ -182,12 +182,14 @@ export default function ExamPage() {
     // 1초 뒤 분석 시작
     setTimeout(async () => {
       try {
+        const imageUrl = (currentQuestion.type === "image" || currentQuestion.type === "image_text") ? currentQuestion.content : undefined;
         const response = await fetch("/api/evaluate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             part: partKey,
             question: currentQuestion.type === "text" ? currentQuestion.content : currentQuestion.subText || "Describe this image",
+            image: imageUrl,
             answer: userTranscript,
             modelAnswer: currentQuestion.modelAnswer,
           }),

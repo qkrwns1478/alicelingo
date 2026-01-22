@@ -10,7 +10,7 @@ interface EvaluationResult {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { part, question, answer, modelAnswer } = body;
+    const { part, question, answer, modelAnswer, image } = body;
 
     if (!answer || answer.trim().length === 0) {
       return NextResponse.json({
@@ -20,28 +20,40 @@ export async function POST(request: Request) {
       });
     }
 
+    const imageContext = image ? `- Context Image/Chart URL: "${image}"` : "";
     const prompt = `
 You are a strict TOEIC Speaking examiner. Evaluate the user's spoken response based on the official criteria.
+
+[Important Context]
+- The "User's Answer" provided below is a **raw Speech-to-Text (STT) transcript**.
+- **It typically lacks punctuation (periods, commas) and capitalization.**
+- **DO NOT** penalize or give feedback regarding missing punctuation, sentence division, or text formatting.
+- **DO NOT** say "sentences are connected in a single line". Treat the text as a continuous stream of speech.
+- Focus purely on the spoken content, flow, grammar, and vocabulary.
+- Give feedbacks in Korean.
 
 [Context]
 - Part: ${part}
 - Question/Prompt: "${question}"
+${imageContext}
 - User's Answer (Transcript): "${answer}"
 - Model Answer (Reference): "${modelAnswer}"
 
 [Scoring Criteria]
-- Part 1-2 (Read/Describe): Focus on Pronunciation, Intonation, Stress.
-- Part 3-5 (Respond/Express Opinion): Focus on Content relevance, Grammar, Vocabulary, Cohesion, and Completeness.
+- Part 1 (Read a Text Aloud): Focus on Pronunciation, Intonation, Stress.
+- Part 2 (Describe a Picture): Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency
+- Part 3 (Respond to Questions): Focus on Pronunciation, Intonation, Stress, Relevance to the problem, Appropriateness and completeness of the content
+- Part 4 (Respond to Questions Using Information Provided): Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency, Relevance to the problem, Appropriateness and completeness of the content
+- Part 5 (Give a Opinion): Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency, Relevance to the problem, Appropriateness and completeness of the content
 
 [Task]
 Analyze the "User's Answer" and provide a response in the following strictly valid JSON format ONLY. Do not add any conversational text.
 
 {
   "score": (integer 0-100),
-  "feedback": ["point 1", "point 2", "point 3"],
-  "fluency": "Excellent" | "Good" | "Needs Improvement"
-}
-`;
+  "feedback": ["Specific advice 1", "Specific advice 2", "Specific advice 3"],
+  "fluency": "High" | "Medium" | "Low"
+}`;
 
     const client = await Client.connect("amd/gpt-oss-120b-chatbot");
     const result = await client.predict("/chat", { 
