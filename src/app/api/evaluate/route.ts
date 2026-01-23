@@ -47,7 +47,8 @@ ${imageContext}
 - Part 5 (Give a Opinion): Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency, Relevance to the problem, Appropriateness and completeness of the content
 
 [Task]
-Analyze the "User's Answer" and provide a response in the following strictly valid JSON format ONLY. Do not add any conversational text.
+Analyze the "User's Answer" and provide a response in the following strictly valid JSON format ONLY.
+**IMPORTANT:** Output ONLY the JSON object. Do NOT include any introduction, "Analysis:", "Thinking:", markdown code blocks (\`\`\`json), or explanations.
 
 {
   "score": (integer 0-100),
@@ -60,11 +61,14 @@ Analyze the "User's Answer" and provide a response in the following strictly val
       message: prompt 
     });
 
-    const responseText = (result.data as any)[0];
+    const responseText = (result.data as any)[0]; 
     let jsonStr = responseText;
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      jsonStr = jsonMatch[0];
+    jsonStr = jsonStr.replace(/```json/g, "").replace(/```/g, "");
+    const firstOpen = jsonStr.indexOf("{");
+    const lastClose = jsonStr.lastIndexOf("}");
+
+    if (firstOpen !== -1 && lastClose !== -1 && lastClose > firstOpen) {
+      jsonStr = jsonStr.substring(firstOpen, lastClose + 1);
     }
 
     let evaluation: EvaluationResult;
@@ -73,7 +77,7 @@ Analyze the "User's Answer" and provide a response in the following strictly val
     } catch (e) {
       console.error("JSON Parse Error:", e);
       evaluation = {
-        score: 50,
+        score: 0,
         feedback: ["AI 응답 형식을 해석할 수 없습니다. 내용: " + responseText.substring(0, 50) + "..."],
         fluency: "Unknown"
       };
