@@ -37,6 +37,8 @@ export default function ExamPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const recognitionRef = useRef<any>(null);
+  const isRecordingRef = useRef(false);
+  const finalTranscriptRef = useRef("");
 
   const questions: QuestionStep[] = useMemo(() => {
     const rawData = (problemData as any)[partKey];
@@ -148,17 +150,52 @@ export default function ExamPage() {
       if (SpeechRecognition) {
         const recognition = new SpeechRecognition();
         recognition.lang = "en-US";
-        recognition.continuous = true;
+        recognition.continuous = true; // 모바일에서는 끊길 수 있으므로 onend에서 재시작 처리
         recognition.interimResults = true;
+
+        // 결과 처리 로직 개선 (중복 방지)
         recognition.onresult = (event: any) => {
-          const transcript = Array.from(event.results)
-            .map((result: any) => result[0].transcript)
-            .join("");
-          setUserTranscript(transcript);
+          let interim = "";
+          // event.resultIndex부터 순회하여 이미 처리된 결과의 중복 합산을 방지
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscriptRef.current += transcript + " ";
+            } else {
+              interim += transcript;
+            }
+          }
+          // 최종 텍스트 + 현재 인식 중인 텍스트 표시
+          setUserTranscript(finalTranscriptRef.current + interim);
         };
+
+        recognition.onerror = (event: any) => {
+          console.warn("Speech recognition error", event.error);
+          // not-allowed나 service-not-allowed인 경우 재시작하지 않음
+          if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+            isRecordingRef.current = false;
+          }
+        };
+
+        // 모바일 끊김 방지 (자동 재시작)
+        recognition.onend = () => {
+          if (isRecordingRef.current) {
+            try {
+              recognition.start();
+            } catch (e) {
+              console.error("Failed to restart recognition", e);
+            }
+          }
+        };
+
         recognitionRef.current = recognition;
       }
     }
+
+    return () => {
+      isRecordingRef.current = false;
+      recognitionRef.current?.abort();
+    };
   }, []);
 
   const startCurrentQuestion = () => {
@@ -166,16 +203,25 @@ export default function ExamPage() {
   };
 
   const startRecording = useCallback(() => {
-    setExamState("recording");
+    // 상태 초기화
+    isRecordingRef.current = true;
+    finalTranscriptRef.current = ""; 
     setUserTranscript("");
+    setExamState("recording");
+    
     try {
-      recognitionRef.current?.start();
+      // 이미 시작된 상태일 수 있으므로 stop 후 start
+      recognitionRef.current?.stop(); 
+      setTimeout(() => {
+          recognitionRef.current?.start();
+      }, 100);
     } catch (e) {
       console.error("Mic error:", e);
     }
   }, []);
 
   const stopRecordingAndAnalyze = useCallback(async () => {
+    isRecordingRef.current = false;
     recognitionRef.current?.stop();
     setExamState("processing");
 
@@ -220,6 +266,7 @@ export default function ExamPage() {
     setCurrentQuestionIndex(index);
     setExamState("idle");
     setUserTranscript("");
+    finalTranscriptRef.current = "";
     setScore(0);
     setFeedbackMsg([]);
     setFluencyLevel("");
