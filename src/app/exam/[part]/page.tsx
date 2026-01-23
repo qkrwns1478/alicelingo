@@ -149,29 +149,27 @@ export default function ExamPage() {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       if (SpeechRecognition) {
         const recognition = new SpeechRecognition();
-        recognition.lang = "en-US";
-        recognition.continuous = true; // 모바일에서는 끊길 수 있으므로 onend에서 재시작 처리
+        recognition.continuous = false; 
         recognition.interimResults = true;
+        recognition.lang = "en-US";
 
-        // 결과 처리 로직 개선 (중복 방지)
         recognition.onresult = (event: any) => {
           let interim = "";
-          // event.resultIndex부터 순회하여 이미 처리된 결과의 중복 합산을 방지
-          for (let i = event.resultIndex; i < event.results.length; ++i) {
-            const transcript = event.results[i][0].transcript;
-            if (event.results[i].isFinal) {
+          // continuous가 false이므로 results[0]만 확인하면 됨
+          if (event.results.length > 0) {
+            const transcript = event.results[0][0].transcript;
+            if (event.results[0].isFinal) {
               finalTranscriptRef.current += transcript + " ";
             } else {
-              interim += transcript;
+              interim = transcript;
             }
           }
-          // 최종 텍스트 + 현재 인식 중인 텍스트 표시
+          // 최종 확정된 텍스트 + 현재 인식 중인 임시 텍스트 결합
           setUserTranscript(finalTranscriptRef.current + interim);
         };
 
         recognition.onerror = (event: any) => {
-          console.warn("Speech recognition error", event.error);
-          // not-allowed나 service-not-allowed인 경우 재시작하지 않음
+          console.warn("STT Error:", event.error);
           if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
             isRecordingRef.current = false;
           }
@@ -183,7 +181,7 @@ export default function ExamPage() {
             try {
               recognition.start();
             } catch (e) {
-              console.error("Failed to restart recognition", e);
+              console.error("Restart failed", e);
             }
           }
         };
@@ -203,21 +201,22 @@ export default function ExamPage() {
   };
 
   const startRecording = useCallback(() => {
-    // 상태 초기화
     isRecordingRef.current = true;
     finalTranscriptRef.current = ""; 
     setUserTranscript("");
     setExamState("recording");
     
     try {
-      // 이미 시작된 상태일 수 있으므로 stop 후 start
-      recognitionRef.current?.stop(); 
-      setTimeout(() => {
-          recognitionRef.current?.start();
-      }, 100);
-    } catch (e) {
-      console.error("Mic error:", e);
-    }
+      recognitionRef.current?.stop();
+    } catch(e) {}
+    
+    setTimeout(() => {
+      try {
+        recognitionRef.current?.start();
+      } catch (e) {
+        console.error("Start failed:", e);
+      }
+    }, 100);
   }, []);
 
   const stopRecordingAndAnalyze = useCallback(async () => {
