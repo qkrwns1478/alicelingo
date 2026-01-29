@@ -20,24 +20,42 @@ function parseFallback(text: string): EvaluationResult {
   const fluency = fluencyMatch ? fluencyMatch[1] : "Low";
 
   let feedback: string[] = [];
-  
+
   const arrayMatch = text.match(/"?feedback"?\s*:\s*\[([\s\S]*?)\]/);
   if (arrayMatch && arrayMatch[1]) {
     const items = arrayMatch[1].match(/"([^"]*)"|'([^']*)'/g);
     if (items) {
-      feedback = items.map(item => item.replace(/^["']|["']$/g, "").trim());
+      feedback = items
+        .map(item => item.replace(/^["']|["']$/g, "").trim())
+        .filter(item => {
+          if (item.length < 3) return false;
+          if (item.includes("...")) return false;
+          if (item.includes("We need to evaluate")) return false;
+          if (item.includes("User's answer")) return false;
+          return true;
+        });
     }
   }
 
   if (feedback.length === 0) {
     const bulletMatches = text.match(/[-*]\s+(.*)/g);
     if (bulletMatches) {
-      feedback = bulletMatches.map(line => line.replace(/^[-*]\s+/, "").trim());
+      feedback = bulletMatches
+        .map(line => line.replace(/^[-*]\s+/, "").trim())
+        .filter(line => {
+            if (line.startsWith("{") || line.includes('"score":')) return false; 
+            if (line.toLowerCase().includes("we need to evaluate")) return false;
+            if (line.includes("User's answer")) return false;
+            if (line.includes("Analysis:")) return false;
+            if (line.length < 5) return false;
+            if (line.includes("...")) return false;
+            return true;
+        });
     }
   }
 
   if (feedback.length === 0) {
-    feedback = ["구체적인 피드백을 분석하는 데 실패했습니다. (AI 응답 형식 오류)"];
+    feedback = ["AI가 구체적인 피드백을 생성하지 못했습니다. (내용 없음)"];
   }
 
   return { score, feedback, fluency };
@@ -66,6 +84,14 @@ You are a strict TOEIC Speaking examiner. Evaluate the user's spoken response ba
 - **DO NOT** penalize or give feedback regarding missing punctuation, sentence division, or text formatting.
 - **DO NOT** say "sentences are connected in a single line". Treat the text as a continuous stream of speech.
 - Focus purely on the spoken content, flow, grammar, and vocabulary.
+
+[CRITICAL INSTRUCTIONS]
+1. **STT Artifacts:** "10:00" instead of "10" is NOT an error. Ignore formatting. Focus on meaning.
+2. **Self-Correction:** If the user corrects themselves (e.g., "a day... a week"), grade the FINAL phrase ("a week").
+3. **JSON ONLY:** Output ONLY the valid JSON object. NO "Analysis:", NO "Here is the result:", NO bullet points before the JSON. Start immediately with '{'.
+
+[Evaluation Focus]
+- **NO PLACEHOLDERS:** Do NOT output "..." or "Specific advice". Write actual feedback sentences.
 - Give feedbacks in Korean.
 
 [Context]
@@ -116,14 +142,17 @@ Analyze the "User's Answer" and provide a response in the following strictly val
         throw new Error("Cannot find JSON brackets");
       }
       
-      // 필수 필드 검증 (가끔 JSON은 맞는데 키값이 없는 경우 대비)
       if (typeof evaluation.score !== 'number' || !Array.isArray(evaluation.feedback)) {
-        throw new Error("Missing required fields in JSON");
+        throw new Error("Missing required fields");
+      }
+
+      const isLazyResponse = evaluation.feedback.some(f => f.includes("...") || f.length < 3);
+      if (isLazyResponse) {
+        throw new Error("Detected lazy response (placeholders)");
       }
 
     } catch (e) {
-      console.warn("JSON Parse Error, switching to regex fallback:", e);
-      // 2차 시도: 정규식 기반 강제 추출
+      console.warn("JSON Parse Error or Invalid Content, switching to regex fallback:", e);
       evaluation = parseFallback(responseText);
     }
 
