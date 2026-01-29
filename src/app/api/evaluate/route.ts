@@ -7,6 +7,42 @@ interface EvaluationResult {
   fluency: string;
 }
 
+// AI 응답이 JSON 형식이 아닐 경우 강제로 데이터를 추출하는 함수
+function parseFallback(text: string): EvaluationResult {
+  console.log("Attempting fallback parsing for:", text);
+
+  const scoreMatch = text.match(/"?score"?\s*:\s*(\d+)/i);
+  let score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+  if (score > 100) score = 100;
+  if (score < 0) score = 0;
+
+  const fluencyMatch = text.match(/"?fluency"?\s*:\s*["']?(High|Medium|Low)["']?/i);
+  const fluency = fluencyMatch ? fluencyMatch[1] : "Low";
+
+  let feedback: string[] = [];
+  
+  const arrayMatch = text.match(/"?feedback"?\s*:\s*\[([\s\S]*?)\]/);
+  if (arrayMatch && arrayMatch[1]) {
+    const items = arrayMatch[1].match(/"([^"]*)"|'([^']*)'/g);
+    if (items) {
+      feedback = items.map(item => item.replace(/^["']|["']$/g, "").trim());
+    }
+  }
+
+  if (feedback.length === 0) {
+    const bulletMatches = text.match(/[-*]\s+(.*)/g);
+    if (bulletMatches) {
+      feedback = bulletMatches.map(line => line.replace(/^[-*]\s+/, "").trim());
+    }
+  }
+
+  if (feedback.length === 0) {
+    feedback = ["구체적인 피드백을 분석하는 데 실패했습니다. (AI 응답 형식 오류)"];
+  }
+
+  return { score, feedback, fluency };
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -62,25 +98,33 @@ Analyze the "User's Answer" and provide a response in the following strictly val
     });
 
     const responseText = (result.data as any)[0]; 
-    let jsonStr = responseText;
-    jsonStr = jsonStr.replace(/```json/g, "").replace(/```/g, "");
-    const firstOpen = jsonStr.indexOf("{");
-    const lastClose = jsonStr.lastIndexOf("}");
-
-    if (firstOpen !== -1 && lastClose !== -1 && lastClose > firstOpen) {
-      jsonStr = jsonStr.substring(firstOpen, lastClose + 1);
-    }
+    console.log("Raw AI Response:", responseText);
 
     let evaluation: EvaluationResult;
+    
     try {
-      evaluation = JSON.parse(jsonStr);
+      let jsonStr = responseText;
+      jsonStr = jsonStr.replace(/```json/g, "").replace(/```/g, "");
+
+      const firstOpen = jsonStr.indexOf("{");
+      const lastClose = jsonStr.lastIndexOf("}");
+
+      if (firstOpen !== -1 && lastClose !== -1 && lastClose > firstOpen) {
+        jsonStr = jsonStr.substring(firstOpen, lastClose + 1);
+        evaluation = JSON.parse(jsonStr);
+      } else {
+        throw new Error("Cannot find JSON brackets");
+      }
+      
+      // 필수 필드 검증 (가끔 JSON은 맞는데 키값이 없는 경우 대비)
+      if (typeof evaluation.score !== 'number' || !Array.isArray(evaluation.feedback)) {
+        throw new Error("Missing required fields in JSON");
+      }
+
     } catch (e) {
-      console.error("JSON Parse Error:", e);
-      evaluation = {
-        score: 0,
-        feedback: ["AI 응답 형식을 해석할 수 없습니다. 내용: " + responseText.substring(0, 50) + "..."],
-        fluency: "Unknown"
-      };
+      console.warn("JSON Parse Error, switching to regex fallback:", e);
+      // 2차 시도: 정규식 기반 강제 추출
+      evaluation = parseFallback(responseText);
     }
 
     return NextResponse.json(evaluation);

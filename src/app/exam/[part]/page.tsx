@@ -645,7 +645,7 @@ export default function ExamPage() {
               {/* Modal Footer */}
               <div className="p-6 border-t border-slate-700 bg-slate-800/30 flex justify-end flex-none">
                 <button
-                  onClick={closeModal}
+                  onClick={nextQuestion}
                   className="w-full sm:w-auto px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-purple-500/20 flex items-center justify-center gap-2"
                 >
                   Close
