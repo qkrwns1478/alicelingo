@@ -130,12 +130,19 @@ export default function ExamPage() {
 
   const playTTS = (text: string): Promise<void> => {
     return new Promise((resolve) => {
+      if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+        return resolve();
+      }
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = "en-US";
-      utter.rate = 1.0;
+      utter.rate = 0.9;
       utter.onend = () => resolve();
       utter.onerror = () => resolve(); // 에러나도 진행
-      window.speechSynthesis.speak(utter);
+      try {
+        window.speechSynthesis.speak(utter);
+      } catch {
+        resolve();
+      }
     });
   };
 
@@ -210,7 +217,10 @@ export default function ExamPage() {
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      const preferredMimeType = "audio/webm";
+      const mediaRecorder = MediaRecorder.isTypeSupported?.(preferredMimeType)
+        ? new MediaRecorder(stream, { mimeType: preferredMimeType })
+        : new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
       mediaRecorder.ondataavailable = (event) => {
@@ -281,10 +291,11 @@ export default function ExamPage() {
   }, [currentQuestion, partKey]);
 
   const jumpToQuestion = (index: number) => {
-    if (examState === "recording" || examState === "listening") {
+    if (examState === "recording" || examState === "listening" || examState === "prep") {
       recognitionRef.current?.stop();
       mediaRecorderRef.current?.stop();
       window.speechSynthesis.cancel();
+      mediaRecorderRef.current?.stream?.getTracks().forEach((track) => track.stop());
     }
     setCurrentQuestionIndex(index);
     setExamState("idle");
