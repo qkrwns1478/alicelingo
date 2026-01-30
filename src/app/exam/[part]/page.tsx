@@ -26,9 +26,9 @@ export default function ExamPage() {
   const router = useRouter();
   const partKey = params.part as PartKey;
 
-  const [examState, setExamState] = useState<"idle" | "prep" | "recording" | "processing" | "result">("idle");
+  const [examState, setExamState] = useState<"idle" | "listening" | "prep" | "recording" | "processing" | "result">("idle");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userTranscript, setUserTranscript] = useState(""); // 화면 표시용 (STT)
+  const [userTranscript, setUserTranscript] = useState("");
   const [score, setScore] = useState<number>(0);
   const [feedbackMsg, setFeedbackMsg] = useState<string[]>([]);
   const [fluencyLevel, setFluencyLevel] = useState<string>("");
@@ -67,15 +67,15 @@ export default function ExamPage() {
       });
     } else if (partKey === "part3") {
       rawData.forEach((item: any) => {
-        addQ({ type: "text", content: `Situation: ${item.question}\n\nQ. ${item.sub_q1}`, modelAnswer: item.sub_a1, prepTime: 3, responseTime: 15 });
-        addQ({ type: "text", content: `Q. ${item.sub_q2}`, modelAnswer: item.sub_a2, prepTime: 3, responseTime: 15 });
-        addQ({ type: "text", content: `Q. ${item.sub_q3}`, modelAnswer: item.sub_a3, prepTime: 3, responseTime: 30 });
+        addQ({ type: "text", content: `Situation: ${item.question}\n\n${item.sub_q1}`, modelAnswer: item.sub_a1, prepTime: 3, responseTime: 15 });
+        addQ({ type: "text", content: `${item.sub_q2}`, modelAnswer: item.sub_a2, prepTime: 3, responseTime: 15 });
+        addQ({ type: "text", content: `${item.sub_q3}`, modelAnswer: item.sub_a3, prepTime: 3, responseTime: 30 });
       });
     } else if (partKey === "part4") {
       rawData.forEach((item: any) => {
-        addQ({ type: "image_text", content: item.image, subText: `Q. ${item.sub_q1}`, modelAnswer: item.sub_a1, prepTime: 3, responseTime: 15 });
-        addQ({ type: "image_text", content: item.image, subText: `Q. ${item.sub_q2}`, modelAnswer: item.sub_a2, prepTime: 3, responseTime: 15 });
-        addQ({ type: "image_text", content: item.image, subText: `Q. ${item.sub_q3}`, modelAnswer: item.sub_a3, prepTime: 3, responseTime: 30 });
+        addQ({ type: "image_text", content: item.image, subText: `${item.sub_q1}`, modelAnswer: item.sub_a1, prepTime: 3, responseTime: 15 });
+        addQ({ type: "image_text", content: item.image, subText: `${item.sub_q2}`, modelAnswer: item.sub_a2, prepTime: 3, responseTime: 15 });
+        addQ({ type: "image_text", content: item.image, subText: `${item.sub_q3}`, modelAnswer: item.sub_a3, prepTime: 3, responseTime: 30 });
       });
     } else if (partKey === "part5") {
       rawData.forEach((item: any) => {
@@ -131,7 +131,35 @@ export default function ExamPage() {
   }, []);
 
   const startCurrentQuestion = () => {
-    setExamState("prep");
+    let textToRead = "";
+    
+    if (partKey === "part3" || partKey === "part5") {
+      textToRead = currentQuestion.content;
+    } 
+    else if (partKey === "part4") {
+      textToRead = currentQuestion.subText || "";
+    }
+
+    if (textToRead) {
+      setExamState("listening");
+      window.speechSynthesis.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = "en-US";
+      utterance.rate = 0.9;
+      
+      utterance.onend = () => {
+        setExamState("prep");
+      };
+
+      utterance.onerror = () => {
+        setExamState("prep");
+      };
+
+      window.speechSynthesis.speak(utterance);
+    } else {
+      setExamState("prep");
+    }
   };
 
   const startRecording = useCallback(async () => {
@@ -230,9 +258,10 @@ export default function ExamPage() {
   }, [currentQuestion, partKey]);
 
   const jumpToQuestion = (index: number) => {
-    if (examState === "recording") {
+    if (examState === "recording" || examState === "listening") {
       recognitionRef.current?.stop();
       mediaRecorderRef.current?.stop();
+      window.speechSynthesis.cancel();
     }
     setCurrentQuestionIndex(index);
     setExamState("idle");
@@ -243,10 +272,6 @@ export default function ExamPage() {
     setFluencyLevel("");
     setShowAnswer(false);
     setIsMobileMenuOpen(false);
-  };
-
-  const closeModal = () => {
-    jumpToQuestion(currentQuestionIndex);
   };
 
   const nextQuestion = () => {
@@ -273,11 +298,10 @@ export default function ExamPage() {
           onClick={() => router.push("/")}
           className="text-slate-400 hover:text-white flex items-center gap-2 transition-colors"
         >
-          <ArrowLeft className="w-5 h-5" /> <span className="hidden md:inline">Exit Test</span>
+          <ArrowLeft className="w-5 h-5" /> <span className="hidden md:inline">Back to Home</span>
         </button>
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end">
-            <span className="font-mono text-slate-500 text-xs tracking-wider">AI EVALUATION MODE</span>
             <span className="text-sm text-blue-400 font-bold capitalize">
               {partKey?.replace("part", "Part ")}
             </span>
@@ -377,20 +401,20 @@ export default function ExamPage() {
                 )}
 
                 {currentQuestion.type === "image_text" && (
-                  <div className="flex flex-col lg:flex-row gap-8 w-full items-start h-full">
-                    <div className="flex-1 bg-white p-2 rounded-lg shadow-xl w-full">
+                  <div className="flex flex-col gap-4 w-full h-full">
+                    <div className="flex-1 bg-white p-2 rounded-lg shadow-xl w-full min-h-0 overflow-hidden flex items-center justify-center">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={currentQuestion.content}
                         alt="Schedule"
-                        className="w-full h-auto object-contain max-h-[400px]"
+                        className="w-full h-full object-contain" 
                       />
                     </div>
-                    <div className="flex-1 text-left p-4 lg:py-10">
-                      <span className="text-green-400 font-bold tracking-widest text-xs uppercase mb-4 block">
+                    <div className="flex-none w-full text-left p-4 bg-slate-800/80 rounded-xl border border-slate-700 backdrop-blur-sm">
+                      <span className="text-green-400 font-bold tracking-widest text-xs uppercase mb-2 block">
                         Question {currentQuestionIndex + 1}
                       </span>
-                      <p className="text-xl md:text-2xl font-semibold leading-relaxed text-white">
+                      <p className="text-lg md:text-xl font-semibold leading-relaxed text-white">
                         {currentQuestion.subText}
                       </p>
                     </div>
@@ -467,7 +491,7 @@ export default function ExamPage() {
           </div>
         </main>
         
-        <aside className="hidden md:flex w-72 bg-slate-900/80 backdrop-blur border-l border-slate-700 flex-col h-screen sticky top-0 shadow-2xl z-20">
+        <aside className="hidden md:flex w-72 bg-slate-900/80 backdrop-blur border-l border-slate-700 flex-col h-[calc(100vh-4rem)] sticky top-16 shadow-2xl z-20">
           <div className="p-5 border-b border-slate-700/50 flex-none">
             <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
               <List className="w-4 h-4 text-blue-400" /> Problem List
