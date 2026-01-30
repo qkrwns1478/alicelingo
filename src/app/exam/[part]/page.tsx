@@ -43,6 +43,8 @@ export default function ExamPage() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
 
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
+
   const questions: QuestionStep[] = useMemo(() => {
     const rawData = (problemData as any)[partKey];
     if (!rawData) return [];
@@ -89,6 +91,16 @@ export default function ExamPage() {
   const currentQuestion = questions[currentQuestionIndex];
 
   useEffect(() => {
+    const loadVoices = () => {
+      const availVoices = window.speechSynthesis.getVoices();
+      setVoices(availVoices);
+    };
+    
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
     return () => {
       if (typeof window !== "undefined") {
         window.speechSynthesis.cancel();
@@ -128,16 +140,38 @@ export default function ExamPage() {
     }
   }, []);
 
-  const playTTS = (text: string): Promise<void> => {
+  const playTTS = (text: string, gender: "male" | "female" = "female"): Promise<void> => {
     return new Promise((resolve) => {
       if (typeof window === "undefined" || !("speechSynthesis" in window)) {
         return resolve();
       }
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = "en-US";
-      utter.rate = 0.9;
+      
+      let targetVoice = null;
+      if (gender === "male") {
+        targetVoice = voices.find(v => 
+          v.name.includes("Google UK English Male") || 
+          v.name.includes("Microsoft David") || 
+          v.name.includes("Daniel") ||
+          v.name.toLowerCase().includes("male")
+        );
+        if (targetVoice) {
+          utter.voice = targetVoice;
+          utter.rate = 1.0; 
+        } else {
+          utter.rate = 0.95; 
+          utter.pitch = 0.7;
+        }
+      } else {
+        targetVoice = voices.find(v => v.name.includes("Google US English")) || voices.find(v => v.lang === "en-US");
+        if (targetVoice) utter.voice = targetVoice;
+        utter.rate = 1.0;
+        utter.pitch = 1.0;
+      }
+
       utter.onend = () => resolve();
-      utter.onerror = () => resolve(); // 에러나도 진행
+      utter.onerror = () => resolve(); 
       try {
         window.speechSynthesis.speak(utter);
       } catch {
@@ -170,7 +204,48 @@ export default function ExamPage() {
         }, 500);
       } catch (e) {
         console.warn("AudioContext error:", e);
-        resolve(); // 실패해도 진행
+        resolve(); 
+      }
+    });
+  };
+
+  const playDingDong = (): Promise<void> => {
+    return new Promise((resolve) => {
+      try {
+        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+        const ctx = new AudioContext();
+        
+        const now = ctx.currentTime;
+
+        // Ding
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.frequency.setValueAtTime(659, now);
+        gain1.gain.setValueAtTime(0.1, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+        osc1.start(now);
+        osc1.stop(now + 1.2);
+
+        // Dong
+        const osc2 = ctx.createOscillator();
+        const gain2 = ctx.createGain();
+        osc2.connect(gain2);
+        gain2.connect(ctx.destination);
+        osc2.frequency.setValueAtTime(523, now + 0.6);
+        gain2.gain.setValueAtTime(0.1, now + 0.6);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+        osc2.start(now + 0.6);
+        osc2.stop(now + 2.0);
+
+        setTimeout(() => {
+          ctx.close();
+          resolve();
+        }, 2000);
+      } catch (e) {
+        console.warn("DingDong error:", e);
+        resolve();
       }
     });
   };
@@ -185,10 +260,10 @@ export default function ExamPage() {
     else if (partKey === "part4") textToRead = currentQuestion.subText || "";
 
     if (textToRead) {
-      await playTTS(textToRead);
+      await playTTS(textToRead, "female");
     }
 
-    await playTTS("Begin preparing now.");
+    await playTTS("Begin preparing now.", "male");
     await playBeep();
 
     setExamState("prep");
@@ -199,12 +274,7 @@ export default function ExamPage() {
     if (isTransitioningRef.current) return;
     isTransitioningRef.current = true;
 
-    /*
-      Prep 타이머가 끝났거나 Skip 했을 때 실행됨
-      안내 멘트 재생 중에는 UI가 멈춘 것처럼 보일 수 있으므로 (listening 상태처럼 보이게 하거나 유지)
-      여기서는 상태를 변경하지 않고 오디오만 재생 후 recording으로 넘김
-    */
-    await playTTS("Begin speaking now.");
+    await playTTS("Begin speaking now.", "male");
     await playBeep();
 
     isRecordingRef.current = true;
@@ -233,7 +303,7 @@ export default function ExamPage() {
     }
 
     isTransitioningRef.current = false;
-  }, []);
+  }, [voices]);
 
   const stopRecordingAndAnalyze = useCallback(async () => {
     isRecordingRef.current = false;
@@ -281,6 +351,8 @@ export default function ExamPage() {
       setScore(data.score);
       setFeedbackMsg(data.feedback || ["No feedback provided."]);
       setFluencyLevel(data.fluency || "N/A");
+      playDingDong();
+
     } catch (error) {
       console.error(error);
       setScore(0);
