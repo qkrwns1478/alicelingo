@@ -28,7 +28,7 @@ export default function ExamPage() {
 
   const [examState, setExamState] = useState<"idle" | "prep" | "recording" | "processing" | "result">("idle");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userTranscript, setUserTranscript] = useState("");
+  const [userTranscript, setUserTranscript] = useState(""); // 화면 표시용 (STT)
   const [score, setScore] = useState<number>(0);
   const [feedbackMsg, setFeedbackMsg] = useState<string[]>([]);
   const [fluencyLevel, setFluencyLevel] = useState<string>("");
@@ -39,6 +39,8 @@ export default function ExamPage() {
   const recognitionRef = useRef<any>(null);
   const isRecordingRef = useRef(false);
   const finalTranscriptRef = useRef("");
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
 
   const questions: QuestionStep[] = useMemo(() => {
     const rawData = (problemData as any)[partKey];
@@ -57,93 +59,34 @@ export default function ExamPage() {
 
     if (partKey === "part1") {
       rawData.forEach((item: any) => {
-        addQ({
-          type: "text",
-          content: item.sentence,
-          modelAnswer: item.sentence,
-          prepTime: 45,
-          responseTime: 45,
-        });
+        addQ({ type: "text", content: item.sentence, modelAnswer: item.sentence, prepTime: 45, responseTime: 45 });
       });
     } else if (partKey === "part2") {
       rawData.forEach((item: any) => {
-        addQ({
-          type: "image",
-          content: item.image,
-          modelAnswer: item.answer_sheet,
-          prepTime: 45,
-          responseTime: 30,
-        });
+        addQ({ type: "image", content: item.image, modelAnswer: item.answer_sheet, prepTime: 45, responseTime: 30 });
       });
     } else if (partKey === "part3") {
       rawData.forEach((item: any) => {
-        addQ({
-          type: "text",
-          content: `Situation: ${item.question}\n\nQ. ${item.sub_q1}`,
-          modelAnswer: item.sub_a1,
-          prepTime: 3,
-          responseTime: 15,
-        });
-        addQ({
-          type: "text",
-          content: `Q. ${item.sub_q2}`,
-          modelAnswer: item.sub_a2,
-          prepTime: 3,
-          responseTime: 15,
-        });
-        addQ({
-          type: "text",
-          content: `Q. ${item.sub_q3}`,
-          modelAnswer: item.sub_a3,
-          prepTime: 3,
-          responseTime: 30,
-        });
+        addQ({ type: "text", content: `Situation: ${item.question}\n\nQ. ${item.sub_q1}`, modelAnswer: item.sub_a1, prepTime: 3, responseTime: 15 });
+        addQ({ type: "text", content: `Q. ${item.sub_q2}`, modelAnswer: item.sub_a2, prepTime: 3, responseTime: 15 });
+        addQ({ type: "text", content: `Q. ${item.sub_q3}`, modelAnswer: item.sub_a3, prepTime: 3, responseTime: 30 });
       });
     } else if (partKey === "part4") {
       rawData.forEach((item: any) => {
-        addQ({
-          type: "image_text",
-          content: item.image,
-          subText: `Q. ${item.sub_q1}`,
-          modelAnswer: item.sub_a1,
-          prepTime: 3,
-          responseTime: 15,
-        });
-        addQ({
-          type: "image_text",
-          content: item.image,
-          subText: `Q. ${item.sub_q2}`,
-          modelAnswer: item.sub_a2,
-          prepTime: 3,
-          responseTime: 15,
-        });
-        addQ({
-          type: "image_text",
-          content: item.image,
-          subText: `Q. ${item.sub_q3}`,
-          modelAnswer: item.sub_a3,
-          prepTime: 3,
-          responseTime: 30,
-        });
+        addQ({ type: "image_text", content: item.image, subText: `Q. ${item.sub_q1}`, modelAnswer: item.sub_a1, prepTime: 3, responseTime: 15 });
+        addQ({ type: "image_text", content: item.image, subText: `Q. ${item.sub_q2}`, modelAnswer: item.sub_a2, prepTime: 3, responseTime: 15 });
+        addQ({ type: "image_text", content: item.image, subText: `Q. ${item.sub_q3}`, modelAnswer: item.sub_a3, prepTime: 3, responseTime: 30 });
       });
     } else if (partKey === "part5") {
       rawData.forEach((item: any) => {
-        addQ({
-          type: "text",
-          content: item.question,
-          modelAnswer: item.answer_sheet,
-          prepTime: 45,
-          responseTime: 60,
-        });
+        addQ({ type: "text", content: item.question, modelAnswer: item.answer_sheet, prepTime: 45, responseTime: 60 });
       });
     }
-
     return list;
   }, [partKey]);
 
   const currentQuestion = questions[currentQuestionIndex];
 
-  // STT 설정
   useEffect(() => {
     if (typeof window !== "undefined") {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -155,7 +98,6 @@ export default function ExamPage() {
 
         recognition.onresult = (event: any) => {
           let interim = "";
-          // continuous가 false이므로 results[0]만 확인하면 됨
           if (event.results.length > 0) {
             const transcript = event.results[0][0].transcript;
             if (event.results[0].isFinal) {
@@ -164,35 +106,27 @@ export default function ExamPage() {
               interim = transcript;
             }
           }
-          // 최종 확정된 텍스트 + 현재 인식 중인 임시 텍스트 결합
           setUserTranscript(finalTranscriptRef.current + interim);
         };
 
         recognition.onerror = (event: any) => {
           console.warn("STT Error:", event.error);
-          if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
-            isRecordingRef.current = false;
-          }
         };
-
-        // 모바일 끊김 방지 (자동 재시작)
+        
         recognition.onend = () => {
           if (isRecordingRef.current) {
-            try {
-              recognition.start();
-            } catch (e) {
-              console.error("Restart failed", e);
-            }
+            try { recognition.start(); } catch (e) {}
           }
         };
-
         recognitionRef.current = recognition;
       }
     }
-
     return () => {
       isRecordingRef.current = false;
       recognitionRef.current?.abort();
+      if (mediaRecorderRef.current && mediaRecorderRef.current.stream) {
+        mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+      }
     };
   }, []);
 
@@ -200,7 +134,7 @@ export default function ExamPage() {
     setExamState("prep");
   };
 
-  const startRecording = useCallback(() => {
+  const startRecording = useCallback(async () => {
     isRecordingRef.current = true;
     finalTranscriptRef.current = ""; 
     setUserTranscript("");
@@ -209,58 +143,96 @@ export default function ExamPage() {
     try {
       recognitionRef.current?.stop();
     } catch(e) {}
-    
     setTimeout(() => {
-      try {
-        recognitionRef.current?.start();
-      } catch (e) {
-        console.error("Start failed:", e);
-      }
+      try { recognitionRef.current?.start(); } catch (e) {}
     }, 100);
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' }); 
+
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.start();
+    } catch (err) {
+      console.error("Microphone access denied:", err);
+      alert("마이크 권한이 필요합니다.");
+      setExamState("idle");
+    }
   }, []);
 
   const stopRecordingAndAnalyze = useCallback(async () => {
     isRecordingRef.current = false;
-    recognitionRef.current?.stop();
+    
+    try { recognitionRef.current?.stop(); } catch(e) {}
+
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+      mediaRecorderRef.current.stop();
+      
+      await new Promise<void>((resolve) => {
+        if (!mediaRecorderRef.current) return resolve();
+        mediaRecorderRef.current.onstop = () => resolve();
+      });
+
+      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+    }
+
     setExamState("processing");
 
-    // 1초 뒤 분석 시작
-    setTimeout(async () => {
-      try {
-        const imageUrl = (currentQuestion.type === "image" || currentQuestion.type === "image_text") ? currentQuestion.content : undefined;
-        const response = await fetch("/api/evaluate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            part: partKey,
-            question: currentQuestion.type === "text" ? currentQuestion.content : currentQuestion.subText || "Describe this image",
-            image: imageUrl,
-            answer: userTranscript,
-            modelAnswer: currentQuestion.modelAnswer,
-          }),
-        });
+    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
 
-        if (!response.ok) throw new Error("Evaluation failed");
+    const blobToBase64 = (blob: Blob): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    };
 
-        const data = await response.json();
-        
-        setScore(data.score);
-        setFeedbackMsg(data.feedback || ["No feedback provided."]);
-        setFluencyLevel(data.fluency || "N/A");
-      } catch (error) {
-        console.error(error);
-        setScore(0);
-        setFeedbackMsg(["AI 평가 서버 연결 실패. 잠시 후 다시 시도해주세요."]);
-      } finally {
-        setExamState("result");
-      }
-    }, 1000);
-  }, [userTranscript, currentQuestion, partKey]);
+    try {
+      const base64Audio = await blobToBase64(audioBlob);
+      const imageUrl = (currentQuestion.type === "image" || currentQuestion.type === "image_text") ? currentQuestion.content : undefined;
+      
+      const response = await fetch("/api/evaluate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          part: partKey,
+          question: currentQuestion.type === "text" ? currentQuestion.content : currentQuestion.subText || "Describe this image",
+          image: imageUrl,
+          audioData: base64Audio,
+          modelAnswer: currentQuestion.modelAnswer,
+        }),
+      });
 
-  // 문제 이동
+      if (!response.ok) throw new Error("Evaluation failed");
+
+      const data = await response.json();
+      
+      setScore(data.score);
+      setFeedbackMsg(data.feedback || ["No feedback provided."]);
+      setFluencyLevel(data.fluency || "N/A");
+    } catch (error) {
+      console.error(error);
+      setScore(0);
+      setFeedbackMsg(["AI 평가 서버 연결 실패 또는 오디오 처리 오류."]);
+    } finally {
+      setExamState("result");
+    }
+  }, [currentQuestion, partKey]);
+
   const jumpToQuestion = (index: number) => {
     if (examState === "recording") {
       recognitionRef.current?.stop();
+      mediaRecorderRef.current?.stop();
     }
     setCurrentQuestionIndex(index);
     setExamState("idle");
@@ -310,7 +282,6 @@ export default function ExamPage() {
               {partKey?.replace("part", "Part ")}
             </span>
           </div>
-          {/* Mobile Menu Button */}
           <button 
             onClick={() => setIsMobileMenuOpen(true)}
             className="md:hidden p-2 rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-white"
@@ -328,7 +299,6 @@ export default function ExamPage() {
             {/* 문제 카드 */}
             <div className="w-full bg-black/40 backdrop-blur-md border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl min-h-[500px] flex flex-col items-center justify-center relative p-6 transition-all">
               
-              {/* 모범 답안 보기 버튼 */}
               <div className="absolute top-4 right-4 z-30">
                 <button
                   onClick={() => setShowAnswer(!showAnswer)}
@@ -339,7 +309,6 @@ export default function ExamPage() {
                 </button>
               </div>
 
-              {/* 모범 답안 오버레이 */}
               {showAnswer && (
                 <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/80 backdrop-blur-sm p-8 animate-in fade-in duration-200">
                   <div className="bg-slate-900 border border-slate-700 p-6 rounded-2xl max-w-2xl w-full max-h-[80%] overflow-y-auto shadow-2xl relative">
@@ -362,7 +331,6 @@ export default function ExamPage() {
                 </div>
               )}
 
-              {/* Idle Overlay */}
               {!isContentVisible && (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-900/60 backdrop-blur-md">
                   {examState === "idle" && (
@@ -385,11 +353,9 @@ export default function ExamPage() {
                 </div>
               )}
 
-              {/* 문제 컨텐츠 */}
               <div
                 className={`w-full h-full flex flex-col items-center justify-center transition-all duration-500 ${!isContentVisible ? "opacity-30 blur-sm scale-95 grayscale" : "opacity-100 scale-100"}`}
               >
-                {/* Image Type */}
                 {currentQuestion.type === "image" && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -399,7 +365,6 @@ export default function ExamPage() {
                   />
                 )}
 
-                {/* Text Type */}
                 {currentQuestion.type === "text" && (
                   <div className="p-4 md:p-10 text-center max-w-3xl">
                     <span className="text-blue-400 font-bold tracking-widest text-xs uppercase mb-6 block opacity-80">
@@ -411,7 +376,6 @@ export default function ExamPage() {
                   </div>
                 )}
 
-                {/* Image + Text Type */}
                 {currentQuestion.type === "image_text" && (
                   <div className="flex flex-col lg:flex-row gap-8 w-full items-start h-full">
                     <div className="flex-1 bg-white p-2 rounded-lg shadow-xl w-full">
@@ -434,7 +398,6 @@ export default function ExamPage() {
                 )}
               </div>
 
-              {/* Status Badge */}
               {isContentVisible && (
                 <div
                   className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wide backdrop-blur border z-10 ${
@@ -454,7 +417,6 @@ export default function ExamPage() {
               )}
             </div>
 
-            {/* 컨트롤 영역 (Timer 등) */}
             {isContentVisible && (
               <div className="flex flex-col items-center gap-6 w-full max-w-2xl animate-in slide-in-from-bottom-4 fade-in">
                 {(examState === "prep" || examState === "recording") && (
@@ -469,7 +431,6 @@ export default function ExamPage() {
                           label="PREPARING"
                           color="stroke-yellow-400"
                         />
-                        {/* [기능] Skip Prep 버튼 */}
                         <button
                           onClick={startRecording}
                           className="flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-full text-sm font-bold transition-all border border-slate-700 hover:border-slate-500 shadow-lg group"
@@ -494,7 +455,6 @@ export default function ExamPage() {
                   </div>
                 )}
 
-                {/* Processing Spinner */}
                 {examState === "processing" && (
                   <div className="flex flex-col items-center gap-3 text-slate-300 p-8">
                     <RefreshCw className="w-8 h-8 animate-spin text-blue-500" />
@@ -507,7 +467,6 @@ export default function ExamPage() {
           </div>
         </main>
         
-        {/* Right Sidebar (Desktop) */}
         <aside className="hidden md:flex w-72 bg-slate-900/80 backdrop-blur border-l border-slate-700 flex-col h-screen sticky top-0 shadow-2xl z-20">
           <div className="p-5 border-b border-slate-700/50 flex-none">
             <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
@@ -536,7 +495,6 @@ export default function ExamPage() {
           </div>
         </aside>
 
-        {/* Mobile Sidebar (Overlay) */}
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-50 md:hidden">
             <div 
@@ -575,12 +533,10 @@ export default function ExamPage() {
           </div>
         )}
 
-        {/* --- [MODAL] RESULT (AI FEEDBACK) --- */}
         {examState === "result" && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-300">
             <div className="w-full max-w-4xl max-h-[90vh] bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col relative">
               
-              {/* Modal Header */}
               <div className="p-6 border-b border-slate-700 bg-slate-800/50 flex justify-between items-center flex-none">
                 <div>
                   <h2 className="text-2xl font-bold text-white flex items-center gap-2">
@@ -601,10 +557,8 @@ export default function ExamPage() {
                 </div>
               </div>
 
-              {/* Modal Body (Scrollable) */}
               <div className="flex-1 overflow-y-auto p-6 space-y-8 scrollbar-thin scrollbar-thumb-slate-700">
                 
-                {/* AI Feedback Section */}
                 <div>
                   <h3 className="text-sm font-bold text-slate-400 uppercase mb-3 flex items-center gap-2">
                     <MessageSquare className="w-4 h-4" /> Feedback
@@ -621,11 +575,10 @@ export default function ExamPage() {
                   </div>
                 </div>
 
-                {/* Transcripts Comparison */}
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="flex flex-col h-full">
                     <label className="text-xs font-bold text-slate-500 uppercase mb-2 flex items-center gap-2">
-                      <Mic className="w-3 h-3" /> Your Answer
+                      <Mic className="w-3 h-3" /> Your Answer (Preview)
                     </label>
                     <div className="flex-1 p-4 bg-slate-800 rounded-xl text-slate-300 text-sm leading-relaxed border border-slate-700">
                       {userTranscript || <span className="text-slate-600 italic">No speech detected.</span>}
@@ -642,7 +595,6 @@ export default function ExamPage() {
                 </div>
               </div>
 
-              {/* Modal Footer */}
               <div className="p-6 border-t border-slate-700 bg-slate-800/30 flex justify-end flex-none">
                 <button
                   onClick={nextQuestion}
