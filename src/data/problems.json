@@ -16,6 +16,12 @@
       "sentence": "Brighton’s economy has been driven by the growth of its tech sector. Several startups have chosen Brighton as their base of operations, attracted by the city’s talented workforce and supportive business environment. This has led to job creation in fields such as software development, data analysis, and cybersecurity. The city’s government has also supported the tech industry by offering grants and tax incentives to startups. As a result, Brighton has become a hub for innovation, and its tech sector continues to grow, contributing to the city’s overall economic success."
     },
     {
+      "sentence": "This is the midnight news update. The mayor of Solaria City has just announced a major cultural project. Starting this fall, the city will build new spaces for art to support young artists. In addition, outdoor festivals will be hosted in the riverfront, central square, and botanical garden every weekend. Officials explained that these efforts will boost tourism and local economy."
+    },
+    {
+      "sentence": "Thank you for joining us for our Best Employee Awards Ceremony. Today’s ceremony will recognize our employees’ great customer service, individual work performance, and our new product development. At the end of this event, some of our best employees will get a bonus and an opportunity to participate in an international workshop."
+    },
+    {
       "sentence": "Attention all employees: A free health screening event will be held at the office next Friday from 9 a. m. to 2 p. m. The screening will include blood pressure, cholesterol, and glucose testing. This is a great opportunity to check your health status and receive advice from medical professionals. No appointment is necessary, and participation is voluntary. For more information, please contact the Human Resources department. We encourage everyone to take advantage of this valuable health service."
     },
     {
@@ -70,7 +76,7 @@
       "sentence": "In this month’s magazine, we explore the role of recycling in reducing pollution. Recycling helps minimize waste and prevents harmful materials from entering landfills, where they can leach into soil and water. This article discusses the environmental benefits of recycling and how it contributes to reducing pollution. Learn how you can improve your recycling habits, reduce single-use plastics, and support initiatives that promote sustainable waste management practices in your community."
     },
     {
-      "sentence": "We're broadcasting live from Stonebrook’s annual theater festival! Stonebrook, recognized for its thriving theater community, has been hosting this festival for eight years. This year, the event has expanded from a two-day showcase to a full week of plays, workshops, and interactive performances. Don’t miss out! Evening performances will include outdoor theater and special acts by renowned theater troupes."
+      "sentence": "We’re broadcasting live from Stonebrook’s annual theater festival! Stonebrook, recognized for its thriving theater community, has been hosting this festival for eight years. This year, the event has expanded from a two-day showcase to a full week of plays, workshops, and interactive performances. Don’t miss out! Evening performances will include outdoor theater and special acts by renowned theater troupes."
     },
     {
       "sentence": "Thank you for attending today’s leadership summit. For over fifteen years, our company has set the standard for strong and effective leadership. This year, we enhanced leadership training, fostered teamwork, and improved decision-making processes across the board. Excellent work, everyone, on another year of strong leadership."
@@ -88,7 +94,7 @@
       "sentence": "Good afternoon, everyone. The local university will be hosting a seminar on the influence of social media on public opinion next Friday. The seminar will explore how platforms like Twitter and Facebook shape political discourse and public perception. It will also examine the role of algorithms in determining what information is seen by users. This event is open to students, faculty, and the public. To register, visit the university’s website. This is a great opportunity to learn more about the power of social media in today’s world."
     },
     {
-      "sentence": "You have reached the Tech Repair Center. We’re sorry, but no one is available to take your call right now. For information on our services, pricing, or locations, please visit our website. To leave a message for a technician, press 'one' and we’ll return your call shortly. Thank you for calling Tech Repair Center."
+      "sentence": "You have reached the Tech Repair Center. We’re sorry, but no one is available to take your call right now. For information on our services, pricing, or locations, please visit our website. To leave a message for a technician, press ’one’ and we’ll return your call shortly. Thank you for calling Tech Repair Center."
     },
     {
       "sentence": "In today’s environmental update, plastic pollution continues to dominate headlines. The widespread use of single-use plastics is overwhelming landfills and polluting oceans. Environmental activists are advocating for stricter regulations on plastic production and encouraging individuals to reduce their use of plastic products. Governments are responding by banning plastic bags and straws in some areas, while businesses are exploring alternatives like biodegradable packaging. The fight against plastic pollution remains a top priority for many organizations worldwide."
@@ -106,7 +112,7 @@
       "sentence": "In today’s education update, schools are increasingly focusing on mental health support for students. With rising stress levels and mental health challenges among young people, schools are offering counseling services, mindfulness programs, and stress management workshops. Experts believe that addressing mental health is essential for student well-being and academic success. Many schools are partnering with mental health professionals to ensure that students receive the support they need during their education."
     },
     {
-      "sentence": "We're broadcasting live from Stonebrook’s annual theater festival! Stonebrook, recognized for its thriving theater community, has been hosting this festival for eight years. This year, the event has expanded from a two-day showcase to a full week of plays, workshops, and interactive performances. Don’t miss out! Evening performances will include outdoor theater and special acts by renowned theater troupes."
+      "sentence": "We’re broadcasting live from Stonebrook’s annual theater festival! Stonebrook, recognized for its thriving theater community, has been hosting this festival for eight years. This year, the event has expanded from a two-day showcase to a full week of plays, workshops, and interactive performances. Don’t miss out! Evening performances will include outdoor theater and special acts by renowned theater troupes."
     }
   ],
   "part2": [
@@ -125,6 +131,14 @@
     {
       "image": "/images/part2_4.jpg",
       "answer_sheet": "This is a picture taken in an office. The first thing I can see in this picture is three people working. One of them is standing .He is wearing glasses and jeans. The rest of them are sitting at a desk. The man on the left is also looking at the screen. The woman on the right is working on her laptop. All of them are wearing formal clothes. In the background of the picture, I can see big windows."
+    },
+    {
+      "image": "/images/part2_5.jpg",
+      "answer_sheet": "This is a picture taken outdoors. The first thing I can see in this picture is some poeple. On the left side of the picture, I can see a man sitting on the ground and taking a picture. On the right side of the picture, I can see two men walking on the street. They are wearing black clothes. In the background of the picture, I can see buildings, parasols, and more people walking around."
+    },
+    {
+      "image": "/images/part2_6.jpg",
+      "answer_sheet": "This is a picture taken outdoors. In the middle of the picture, three men are standing and playing instruments. They are wearing checkered shirts. On the right side of the picture, I can see two men. One is sitting on a bench, and the other is standing and playing the guitar. In the background of the picture, there are some trees, cars and buildings."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbboZ1J%2FdJMcahQqVUy%2FAAAAAAAAAAAAAAAAAAAAALN1L2JUMvSmV8U701vxYzR6L0Lis6GtAQXrST1Ic7lR%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DrnaNRsvIH0iEwY9WUdTYZ98%252FsLM%253D",
@@ -228,7 +242,7 @@
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FderjHg%2FbtsLqRDRtBN%2FAAAAAAAAAAAAAAAAAAAAAA0IiVPO6vsNJIiZcMaOr1qAtlAm7uRFTXrsB2OI9kjT%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DWXT6qe9Mgw%252FvzRINfbiiYmtgi0A%253D",
-      "answer_sheet": "This picture captures the essence of summer fun by the water, with a group of kids making the most of their day by the dock. One boy, in mid-air, is taking a daring leap off the pier into the water, fully embracing the thrill of the moment. His friends are either cheering him on or gearing up to jump in themselves. The backdrop of a historic town, with its impressive cathedral and sailboats, adds a picturesque vibe. It's the perfect snapshot of carefree, adventurous days, where the only thing on the agenda is having a blast with your buddies."
+      "answer_sheet": "This picture captures the essence of summer fun by the water, with a group of kids making the most of their day by the dock. One boy, in mid-air, is taking a daring leap off the pier into the water, fully embracing the thrill of the moment. His friends are either cheering him on or gearing up to jump in themselves. The backdrop of a historic town, with its impressive cathedral and sailboats, adds a picturesque vibe. It’s the perfect snapshot of carefree, adventurous days, where the only thing on the agenda is having a blast with your buddies."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2Fvja5p%2FbtsLiI1Jnsf%2FAAAAAAAAAAAAAAAAAAAAABx3fXA_DFIJtX7oElaHkySL3z0emdTkIGjbcKetuIMo%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DsdmkemV%252FRut5A21o6j2LqSt94zU%253D",
@@ -240,7 +254,7 @@
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FpIFpH%2FbtsLdPLy55w%2FAAAAAAAAAAAAAAAAAAAAAJg56YtnJcK39667_7iQkD8ydprYRWyGkMNGBtlCQTjx%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3Dc9iAacfqR2ANLj1KCfuS3aJEkv0%253D",
-      "answer_sheet": "This picture shows a focused moment in a modern workday, with a young professional engrossed in his tasks. Dressed in a crisp white shirt, he's seated at a desk, holding a smartphone while intently looking at his laptop screen. The clean, minimalistic office space, with natural light streaming in from a large window, sets the perfect backdrop for productivity. You can tell he's deep in thought, maybe handling an important email or diving into some research. A coffee mug nearby suggests he’s ready to power through his day, making the most of this focused work session."
+      "answer_sheet": "This picture shows a focused moment in a modern workday, with a young professional engrossed in his tasks. Dressed in a crisp white shirt, he’s seated at a desk, holding a smartphone while intently looking at his laptop screen. The clean, minimalistic office space, with natural light streaming in from a large window, sets the perfect backdrop for productivity. You can tell he’s deep in thought, maybe handling an important email or diving into some research. A coffee mug nearby suggests he’s ready to power through his day, making the most of this focused work session."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FnRedB%2FbtsLb2c50oG%2FAAAAAAAAAAAAAAAAAAAAAEzhUUu-qfoAFibMPRVTWyys1zgXzijKquVKf6a9mXVy%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3D%252FDIP534GZ3qYI6tlwvIyjJRnwc4%253D",
@@ -248,11 +262,11 @@
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FxcQto%2FbtsK596kGK6%2FAAAAAAAAAAAAAAAAAAAAAP-U_qKInNeER33Hc6I4eSv_ynLalMWM-CVq7w-yhk-i%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DB4w7mG8WBPN%252B6dcC6kgcD%252BKvusc%253D",
-      "answer_sheet": "This picture beautifully captures a sweet moment between an elderly couple strolling hand-in-hand across a crosswalk on a sunny day. The man, dressed in a casual checkered shirt and beige pants, walks confidently with his partner, who’s wearing a chic outfit and carrying a pink shopping bag. She's pointing at something, probably sharing an amusing observation, while they enjoy their leisurely walk. The warm sunlight casts soft shadows, highlighting the peacefulness of the moment. It’s a lovely snapshot of companionship, where even the simplest activities like crossing the street become a cherished shared experience."
+      "answer_sheet": "This picture beautifully captures a sweet moment between an elderly couple strolling hand-in-hand across a crosswalk on a sunny day. The man, dressed in a casual checkered shirt and beige pants, walks confidently with his partner, who’s wearing a chic outfit and carrying a pink shopping bag. She’s pointing at something, probably sharing an amusing observation, while they enjoy their leisurely walk. The warm sunlight casts soft shadows, highlighting the peacefulness of the moment. It’s a lovely snapshot of companionship, where even the simplest activities like crossing the street become a cherished shared experience."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FchyvBw%2FbtsK2mD2EXg%2FAAAAAAAAAAAAAAAAAAAAAMejtQqsAdDzcIREHn3hW49G3Vkw6Uy0KMy1hKnpqFip%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DcLozD9haXeaOoi6OPbwwFbflaO4%253D",
-      "answer_sheet": "This picture captures an awesome moment of pure joy and adventure as a group of friends are white-water rafting down a choppy river. They're all decked out in helmets and life jackets, paddles held high in triumph, with huge grins on their faces. You can almost feel the adrenaline and excitement radiating from the image as they navigate the rough waters together. The guide at the back is throwing in some extra fun, making silly faces and giving a thumbs up. It's the perfect snapshot of teamwork, thrill, and the kind of memories that last a lifetime!"
+      "answer_sheet": "This picture captures an awesome moment of pure joy and adventure as a group of friends are white-water rafting down a choppy river. They’re all decked out in helmets and life jackets, paddles held high in triumph, with huge grins on their faces. You can almost feel the adrenaline and excitement radiating from the image as they navigate the rough waters together. The guide at the back is throwing in some extra fun, making silly faces and giving a thumbs up. It’s the perfect snapshot of teamwork, thrill, and the kind of memories that last a lifetime!"
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2Fbhi9ST%2FbtsQnSq9jdQ%2FAAAAAAAAAAAAAAAAAAAAAPYlTw2qq2Fgg0MC_Pew0jrimMY_4X33wP-tOJDWvcL4%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DeE1T3c6PEsdPFtyzDxjD05vg5Ow%253D",
@@ -271,12 +285,12 @@
       "sub_q2": "Do you usually go to store to buy gifts, or buy gifts online? Choose one of the options provided and explain why you chose it.",
       "sub_a2": "I usually buy gifts online because it is more convenient. And there are many varieties of gifts that I can choose from.",
       "sub_q3": "Which type of gift would you prefer to give: some candy or a book? Choose one of the options provided and explain why you chose it.",
-      "sub_a3": "I would prefer to give a book to someone because it is more memorable and meaningful than a candy. Therefore, the person who receives my present will remember my intentions. Also, candies are unhealthy for people's teeth and their health, so I think books are more meaningful than candies as a gift."
+      "sub_a3": "I would prefer to give a book to someone because it is more memorable and meaningful than a candy. Therefore, the person who receives my present will remember my intentions. Also, candies are unhealthy for people’s teeth and their health, so I think books are more meaningful than candies as a gift."
     },
     {
       "question": "Imagine that a Canandian marketing firm is doing research in your country. You have agreed to participate in a telephone interview about donations.",
-      "sub_q1": "Would you donate your money to an organization when you think it's necessary? Why?",
-      "sub_a1": "Yes, I would donate my money to an organization when I think it's necessary because it is very rewarding, and it's part of my routine.",
+      "sub_q1": "Would you donate your money to an organization when you think it’s necessary? Why?",
+      "sub_a1": "Yes, I would donate my money to an organization when I think it’s necessary because it is very rewarding, and it’s part of my routine.",
       "sub_q2": "What kind of organization do you prefer to donate to?",
       "sub_a2": "I prefer to donate to an environmental organization because pollution is a serious issue these days, and donations can help protect the environment.",
       "sub_q3": "Which of the following options do you think is the best way to attract more donors? (Postings on social media / Posters at restaurants)",
@@ -290,6 +304,15 @@
       "sub_a2": "I enjoy yoga classes the most because they help me relax and improve my flexibility.",
       "sub_q3": "What would most influence your decision to join a sports class at the gym, and why? (Type of class / Instructor’s experience / Class size)",
       "sub_a3": "The type of class would influence me the most. I prefer classes that match my goals, like strength training or cardio workouts. If a class fits my interests and fitness level, I’m more likely to stay motivated and attend regularly. A class that aligns with my goals helps me see progress, which is important for long‑term commitment."
+    },
+    {
+      "question": "Imagine that you are talking on the telepohne with a friend. You are having a telephone conversation about taking a trip.",
+      "sub_q1": "What time of the year do you prefer to take a trip?",
+      "sub_a1": "I prefer to take a trip in the summer because I can go to the beach. It’s fun and entertaining, so I don’t get board.",
+      "sub_q2": "Before traveling, do you prefer to plan a trip in advance?",
+      "sub_a2": "I prefer to planm a trip in advance because I don’t have to waste time if I plan a trip in advance.",
+      "sub_q3": "When you travel to another city, which of the following places would you like to visit the most? (Tourist spots / Parks or beaches / Local stores)",
+      "sub_a3": "When I travel to another city, I would like to visit local stores the most, because it’s my favorite thing to do. Also, it makes me happy, and I can have a great experience."
     },
     {
       "question": "Imagine that a company is conducting research on job training programs. You have agreed to participate in a telephone interview about workplace training.",
@@ -319,7 +342,7 @@
       "sub_a3": "If I had to choose one factor, I’d say prices are the most important. Groceries add up quickly, especially if you have a family. I always look for deals and discounts, so a supermarket with competitive pricing helps me save money. Even if the store is a little farther away, I’d go there if the prices are better."
     },
     {
-      "question": "Imagine that a friend is thinking about using eco-friendly packaging for their business. You are discussing whether it's a good choice.",
+      "question": "Imagine that a friend is thinking about using eco-friendly packaging for their business. You are discussing whether it’s a good choice.",
       "sub_q1": "Have you ever considered using eco-friendly packaging? Why or why not?",
       "sub_a1": "Yes, I have. I once thought about using eco-friendly packaging for a small online shop. I care about the environment, so it seemed like a good step.",
       "sub_q2": "How often do you think businesses should use eco-friendly packaging, and why?",
@@ -355,7 +378,7 @@
       "sub_a3": "For me, content quality is the most important factor. I prefer influencers who create original and well-edited posts or videos. High-quality content shows effort and professionalism, and it keeps me interested. Whether it’s photos, reviews, or tutorials, I want the content to be informative or visually appealing. So, if a new influencer has great content quality, I’m more likely to follow them."
     },
     {
-      "question": "Imagine that a new children's playground is being built in a local park. You have agreed to participate in a telephone interview about playgrounds.",
+      "question": "Imagine that a new children’s playground is being built in a local park. You have agreed to participate in a telephone interview about playgrounds.",
       "sub_q1": "How often do you visit playgrounds in parks, and why?",
       "sub_a1": "I go to playgrounds with my niece about twice a month. She loves playing outdoors, and it’s a great place for her to socialize and run around.",
       "sub_q2": "What features do you think are most important in a playground?",
@@ -368,7 +391,7 @@
       "sub_q1": "How often do you play League of Legends, and why?",
       "sub_a1": "I typically play League of Legends three to four times a week. The main reason is that the fast-paced competitive nature of the game helps me relieve stress after a long day of school work.",
       "sub_q2": "Which lane do you think is most important in League of Legends?",
-      "sub_a2": "I believe the Jungle is the most crucial role. The Jungler has the ability to influence all other lanes by ganking, and they are responsible for securing major objectives like dragons, which often decides the game's outcome.",
+      "sub_a2": "I believe the Jungle is the most crucial role. The Jungler has the ability to influence all other lanes by ganking, and they are responsible for securing major objectives like dragons, which often decides the game’s outcome.",
       "sub_q3": "What would be most important to win a rank game and why? (Teamwork, Strategy, Team luck)",
       "sub_a3": "I would say teamwork is definitely the most important factor to win a ranked game. Since League of Legends is a five-versus-five game, individual skill matters less if the team is not coordinated. Even if you have a perfect strategy, toxic behavior or a lack of communication usually leads to a loss. Therefore, trusting your teammates and executing plays together is the key to victory."
     },
@@ -409,7 +432,7 @@
       "sub_a3": "If I were using the library more often, I would definitely take advantage of the book collection. There’s a wide range of books I can’t find online or don’t want to buy. Borrowing books helps me save money and read more often. I also like browsing the shelves because I can discover new authors and topics that I wouldn’t normally look for."
     },
     {
-      "question": "Imagine that a friend is thinking about taking the train for long-distance travel. You are discussing whether it's a good option.",
+      "question": "Imagine that a friend is thinking about taking the train for long-distance travel. You are discussing whether it’s a good option.",
       "sub_q1": "Have you ever taken a train for long-distance travel? Why or why not?",
       "sub_a1": "Yes, I have. I once took a train to Busan. It was fast, comfortable, and I enjoyed looking out the window during the ride.",
       "sub_q2": "How often do you think people should take the train for long-distance travel, and why?",
@@ -456,7 +479,7 @@
     {
       "question": "Imagine you are discussing shopping habits with a friend who wants to save more money.",
       "sub_q1": "Have you ever tried saving money by shopping during sales? Why or why not?",
-      "sub_a1": "Yes, I often shop during sales to save money. For example, I always wait for big events like Black Friday or end-of-season sales. I can buy clothes or electronics at much lower prices, so it's a smart way to manage my budget.",
+      "sub_a1": "Yes, I often shop during sales to save money. For example, I always wait for big events like Black Friday or end-of-season sales. I can buy clothes or electronics at much lower prices, so it’s a smart way to manage my budget.",
       "sub_q2": "How often do you think people should shop during sales, and why?",
       "sub_a2": "I think people should shop during major sales, maybe a few times a year. For example, big sales like New Year or summer sales offer great discounts. Shopping too often might lead to buying unnecessary things.",
       "sub_q3": "If you were advising someone on how to get the best deals during sales, what strategies would you recommend? Why?",
@@ -575,20 +598,29 @@
     {
       "image": "/images/part4_1.jpg",
       "sub_q1": "On what date will there be a movie showing, and which movie will it be?",
-      "sub_a1": "The movie showing will be held on June 18th, and the movie that will be shown is 'A Butterfly's Crossing.'",
-      "sub_q2": "My kids and I want to attend the community food festival. That's on June twenty-eighth, right?",
-      "sub_a2": "I'm sorry but there seems to be a misunderstanding. The community food festival will be held on June 22nd, not the 28th. And it will be held from 11 a.m. to 8:30 p.m.",
-      "sub_q3": "I'm really interested in the demonstrations you offer. Can you give me all the details of the demonstrations scheduled in June?",
+      "sub_a1": "The movie showing will be held on June 18th, and the movie that will be shown is ’A Butterfly’s Crossing.’",
+      "sub_q2": "My kids and I want to attend the community food festival. That’s on June twenty-eighth, right?",
+      "sub_a2": "I’m sorry but there seems to be a misunderstanding. The community food festival will be held on June 22nd, not the 28th. And it will be held from 11 a.m. to 8:30 p.m.",
+      "sub_q3": "I’m really interested in the demonstrations you offer. Can you give me all the details of the demonstrations scheduled in June?",
       "sub_a3": "There are two demonstrations scheduled during the event. First, there will be a demonstration about caring for fruit trees on June 3rd, that will be held from 10 a.m. to noon. And after that, there will be a demonstration about planting native grasses on June 14th. It will be held from 2:30 to 4 p.m."
     },
     {
       "image": "/images/part4_2.jpg",
       "sub_q1": "When and where will the workshop about upcycling old clothes be held?",
       "sub_a1": "The workshop about upcycling old clothes will be held from 11:30 a.m. to 12:30 p.m. in Workshop Room A.",
-      "sub_q2": "I'm really interested in food. Is there any event related to cooking in the schedule?",
+      "sub_q2": "I’m really interested in food. Is there any event related to cooking in the schedule?",
       "sub_a2": "From 1:30 to 2:30 p.m., there is a cooking demonstration on plant-based meals in the Kitchen Studio.",
       "sub_q3": "Could you tell me all the events that will take place in Green Hall?",
       "sub_a3": "Sure. There are two events held in Green Hall. First, from 10:00 to 11:00 a.m., there is the opening ceremony and keynote speech, Next, from 3:00 to 4:00 p.m., there is a panel discussion about the future of recycling."
+    },
+    {
+      "image": "/images/part4_16.jpg",
+      "sub_q1": "Which hotel am I staying at, and what time do I arrive in Chicago on Wednesday, June 20th?",
+      "sub_a1": "You will stay at Grand Hotel, and you will arrive in Chicago at 10:30 a.m. on Wednesday.",
+      "sub_q2": "When I arrive in Chicago, do I have to take a taxi to get to the hotel?",
+      "sub_a2": "No, you don’t have to. Actually, a rental car will bve reserved at the airport on June 20th. So, it wouldn’t be a problem at all.",
+      "sub_q3": "Can you tell me all the details of my schedule on Friday, June 22nd?",
+      "sub_a3": "Sure. First, you will depart from Chicago at 6 p.m. on Friday. You will take Los Angeles Airlines. The flight number is 105. Next, you will arrive in San Antonio at 9:30 p.m. on Friday."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FrYVA1%2FdJMcaiIyDHl%2FAAAAAAAAAAAAAAAAAAAAAMh0b_RPtmqevcAAEU-BJh5hTXMo1MnkKiuwWU6fFv-z%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DiRjyX77ejJBEbUGEdW5FjFqAm1Y%253D",
@@ -630,7 +662,7 @@
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbWzgvW%2FdJMcaajkeRb%2FAAAAAAAAAAAAAAAAAAAAABgbcE9HmujNkZxbZgP4XtvTQgxQ6n4gQoRCDgvSYd3_%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DPgLWded%252FgMpfTN5%252BY5PdER9vuzs%253D",
       "sub_q1": "I want to join the tour, but I’m not sure what time it begins. When and where should I arrive?",
       "sub_a1": "The tour check-in begins at 9:00 a.m. at the City Plaza Tourist Center, and the bus departs at 9:30 sharp.",
-      "sub_q2": "I'm vegetarian. Will lunch be suitable for me, and where will it be served?",
+      "sub_q2": "I’m vegetarian. Will lunch be suitable for me, and where will it be served?",
       "sub_a2": "Yes, the tour includes lunch at Riverside Bistro at 12:00 p.m., and a vegetarian option is available.",
       "sub_q3": "I enjoy both learning and photography. Could you tell me about two activities during the tour that fit these interests? Please include the time and location.",
       "sub_a3": "For learning, you can join the Museum Visit at 1:30 p.m. at the City History Museum, where audio guides are provided. For photography, there’s a Scenic Photo Stop at 3:00 p.m. at the Hillside Viewpoint, which includes a short hike."
@@ -784,7 +816,7 @@
       "sub_q1": "When is the AI and Machine Learning Keynote, and what time does it start?",
       "sub_a1": "The AI and Machine Learning Keynote will be on November 1st, starting at 10:00 a.m. and ending at 11:00 a.m.",
       "sub_q2": "I’m really interested in the Future of Virtual Reality Panel. Does it begin at 1:00 p.m.?",
-      "sub_a2": "No, I'm afraid that you have the wrong information. Actually, the Future of Virtual Reality Panel starts at 2:00 p.m. and will go until 4:00 p.m.",
+      "sub_a2": "No, I’m afraid that you have the wrong information. Actually, the Future of Virtual Reality Panel starts at 2:00 p.m. and will go until 4:00 p.m.",
       "sub_q3": "Can you tell me about the morning events for November? I prefer attending events in the morning.",
       "sub_a3": "Of course! There are two morning events in November. The AI and Machine Learning Keynote is on November 1st from 10:00 to 11:00 a.m., and the Cybersecurity Best Practices seminar is on November 10th from 9:30 to 11:00 a.m."
     },
@@ -864,11 +896,19 @@
   "part5": [
     {
       "question": "Some teachers assign homework each day. Other teachers rarely assign homework. Whick do you think is better, and why? Give reasons or examples to support your opinion.",
-      "answer_sheet": "I think teachers who assign homework each day are better. It's because it will encourage students to stduy and work hard after class as they have to do their homeworks. Therefore, they can get good grades. For example, when I was in high school my homeroom teacher gave us homework everyday. At first, my classmates and I didn't really like it because we had to study all day, but gradually, my performances got better because I studied and solve the problems that were given by the teacher. So it became really helpful for me. Therefore, I think giving homework each day is much better for the class overall."
+      "answer_sheet": "I think teachers who assign homework each day are better. It’s because it will encourage students to stduy and work hard after class as they have to do their homeworks. Therefore, they can get good grades. For example, when I was in high school my homeroom teacher gave us homework everyday. At first, my classmates and I didn’t really like it because we had to study all day, but gradually, my performances got better because I studied and solve the problems that were given by the teacher. So it became really helpful for me. Therefore, I think giving homework each day is much better for the class overall."
     },
     {
       "question": "Do you agree or disagree with the following statement? Local governments should provide more financial support for making more green spaces such as parks. Use specific reasons and examples to support your opinion.",
-      "answer_sheet": "I agree with the statement. Let me explain why I think so. Most of all, making more green spaces such as parks is a good investment because it makes people's lives better, and it's good for people's health. So, it's not a waste of money. Also, making green spaces is good for the environment. Pollution is a serious issue these days. If the local governments provide more financial support for making more green spaces, we will be able to protect the environment. Therefore, I agree with the statement."
+      "answer_sheet": "I agree with the statement. Let me explain why I think so. Most of all, making more green spaces such as parks is a good investment because it makes people’s lives better, and it’s good for people’s health. So, it’s not a waste of money. Also, making green spaces is good for the environment. Pollution is a serious issue these days. If the local governments provide more financial support for making more green spaces, we will be able to protect the environment. Therefore, I agree with the statement."
+    },
+    {
+      "question": "When you do projects, do you prefer to work with the poeple in your own department every time or collaborate with employees of other departments? Why? Use specific reasons and examples to support your opinion.",
+      "answer_sheet": "When I do projects, I prefer to collaborate with employees from other departments. Let me explain why I think so. Most of all, I can get information from employees from other departments and share it with poeple in my own department. From my experience, I used to work at a company. At that time, I collaborated with employees from other departments. For me, it was very helpful because I was able to get new information. Also, I can meet new people from other departments and expand my network. Therefore, when I do projects, I prefer to collaborate with employees from other departments."
+    },
+    {
+      "question": "When having a meeting with clients at work, which one do you think is a more efficient way: Having a video conference or Talking face-to-face? Use specific reasons and examples to support your opinion.",
+      "answer_sheet": "I think talking face-to-face is a more efficient way. Let me explain why I think so. Most of all, emplotees can understand the clients’ feelings more accurately, so it causes less misunderstanding. From my experience, I used to work at a company, and I had a video conference with my client. For me, it was not helpful at all because we couldn’t talk face-to-face and it caused a lot of misunderstanding. Also, talking face-to-face is more personal and builds a closer relationships with clients. According to a recent news report, the majority of successful CEOs in Korea said that talking face-to-face with clients is very important because it builds a closer relationship with clients and clients will be more satisfied. That's why I think so."
     },
     {
       "question": "What are the advantages of participating in sports during university? Give reasons or examples to support your opinion.",
@@ -956,7 +996,7 @@
     },
     {
       "question": "Do you agree or disagree with the following statement? Parents should limit the time children spend using electronic devices to promote better learning and social development.",
-      "answer_sheet": "I agree that parents should limit children's screen time. Excessive screen time has been linked to negative effects on children's development. It can hinder their ability to concentrate, reduce physical activity, and limit opportunities for social interaction. By limiting screen time, parents encourage children to engage in creative activities, outdoor play, and face-to-face conversations. These interactions are crucial for building communication skills and fostering emotional intelligence, which are essential for their overall well-being and development. Studies show children with limited screen time perform better academically and socially. Limiting screen time promotes healthy development and balanced growth."
+      "answer_sheet": "I agree that parents should limit children’s screen time. Excessive screen time has been linked to negative effects on children’s development. It can hinder their ability to concentrate, reduce physical activity, and limit opportunities for social interaction. By limiting screen time, parents encourage children to engage in creative activities, outdoor play, and face-to-face conversations. These interactions are crucial for building communication skills and fostering emotional intelligence, which are essential for their overall well-being and development. Studies show children with limited screen time perform better academically and socially. Limiting screen time promotes healthy development and balanced growth."
     },
     {
       "question": "Do you agree or disagree with the following statement? Employees should be promoted based on seniority rather than performance.",
@@ -984,11 +1024,11 @@
     },
     {
       "question": "What are the benefits of studying abroad? Give reasons or examples to support your opinion.",
-      "answer_sheet": "Studying abroad offers students the chance to experience different cultures, which can significantly broaden their worldview. Immersing themselves in a new environment helps them understand different lifestyles and cultural norms. For example, learning a new language and adapting to a foreign country's customs can be challenging, but it builds resilience and independence. Additionally, the international experience gained through studying abroad is often valued by employers, as it shows the ability to adapt to new situations. Exposure to different teaching methods and academic systems also enhances a student’s learning experience, making them more versatile in their future career."
+      "answer_sheet": "Studying abroad offers students the chance to experience different cultures, which can significantly broaden their worldview. Immersing themselves in a new environment helps them understand different lifestyles and cultural norms. For example, learning a new language and adapting to a foreign country’s customs can be challenging, but it builds resilience and independence. Additionally, the international experience gained through studying abroad is often valued by employers, as it shows the ability to adapt to new situations. Exposure to different teaching methods and academic systems also enhances a student’s learning experience, making them more versatile in their future career."
     },
     {
       "question": "If a company were deciding whether to offer flexible work hours or increase salaries, which would you recommend as more beneficial for employee satisfaction? Give reasons or examples to support your opinion.",
-      "answer_sheet": "I would recommend offering flexible work hours. Flexible work hours provide a better work-life balance, allowing employees to adjust their schedules according to personal needs. This can lead to increased productivity and reduced stress, especially for those with family or health commitments.  It also promotes job satisfaction, as employees feel they have more control over their time. Offering flexibility demonstrates that the company cares about its employees' well-being, which can lead to higher retention rates and greater loyalty. Employees with children can better manage school pickups without stress. Flexible work hours can boost morale, leading to higher productivity and retention."
+      "answer_sheet": "I would recommend offering flexible work hours. Flexible work hours provide a better work-life balance, allowing employees to adjust their schedules according to personal needs. This can lead to increased productivity and reduced stress, especially for those with family or health commitments.  It also promotes job satisfaction, as employees feel they have more control over their time. Offering flexibility demonstrates that the company cares about its employees’ well-being, which can lead to higher retention rates and greater loyalty. Employees with children can better manage school pickups without stress. Flexible work hours can boost morale, leading to higher productivity and retention."
     },
     {
       "question": "What is the best way for a company to reduce employee stress? Choose one of the options provided below, and give reasons or examples to support your opinion: offering mental health support reducing workloads providing flexible schedules",
@@ -996,7 +1036,7 @@
     },
     {
       "question": "Do you agree or disagree with the following statement? Parents should limit the time children spend using electronic devices to promote better learning and social development",
-      "answer_sheet": "I agree that parents should limit children's screen time. Excessive screen time has been linked to negative effects on children's development. It can hinder their ability to concentrate, reduce physical activity, and limit opportunities for social interaction. By limiting screen time, parents encourage children to engage in creative activities, outdoor play, and face-to-face conversations. These interactions are crucial for building communication skills and fostering emotional intelligence, which are essential for their overall well-being and development. Studies show children with limited screen time perform better academically and socially. Limiting screen time promotes healthy development and balanced growth."
+      "answer_sheet": "I agree that parents should limit children’s screen time. Excessive screen time has been linked to negative effects on children’s development. It can hinder their ability to concentrate, reduce physical activity, and limit opportunities for social interaction. By limiting screen time, parents encourage children to engage in creative activities, outdoor play, and face-to-face conversations. These interactions are crucial for building communication skills and fostering emotional intelligence, which are essential for their overall well-being and development. Studies show children with limited screen time perform better academically and socially. Limiting screen time promotes healthy development and balanced growth."
     },
     {
       "question": "Do you agree or disagree with the following statement? Employees should be promoted based on seniority rather than performance.",

@@ -83,7 +83,8 @@ export default function Home() {
         </div>
 
         <footer className="mt-20 text-center text-slate-400 text-sm">
-          <p>© 2026 AliceLingo. All rights reserved.</p>
+          <p>© 2026 AliceLingo</p>
+          <p>본 서비스는 수익을 창출하지 않는 개인 학습 및 포트폴리오 용도로 제작되었습니다. 서비스 내 포함된 모든 문제 컨텐츠의 저작권은 각 원저작권자에게 있으며, 요청 시 즉시 삭제될 수 있습니다.</p>
         </footer>
       </div>
     </main>
