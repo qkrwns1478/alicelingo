@@ -166,20 +166,22 @@ Output JSON.
 
       if (typeof evaluation.score !== 'number') evaluation.score = 0;
 
+      if (evaluation.score >= 90) evaluation.fluency = "High";
+      else if (evaluation.score >= 50) evaluation.fluency = "Medium";
+      else evaluation.fluency = "Low";
+
     } catch (e) {
-      console.warn("JSON Parse Error, using fallback");
       evaluation = parseFallback(responseText);
     }
 
     return NextResponse.json(evaluation);
 
   } catch (error) {
-    console.error("Evaluation Error:", error);
     return NextResponse.json(
       { 
         score: 0, 
         feedback: ["평가 서버 오류입니다. 잠시 후 다시 시도해주세요."], 
-        fluency: "Low" 
+        fluency: "Unknown" 
       },
       { status: 500 }
     );
