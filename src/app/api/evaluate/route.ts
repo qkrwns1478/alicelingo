@@ -87,7 +87,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const imageContext = image ? `- Context Image: Provided (URL: ${image})` : "- Context Image: None";
+    const imageContext = image ? `Provided (URL: ${image})` : "None";
 
     const systemPrompt = `
 You are a strict TOEIC Speaking examiner.
