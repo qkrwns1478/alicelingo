@@ -24,10 +24,22 @@ export default function Timer({
   const circumference = 2 * Math.PI * radius;
 
   const progress = duration > 0 ? (duration - timeLeft) / duration : 0;
+  const percentage = duration > 0 ? (timeLeft / duration) * 100 : 0;
   const strokeDashoffset = circumference - progress * circumference;
 
-  const percentage = duration > 0 ? (timeLeft / duration) * 100 : 0;
-  const bgColor = color.replace('stroke-', 'bg-');
+  const getColorClass = (strokeColor: string) => {
+    const colorMap: Record<string, string> = {
+      "stroke-yellow-400": "bg-yellow-400",
+      "stroke-red-500": "bg-red-500",
+      "stroke-indigo-500": "bg-indigo-500",
+      "stroke-blue-500": "bg-blue-500",
+      "stroke-green-500": "bg-green-500",
+      "stroke-purple-500": "bg-purple-500",
+    };
+    return colorMap[strokeColor] || "bg-indigo-500";
+  };
+
+  const bgColor = getColorClass(color);
 
   useEffect(() => {
     setTimeLeft(duration);
@@ -35,7 +47,9 @@ export default function Timer({
 
   useEffect(() => {
     if (!isActive) return;
-    if (timeLeft <= 0) return;
+    if (timeLeft <= 0) {
+        return;
+    }
 
     const interval = setInterval(() => {
       setTimeLeft((prev) => {

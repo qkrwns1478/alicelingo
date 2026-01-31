@@ -536,19 +536,6 @@ export default function ExamPage() {
                 </div>
               )}
             </div>
-
-            {isContentVisible && (
-              <div className="flex flex-col items-center gap-6 w-full max-w-2xl animate-in slide-in-from-bottom-4 fade-in">
-
-                {examState === "processing" && (
-                  <div className="flex flex-col items-center gap-3 text-slate-300 p-8">
-                    <RefreshCw className="w-8 h-8 animate-spin text-blue-500" />
-                    <span className="font-bold text-lg">AI Evaluator is analyzing...</span>
-                    <span className="text-xs text-slate-500">Checking pronunciation, grammar, and relevance</span>
-                  </div>
-                )}
-              </div>
-            )}
           </div>
         </main>
         
@@ -559,13 +546,31 @@ export default function ExamPage() {
           </div>
           <div className="flex-1 overflow-y-auto p-3 space-y-1 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
             {questions.map((q, idx) => (
-                <button key={q.id} onClick={() => jumpToQuestion(idx)} className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between group border ${currentQuestionIndex === idx ? "bg-purple-600/90 border-purple-500 text-white shadow-md shadow-purple-900/30" : "bg-transparent border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200"}`}>
+                <button key={q.id} onClick={() => jumpToQuestion(idx)} className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between group border ${currentQuestionIndex === idx ? "bg-blue-600/90 border-blue-500 text-white shadow-md shadow-blue-900/30" : "bg-transparent border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200"}`}>
                   <span className="truncate">{q.label}</span>
                   {currentQuestionIndex === idx && <div className="w-2 h-2 rounded-full bg-white shadow-lg" />}
                 </button>
             ))}
           </div>
         </aside>
+
+        {examState === "processing" && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
+            <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 flex flex-col items-center gap-6 shadow-2xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-300">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full animate-pulse"></div>
+                  <RefreshCw className="w-12 h-12 animate-spin text-blue-500 relative z-10" />
+                </div>
+                <div className="text-center space-y-2">
+                  <h3 className="text-xl font-bold text-white">Evaluating...</h3>
+                  <p className="text-slate-400 text-sm">AI examiner is analyzing your answer.</p>
+                </div>
+                <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-full bg-blue-500 animate-progress-indeterminate"></div>
+                </div>
+            </div>
+          </div>
+        )}
 
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-50 md:hidden">
@@ -577,7 +582,7 @@ export default function ExamPage() {
               </div>
               <div className="flex-1 overflow-y-auto space-y-1">
                 {questions.map((q, idx) => (
-                    <button key={q.id} onClick={() => jumpToQuestion(idx)} className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between group border ${currentQuestionIndex === idx ? "bg-purple-600/90 border-purple-500 text-white shadow-md shadow-purple-900/30" : "bg-transparent border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200"}`}>
+                    <button key={q.id} onClick={() => jumpToQuestion(idx)} className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between group border ${currentQuestionIndex === idx ? "bg-blue-600/90 border-blue-500 text-white shadow-md shadow-blue-900/30" : "bg-transparent border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200"}`}>
                       <span className="truncate">{q.label}</span>
                       {currentQuestionIndex === idx && <div className="w-2 h-2 rounded-full bg-white shadow-lg" />}
                     </button>
@@ -591,20 +596,20 @@ export default function ExamPage() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-300">
             <div className="w-full max-w-4xl max-h-[90vh] bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col relative">
               <div className="p-6 border-b border-slate-700 bg-slate-800/50 flex justify-between items-center flex-none">
-                <div><h2 className="text-2xl font-bold text-white flex items-center gap-2"><Zap className="w-6 h-6 text-yellow-400 fill-yellow-400" /> AI Evaluation Report</h2><p className="text-slate-400 text-sm mt-1">Detailed analysis of your response</p></div>
+                <div><h2 className="text-2xl font-bold text-white flex items-center gap-2">AI Evaluation Report</h2></div>
                 <div className="text-right">
                   <div className="flex items-baseline justify-end gap-2"><span className={`text-4xl font-black ${score >= 80 ? "text-emerald-400" : score >= 50 ? "text-yellow-400" : "text-red-400"}`}>{score}</span><span className="text-sm font-bold text-slate-500">/ 100</span></div>
                   <div className="text-xs text-slate-400 font-mono mt-1">Fluency: <span className="text-blue-400 font-bold">{fluencyLevel}</span></div>
                 </div>
               </div>
               <div className="flex-1 overflow-y-auto p-6 space-y-8 scrollbar-thin scrollbar-thumb-slate-700">
-                <div><h3 className="text-sm font-bold text-slate-400 uppercase mb-3 flex items-center gap-2"><MessageSquare className="w-4 h-4" /> Feedback</h3><div className="bg-slate-800/50 rounded-xl border border-slate-700 p-5"><ul className="space-y-3">{feedbackMsg.map((msg, i) => (<li key={i} className="flex items-start gap-3 text-slate-300 text-sm leading-relaxed"><span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 flex-none" />{msg}</li>))}</ul></div></div>
+                <div><h3 className="text-sm font-bold text-slate-400 uppercase mb-3 flex items-center gap-2"><MessageSquare className="w-4 h-4" /> Feedback</h3><div className="bg-slate-800/50 rounded-xl border border-slate-700 p-5"><ul className="space-y-3">{feedbackMsg.map((msg, i) => (<li key={i} className="flex items-start gap-3 text-slate-300 text-sm leading-relaxed"><span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 flex-none" />{msg}</li>))}</ul></div></div>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="flex flex-col h-full"><label className="text-xs font-bold text-slate-500 uppercase mb-2 flex items-center gap-2"><Mic className="w-3 h-3" /> Your Answer (Preview)</label><div className="flex-1 p-4 bg-slate-800 rounded-xl text-slate-300 text-sm leading-relaxed border border-slate-700">{userTranscript || <span className="text-slate-600 italic">No speech detected.</span>}</div></div>
+                  <div className="flex flex-col h-full"><label className="text-xs font-bold text-slate-500 uppercase mb-2 flex items-center gap-2"><Mic className="w-3 h-3" /> Your Answer</label><div className="flex-1 p-4 bg-slate-800 rounded-xl text-slate-300 text-sm leading-relaxed border border-slate-700">{userTranscript || <span className="text-slate-600 italic">No speech detected.</span>}</div></div>
                   <div className="flex flex-col h-full"><label className="text-xs font-bold text-blue-500/80 uppercase mb-2 flex items-center gap-2"><CheckCircle2 className="w-3 h-3" /> Model Answer</label><div className="flex-1 p-4 bg-blue-950/10 border border-blue-500/10 rounded-xl text-blue-200/70 text-sm leading-relaxed">{currentQuestion.modelAnswer}</div></div>
                 </div>
               </div>
-              <div className="p-6 border-t border-slate-700 bg-slate-800/30 flex justify-end flex-none"><button onClick={nextQuestion} className="w-full sm:w-auto px-8 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-purple-500/20 flex items-center justify-center gap-2">Close</button></div>
+              <div className="p-6 border-t border-slate-700 bg-slate-800/30 flex justify-end flex-none"><button onClick={nextQuestion} className="w-full sm:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-blue-500/20 flex items-center justify-center gap-2">Close</button></div>
             </div>
           </div>
         )}
