@@ -407,13 +407,13 @@ export default function ExamPage() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800 via-slate-900 to-black z-0 pointer-events-none"></div>
 
       {/* Header */}
-      <header className="h-16 w-full px-6 flex justify-between items-center z-20 bg-slate-900/50 backdrop-blur border-b border-slate-700 flex-none">
+      <header className="h-16 w-full px-6 flex justify-between items-center z-20 bg-slate-900/50 backdrop-blur border-b border-slate-700 flex-none relative">
         <button onClick={() => router.push("/")} className="text-slate-400 hover:text-white flex items-center gap-2 transition-colors">
-          <ArrowLeft className="w-5 h-5" /> <span className="hidden md:inline">Exit Test</span>
+          <ArrowLeft className="w-5 h-5" /> <span className="hidden md:inline">Back to Home</span>
         </button>
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end">
-            <span className="font-mono text-slate-500 text-xs tracking-wider">AI EVALUATION MODE</span>
+            <span className="font-mono text-slate-500 text-xs tracking-wider">EXAM MODE</span>
             <span className="text-sm text-blue-400 font-bold capitalize">{partKey?.replace("part", "Part ")}</span>
           </div>
           <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden p-2 rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-white">
@@ -424,9 +424,50 @@ export default function ExamPage() {
 
       {/* Body */}
       <div className="flex flex-1 z-10 relative">
-        <main className="flex-1 flex flex-col items-center justify-center p-4 relative">
+        <main className="flex-1 flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4 relative">
+
+          {/* Timer Progress Bar */}
+          {isContentVisible && (examState === "prep" || examState === "recording") && (
+            <div className="fixed top-24 left-6 z-50">
+              {examState === "prep" ? (
+                <Timer
+                  key={`prep-${currentQuestionIndex}`}
+                  duration={currentQuestion.prepTime}
+                  isActive={true}
+                  onComplete={startRecordingSequence}
+                  label="PREP"
+                  color="stroke-yellow-400"
+                  mode="linear"
+                />
+              ) : (
+                <Timer
+                  key={`rec-${currentQuestionIndex}`}
+                  duration={currentQuestion.responseTime}
+                  isActive={true}
+                  onComplete={stopRecordingAndAnalyze}
+                  label="SPEAK"
+                  color="stroke-red-500"
+                  mode="linear"
+                />
+              )}
+            </div>
+          )}
+
+          {/* Skip Prep Button */}
+          {examState === "prep" && (
+            <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300">
+              <button
+                onClick={startRecordingSequence}
+                disabled={isTransitioningRef.current}
+                className="flex items-center gap-2 px-6 py-3 bg-slate-800/90 hover:bg-slate-700 text-slate-200 rounded-full text-sm font-bold transition-all border border-slate-700 shadow-2xl backdrop-blur group disabled:opacity-50 hover:scale-105 active:scale-95"
+              >
+                <SkipForward className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" /> 
+                Skip Preparation
+              </button>
+            </div>
+          )}
+
           <div className="w-full max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            
             <div className="w-full bg-black/40 backdrop-blur-md border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl min-h-[500px] flex flex-col items-center justify-center relative p-6 transition-all">
               <div className="absolute top-4 right-4 z-30">
                 <button onClick={() => setShowAnswer(!showAnswer)} className="p-2 bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full backdrop-blur border border-slate-700 transition-all shadow-lg" title={showAnswer ? "Hide Model Answer" : "Show Model Answer"}>
@@ -464,7 +505,9 @@ export default function ExamPage() {
                 {currentQuestion.type === "text" && (
                   <div className="p-4 md:p-10 text-center max-w-3xl">
                     <span className="text-blue-400 font-bold tracking-widest text-xs uppercase mb-6 block opacity-80">Question {currentQuestionIndex + 1}</span>
-                    <h2 className="text-xl md:text-3xl font-bold leading-relaxed whitespace-pre-wrap text-slate-100">{currentQuestion.content}</h2>
+                    <h2 className={`text-xl md:text-3xl font-bold leading-relaxed whitespace-pre-wrap transition-colors duration-300 ${examState === 'listening' ? 'text-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'text-slate-100'}`}>
+                      {currentQuestion.content}
+                    </h2>
                   </div>
                 )}
                 {currentQuestion.type === "image_text" && (
@@ -472,9 +515,11 @@ export default function ExamPage() {
                     <div className="flex-1 bg-white p-2 rounded-lg shadow-xl w-full min-h-0 overflow-hidden flex items-center justify-center">
                       <img src={currentQuestion.content} alt="Schedule" className="w-full h-full object-contain" />
                     </div>
-                    <div className="flex-none w-full text-left p-4 bg-slate-800/80 rounded-xl border border-slate-700 backdrop-blur-sm">
+                    <div className={`flex-none w-full text-left p-4 rounded-xl border backdrop-blur-sm transition-all duration-300 ${examState === 'listening' ? 'bg-blue-900/40 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'bg-slate-800/80 border-slate-700'}`}>
                       <span className="text-green-400 font-bold tracking-widest text-xs uppercase mb-2 block">Question {currentQuestionIndex + 1}</span>
-                      <p className="text-lg md:text-xl font-semibold leading-relaxed text-white">{currentQuestion.subText}</p>
+                      <p className={`text-lg md:text-xl font-semibold leading-relaxed transition-colors duration-300 ${examState === 'listening' ? 'text-blue-300' : 'text-white'}`}>
+                        {currentQuestion.subText}
+                      </p>
                     </div>
                   </div>
                 )}
@@ -494,47 +539,6 @@ export default function ExamPage() {
 
             {isContentVisible && (
               <div className="flex flex-col items-center gap-6 w-full max-w-2xl animate-in slide-in-from-bottom-4 fade-in">
-                {(examState === "prep" || examState === "recording" || examState === "listening") && (
-                  <div className="flex flex-col items-center gap-4">
-                    {examState === "listening" ? (
-                      <div className="flex flex-col items-center animate-pulse py-4">
-                        <Volume2 className="w-12 h-12 text-blue-400 mb-2" />
-                        <p className="text-blue-300 font-bold">Listening to the question...</p>
-                      </div>
-                    ) : examState === "prep" ? (
-                      <>
-                        <Timer
-                          key={`prep-${currentQuestionIndex}`}
-                          duration={currentQuestion.prepTime}
-                          isActive={true}
-                          onComplete={startRecordingSequence} 
-                          label="PREPARING"
-                          color="stroke-yellow-400"
-                        />
-                        <button
-                          onClick={startRecordingSequence}
-                          disabled={isTransitioningRef.current}
-                          className="flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-full text-sm font-bold transition-all border border-slate-700 hover:border-slate-500 shadow-lg group disabled:opacity-50"
-                        >
-                          <SkipForward className="w-4 h-4 group-hover:text-white" /> 
-                          Skip Preparation
-                        </button>
-                      </>
-                    ) : (
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-red-500 blur-3xl opacity-20 animate-pulse rounded-full"></div>
-                        <Timer
-                          key={`rec-${currentQuestionIndex}`}
-                          duration={currentQuestion.responseTime}
-                          isActive={true}
-                          onComplete={stopRecordingAndAnalyze}
-                          label="SPEAK NOW"
-                          color="stroke-red-500"
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
 
                 {examState === "processing" && (
                   <div className="flex flex-col items-center gap-3 text-slate-300 p-8">
