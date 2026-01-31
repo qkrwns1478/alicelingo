@@ -10,6 +10,7 @@ interface EvaluationResult {
   score: number;
   feedback: string[];
   fluency: string;
+  userTranscript?: string;
 }
 
 function parseFallback(text: string): EvaluationResult {
@@ -86,7 +87,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const imageContext = image ? `- Context Image: Provided (URL: ${image})` : "- Context Image: None";
+    const imageContext = image ? `Provided (URL: ${image})` : "None";
 
     const systemPrompt = `
 You are a strict TOEIC Speaking examiner.
@@ -122,9 +123,9 @@ You are a strict TOEIC Speaking examiner.
 [Context]
 - Part: ${part}
 - Question: "${question}"
-${imageContext} 
+- Image: ${imageContext} 
 - User's Answer (Transcript): "${userTranscript}"
-- Model Answer (SCENE REFERENCE ONLY - Do NOT Compare Syntax): "${modelAnswer}"
+- Reference Context: "${modelAnswer}"
 
 [Technical Metrics]
 - **Speed:** ${wps.toFixed(2)} Words/Sec
@@ -145,8 +146,8 @@ Output JSON.
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
       ],
-      model: "openai/gpt-oss-120b",
-      temperature: 0.1,
+      model: "meta-llama/llama-4-scout-17b-16e-instruct",
+      temperature: 0.2,
       response_format: { type: "json_object" },
     });
 
@@ -173,6 +174,8 @@ Output JSON.
     } catch (e) {
       evaluation = parseFallback(responseText);
     }
+
+    evaluation.userTranscript = userTranscript;
 
     return NextResponse.json(evaluation);
 
