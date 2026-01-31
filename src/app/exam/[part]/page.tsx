@@ -192,7 +192,7 @@ export default function ExamPage() {
         gain.connect(ctx.destination);
 
         osc.type = "sine";
-        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.setValueAtTime(523, ctx.currentTime);
         gain.gain.setValueAtTime(0.1, ctx.currentTime);
 
         osc.start();
@@ -402,11 +402,11 @@ export default function ExamPage() {
       {/* Header */}
       <header className="h-16 w-full px-6 flex justify-between items-center z-20 bg-slate-900/50 backdrop-blur border-b border-slate-700 flex-none">
         <button onClick={() => router.push("/")} className="text-slate-400 hover:text-white flex items-center gap-2 transition-colors">
-          <ArrowLeft className="w-5 h-5" /> <span className="hidden md:inline">Exit Test</span>
+          <ArrowLeft className="w-5 h-5" /> <span className="hidden md:inline">Back to Home</span>
         </button>
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end">
-            <span className="font-mono text-slate-500 text-xs tracking-wider">AI EVALUATION MODE</span>
+            <span className="font-mono text-slate-500 text-xs tracking-wider">EXAM MODE</span>
             <span className="text-sm text-blue-400 font-bold capitalize">{partKey?.replace("part", "Part ")}</span>
           </div>
           <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden p-2 rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-white">
