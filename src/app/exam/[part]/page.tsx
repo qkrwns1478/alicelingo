@@ -203,7 +203,6 @@ export default function ExamPage() {
           resolve();
         }, 500);
       } catch (e) {
-        console.warn("AudioContext error:", e);
         resolve(); 
       }
     });
@@ -244,7 +243,6 @@ export default function ExamPage() {
           resolve();
         }, 2000);
       } catch (e) {
-        console.warn("DingDong error:", e);
         resolve();
       }
     });
@@ -261,10 +259,14 @@ export default function ExamPage() {
 
     if (textToRead) {
       await playTTS(textToRead, "female");
+      if (!isTransitioningRef.current) return;
     }
 
     await playTTS("Begin preparing now.", "male");
+    if (!isTransitioningRef.current) return;
+
     await playBeep();
+    if (!isTransitioningRef.current) return;
 
     setExamState("prep");
     isTransitioningRef.current = false;
@@ -275,7 +277,10 @@ export default function ExamPage() {
     isTransitioningRef.current = true;
 
     await playTTS("Begin speaking now.", "male");
+    if (!isTransitioningRef.current) return;
+
     await playBeep();
+    if (!isTransitioningRef.current) return;
 
     isRecordingRef.current = true;
     finalTranscriptRef.current = ""; 
@@ -351,10 +356,10 @@ export default function ExamPage() {
       setScore(data.score);
       setFeedbackMsg(data.feedback || ["No feedback provided."]);
       setFluencyLevel(data.fluency || "N/A");
+      if (data.userTranscript) setUserTranscript(data.userTranscript);
       playDingDong();
 
     } catch (error) {
-      console.error(error);
       setScore(0);
       setFeedbackMsg(["AI 평가 서버 연결 실패 또는 오디오 처리 오류."]);
     } finally {
@@ -363,6 +368,9 @@ export default function ExamPage() {
   }, [currentQuestion, partKey]);
 
   const jumpToQuestion = (index: number) => {
+    isRecordingRef.current = false;
+    isTransitioningRef.current = false;
+
     if (examState === "recording" || examState === "listening" || examState === "prep") {
       recognitionRef.current?.stop();
       mediaRecorderRef.current?.stop();
@@ -378,7 +386,6 @@ export default function ExamPage() {
     setFluencyLevel("");
     setShowAnswer(false);
     setIsMobileMenuOpen(false);
-    isTransitioningRef.current = false;
   };
 
   const nextQuestion = () => {
@@ -402,11 +409,11 @@ export default function ExamPage() {
       {/* Header */}
       <header className="h-16 w-full px-6 flex justify-between items-center z-20 bg-slate-900/50 backdrop-blur border-b border-slate-700 flex-none">
         <button onClick={() => router.push("/")} className="text-slate-400 hover:text-white flex items-center gap-2 transition-colors">
-          <ArrowLeft className="w-5 h-5" /> <span className="hidden md:inline">Back to Home</span>
+          <ArrowLeft className="w-5 h-5" /> <span className="hidden md:inline">Exit Test</span>
         </button>
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end">
-            <span className="font-mono text-slate-500 text-xs tracking-wider">EXAM MODE</span>
+            <span className="font-mono text-slate-500 text-xs tracking-wider">AI EVALUATION MODE</span>
             <span className="text-sm text-blue-400 font-bold capitalize">{partKey?.replace("part", "Part ")}</span>
           </div>
           <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden p-2 rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-white">

@@ -10,6 +10,7 @@ interface EvaluationResult {
   score: number;
   feedback: string[];
   fluency: string;
+  userTranscript?: string;
 }
 
 function parseFallback(text: string): EvaluationResult {
@@ -173,6 +174,8 @@ Output JSON.
     } catch (e) {
       evaluation = parseFallback(responseText);
     }
+
+    evaluation.userTranscript = userTranscript;
 
     return NextResponse.json(evaluation);
 
