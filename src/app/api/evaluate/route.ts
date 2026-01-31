@@ -175,7 +175,7 @@ Output JSON.
       }
       
       if (!evaluation.feedback || evaluation.feedback.length === 0) {
-        evaluation.feedback = ["답변 내용을 분석할 수 없습니다. 조금 더 명확하게 말씀해 주세요."];
+        evaluation.feedback = ["AI가 분석하는 중 오류가 발생했습니다. 다시 시도해 주세요."];
       }
 
       if (typeof evaluation.score !== 'number') evaluation.score = 0;

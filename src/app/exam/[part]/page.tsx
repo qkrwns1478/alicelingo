@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import problemData from "../../../data/problems.json";
 import Timer from "../../../components/Timer";
-import { ArrowLeft, Mic, List, CheckCircle2, Play, RefreshCw, MessageSquare, Eye, EyeOff, SkipForward, X, Zap, Menu, Volume2 } from "lucide-react";
+import { ArrowLeft, Mic, List, CheckCircle2, Play, RefreshCw, MessageSquare, Eye, EyeOff, SkipForward, X, Bot, Menu, Volume2 } from "lucide-react";
 
 // 문제 데이터 타입 정의
 type ProblemData = typeof problemData;
@@ -35,6 +35,7 @@ export default function ExamPage() {
   
   const [showAnswer, setShowAnswer] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isPlayingModelAnswer, setIsPlayingModelAnswer] = useState(false);
 
   const recognitionRef = useRef<any>(null);
   const isRecordingRef = useRef(false);
@@ -145,6 +146,9 @@ export default function ExamPage() {
       if (typeof window === "undefined" || !("speechSynthesis" in window)) {
         return resolve();
       }
+
+      window.speechSynthesis.cancel();
+
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = "en-US";
       
@@ -166,15 +170,24 @@ export default function ExamPage() {
       } else {
         targetVoice = voices.find(v => v.name.includes("Google US English")) || voices.find(v => v.lang === "en-US");
         if (targetVoice) utter.voice = targetVoice;
-        utter.rate = 1.0;
+        utter.rate = 0.9;
         utter.pitch = 1.0;
       }
 
-      utter.onend = () => resolve();
-      utter.onerror = () => resolve(); 
+      utter.onend = () => {
+        setIsPlayingModelAnswer(false);
+        resolve();
+      };
+      utter.onerror = () => {
+        setIsPlayingModelAnswer(false);
+        resolve();
+      };
+
       try {
+        setIsPlayingModelAnswer(true);
         window.speechSynthesis.speak(utter);
       } catch {
+        setIsPlayingModelAnswer(false);
         resolve();
       }
     });
@@ -370,6 +383,7 @@ export default function ExamPage() {
   const jumpToQuestion = (index: number) => {
     isRecordingRef.current = false;
     isTransitioningRef.current = false;
+    setIsPlayingModelAnswer(false);
 
     if (examState === "recording" || examState === "listening" || examState === "prep") {
       recognitionRef.current?.stop();
@@ -596,7 +610,7 @@ export default function ExamPage() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-300">
             <div className="w-full max-w-4xl max-h-[90vh] bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col relative">
               <div className="p-6 border-b border-slate-700 bg-slate-800/50 flex justify-between items-center flex-none">
-                <div><h2 className="text-2xl font-bold text-white flex items-center gap-2">AI Evaluation Report</h2></div>
+                <div><h2 className="text-2xl font-bold text-white flex items-center gap-2"><Bot className="w-6 h-6 text-white" /> AI Evaluation Report</h2></div>
                 <div className="text-right">
                   <div className="flex items-baseline justify-end gap-2"><span className={`text-4xl font-black ${score >= 80 ? "text-emerald-400" : score >= 50 ? "text-yellow-400" : "text-red-400"}`}>{score}</span><span className="text-sm font-bold text-slate-500">/ 100</span></div>
                   <div className="text-xs text-slate-400 font-mono mt-1">Fluency: <span className="text-blue-400 font-bold">{fluencyLevel}</span></div>
@@ -606,7 +620,19 @@ export default function ExamPage() {
                 <div><h3 className="text-sm font-bold text-slate-400 uppercase mb-3 flex items-center gap-2"><MessageSquare className="w-4 h-4" /> Feedback</h3><div className="bg-slate-800/50 rounded-xl border border-slate-700 p-5"><ul className="space-y-3">{feedbackMsg.map((msg, i) => (<li key={i} className="flex items-start gap-3 text-slate-300 text-sm leading-relaxed"><span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 flex-none" />{msg}</li>))}</ul></div></div>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="flex flex-col h-full"><label className="text-xs font-bold text-slate-500 uppercase mb-2 flex items-center gap-2"><Mic className="w-3 h-3" /> Your Answer</label><div className="flex-1 p-4 bg-slate-800 rounded-xl text-slate-300 text-sm leading-relaxed border border-slate-700">{userTranscript || <span className="text-slate-600 italic">No speech detected.</span>}</div></div>
-                  <div className="flex flex-col h-full"><label className="text-xs font-bold text-blue-500/80 uppercase mb-2 flex items-center gap-2"><CheckCircle2 className="w-3 h-3" /> Model Answer</label><div className="flex-1 p-4 bg-blue-950/10 border border-blue-500/10 rounded-xl text-blue-200/70 text-sm leading-relaxed">{currentQuestion.modelAnswer}</div></div>
+                  <div className="flex flex-col h-full">
+                    <label className="text-xs font-bold text-blue-500/80 uppercase mb-2 flex items-center gap-2">
+                      <CheckCircle2 className="w-3 h-3" /> Model Answer
+                      <button 
+                        onClick={() => playTTS(currentQuestion.modelAnswer, "female")}
+                        className={`ml-auto p-1.5 rounded-full transition-all ${isPlayingModelAnswer ? "text-white bg-blue-500" : "text-blue-400 hover:bg-blue-500/20"}`}
+                        title="Listen"
+                      >
+                        <Volume2 className="w-4 h-4" />
+                      </button>
+                    </label>
+                    <div className="flex-1 p-4 bg-blue-950/10 border border-blue-500/10 rounded-xl text-blue-200/70 text-sm leading-relaxed">{currentQuestion.modelAnswer}</div>
+                  </div>
                 </div>
               </div>
               <div className="p-6 border-t border-slate-700 bg-slate-800/30 flex justify-end flex-none"><button onClick={nextQuestion} className="w-full sm:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold transition-all shadow-lg hover:shadow-blue-500/20 flex items-center justify-center gap-2">Close</button></div>
