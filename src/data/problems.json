@@ -22,6 +22,24 @@
       "sentence": "Thank you for joining us for our Best Employee Awards Ceremony. Today’s ceremony will recognize our employees’ great customer service, individual work performance, and our new product development. At the end of this event, some of our best employees will get a bonus and an opportunity to participate in an international workshop."
     },
     {
+      "sentence": "Welcome to this week’s episode of Academic Voices. Today, we are honored to introduce Dr. Michael Lee, a renowned professor of environmental science. Dr. Lee has been recognized for his research on climate change adaptation, urban sustainability, and renewable energy. He currently teaches at Green Valley University. Stay tuned as we discuss his groundbreaking work and insights on future environmental policies."
+    },
+    {
+      "sentence": "Welcome everyone, and thank you for joining us today. This event was prepared to show our appreciation for the employees who have contributed to the company’s growth and success. We will begin with a short award ceremony to recognize several outstanding team members. After the ceremony, please enjoy the buffet we’ve prepared for you. We hope you have a great time, and thank you again for your hard work."
+    },
+    {
+      "sentence": "Good morning. This is today's traffic report. There will be congestion on Route Two, so we expect some delays in West Victoria. Drivers are advised to detour through City Downtown, East Boulevard, or Highway Three. For more updates on your commute, please stay tuned."
+    },
+    {
+      "sentence": "Welcome to the Sports Competition at Lincoln Park! The park offers excellent sports facilities for all visitors. Games will be held on the basketball court, the tennis court, and the baseball field throughout the day. The basketball game will start in just a minute. Let's give a big round of applause for the players!"
+    },
+    {
+      "sentence": "Attention all visitors. The museum will be closing early today due to maintenance. The main exhibition hall, the gift shop, and the information desk will close at 5 p.m. Please make sure to finish your visit before then, and don't forget to take all your belongings with you. We apologize for the inconvenience and appreciate your understanding."
+    },
+    {
+      "sentence": "Looking for a new phone? Check out the latest model at Sunrise Electronics. With a sleek design, advanced camera, and long battery life, it's the perfect choice for you. Visit your nearest store today and get a special discount this weekend only. Online orders also qualify for free same-day delivery in select areas."
+    },
+    {
       "sentence": "Attention all employees: A free health screening event will be held at the office next Friday from 9 a. m. to 2 p. m. The screening will include blood pressure, cholesterol, and glucose testing. This is a great opportunity to check your health status and receive advice from medical professionals. No appointment is necessary, and participation is voluntary. For more information, please contact the Human Resources department. We encourage everyone to take advantage of this valuable health service."
     },
     {
@@ -139,6 +157,30 @@
     {
       "image": "/images/part2_6.jpg",
       "answer_sheet": "This is a picture taken outdoors. In the middle of the picture, three men are standing and playing instruments. They are wearing checkered shirts. On the right side of the picture, I can see two men. One is sitting on a bench, and the other is standing and playing the guitar. In the background of the picture, there are some trees, cars and buildings."
+    },
+    {
+      "image": "/images/part2_7.jpg",
+      "answer_sheet": "This is a picture taken This is a picture taken in a subway station. On the left side of the picture, there is a man playing the guitar and singing. In front of him, I can see a guitar case. On the right side of the picture, I can see two people watching the performance. One of them is a man, and he is wearing a cap. The other is a woman, and she is wearing a scarf."
+    },
+    {
+      "image": "/images/part2_8.jpg",
+      "answer_sheet": "This is a picture taken outdoors. In the middle of the picture, I can see a man grilling meat on a barbeque grill. Next to him, there is a woman holding a glass. On the left side of the picture, I can see some people. One of them is standing, and the rest of them are sitting at a table. On the table, I can see a bottle of wine and some wine glasses."
+    },
+        {
+      "image": "/images/part2_9.jpg",
+      "answer_sheet": "This is a picture taken outdoors. The first thing I can see in this picture is three women shopping. In the middle of the picture, there is a woman wearing a bloakc top and a black checkered skirt. Next to her, I can see another woman wearing a hat sunglasses. On the right side of the picture, the other woman is holding a jacket and looking at it. All of them are smiling."
+    },
+    {
+      "image": "/images/part2_10.jpg",
+      "answer_sheet": "This is a picture taken indoors The first thing I can see in this picture is a man holding a hammer. He is wearing protective glasses, gloves, and a checkered shirt. He is nailing a piece of lumber on a table and holding it with one hand. Overall, it seems like he is busy working."
+    },
+    {
+      "image": "/images/part2_11.jpg",
+      "answer_sheet": "This is a picture taken at a warehouse. The first thing I can see from this picture is two people. One of them is a man. He is holding a box and pointing at a tablet PC. The other person is a woman, and she is holding the tablet PC. Both of them are wearing blue shirts. In the background of the picture, I can see many boxes on the shelves."
+    },
+    {
+      "image": "/images/part2_12.jpg",
+      "answer_sheet": "This is a picture taken at a market. On the right side of the picture, I can see a woman putting some fruit into a net bag. She is wearing a yellow T-shirt and carrying a white bag on her shoulder. Next to her, there is a girl looking at the fruit. In front of them, I can see a box full of fruit. In the background of the picture, I can see many other kinds of fruit arranged on the shelves."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbboZ1J%2FdJMcahQqVUy%2FAAAAAAAAAAAAAAAAAAAAALN1L2JUMvSmV8U701vxYzR6L0Lis6GtAQXrST1Ic7lR%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DrnaNRsvIH0iEwY9WUdTYZ98%252FsLM%253D",
@@ -342,6 +384,33 @@
       "sub_a3": "If I had to choose one factor, I’d say prices are the most important. Groceries add up quickly, especially if you have a family. I always look for deals and discounts, so a supermarket with competitive pricing helps me save money. Even if the store is a little farther away, I’d go there if the prices are better."
     },
     {
+      "question": "Imagaine that a marketing company is doing research in your country. You have agreed to participate in a telephone interview about washing clothes.",
+      "sub_q1": "How often do you wash your clothes? What time of the day do you usually wash your clothes?",
+      "sub_a1": "I wash my clothes twice a week, and I usually wash them in the evening because it’s part of my daily routine.",
+      "sub_q2": "Do you prefer to wash clothes in a washing machine or by hand?",
+      "sub_a2": "I prefer to wash clothes in a washing machine because I can save time. I’m a student, so I don’t have much time.",
+      "sub_q3": "When you purchase a washing machine, which of the follwing do you consider the most? (Whether it is easy to use / Capacity / Eco-friendliness)",
+      "sub_a3": "I think eco-friendliness is the most important. It’s good for the environment. Pollution is a serious issue these days. If I use an eco-friendly washing machine, I will be able to protect the environment, and it can make a cleaner environment in the future."
+    },
+    {
+      "question": "Imagine that a lifestyle magazine is preparing an article. You have agreed to participate in a telephone interview about gardening.",
+      "sub_q1": "Do you enjoy gardening or taking care of plants? Why or why not?",
+      "sub_a1": "Yes, I enjoy gardening because it relieves my stress, and it also helps me relax. I'm stressed out these days, so I need it.",
+      "sub_q2": "Do you prefer growing flowers or vegetables in your garden?",
+      "sub_a2": "I prefer growing flowers in my garden because they are more beautiful. Flowers make me happy, and I always have a great experience when I grow them.",
+      "sub_q3": "Should apartment buildings offer shared garden spaces for residents?",
+      "sub_a3": "Yes, apartment buildings should offer shared garden spaces for residents. First, gardening withe other residents is more fun and enjoyable. Also, people can share tips and information about gardening if they have a shared space."
+    },
+    {
+      "question": "Imagine that you are talking on the telephone with your friend. You are having a conversation about a study group.",
+      "sub_q1": "When was the last time you had to finish an assignment or project outside your home? Where did you go?",
+      "sub_a1": "The last time I had to finish an assignment or project outside my home was two weeks ago. I went to a café to work with other people.",
+      "sub_q2": "If you had to study for an exam that requires complete concentration, would you choose a small, quiet café or a study room in a public library? Why?",
+      "sub_a2": "If I had to study for an exam that requires complete concentration, I would choose a small, quiet café because it has a better atmosphere.",
+      "sub_q3": "When studying in a group, which of the following is a better option for you? Meeting often to study together / Studying alone and only meeting sometimes to check your progress",
+      "sub_a3": "I think meeting often to study together is a better option for me. First, it's more fun to study in a group. I can stay motivated when I'm with other members. Also, I can get a lot of information from them and share my own ideas too."
+    },
+    {
       "question": "Imagine that a friend is thinking about using eco-friendly packaging for their business. You are discussing whether it’s a good choice.",
       "sub_q1": "Have you ever considered using eco-friendly packaging? Why or why not?",
       "sub_a1": "Yes, I have. I once thought about using eco-friendly packaging for a small online shop. I care about the environment, so it seemed like a good step.",
@@ -385,15 +454,6 @@
       "sub_a2": "Safety is the most important. All equipment should be well-maintained and made of child-safe materials.",
       "sub_q3": "What would most influence your decision to visit a park with a new playground, and why? Safety of equipment, Variety of activities, Location of the park",
       "sub_a3": "Safety is the biggest factor for me. Since playgrounds are mostly used by children, the equipment needs to be well-built and checked regularly. If I see broken or rusty equipment, I definitely won’t let any child play there. A safe environment makes it easier for parents to relax and let their kids have fun without worry."
-    },
-    {
-      "question": "Imagine that a new version of League of Legends is on developing. You have agreed to participate in a telephone interview about the game.",
-      "sub_q1": "How often do you play League of Legends, and why?",
-      "sub_a1": "I typically play League of Legends three to four times a week. The main reason is that the fast-paced competitive nature of the game helps me relieve stress after a long day of school work.",
-      "sub_q2": "Which lane do you think is most important in League of Legends?",
-      "sub_a2": "I believe the Jungle is the most crucial role. The Jungler has the ability to influence all other lanes by ganking, and they are responsible for securing major objectives like dragons, which often decides the game’s outcome.",
-      "sub_q3": "What would be most important to win a rank game and why? (Teamwork, Strategy, Team luck)",
-      "sub_a3": "I would say teamwork is definitely the most important factor to win a ranked game. Since League of Legends is a five-versus-five game, individual skill matters less if the team is not coordinated. Even if you have a perfect strategy, toxic behavior or a lack of communication usually leads to a loss. Therefore, trusting your teammates and executing plays together is the key to victory."
     },
     {
       "question": "Imagine that a new café is planning to open in your area. You have agreed to participate in an interview about cafés.",
@@ -621,6 +681,33 @@
       "sub_a2": "No, you don’t have to. Actually, a rental car will be reserved at the airport on June 20th. So, it wouldn’t be a problem at all.",
       "sub_q3": "Can you tell me all the details of my schedule on Friday, June 22nd?",
       "sub_a3": "Sure. First, you will depart from Chicago at 6 p.m. on Friday. You will take Los Angeles Airlines. The flight number is 105. Next, you will arrive in San Antonio at 9:30 p.m. on Friday."
+    },
+    {
+      "image": "/images/part4_17.jpg",
+      "sub_q1": "What time does the interview start and where will it be held?",
+      "sub_a1": "The interview will start at 9:00 a.m., and it will be held in Conference Room 105.",
+      "sub_q2": "I heard there are two applicants applyiong for the sales representative position. Is that right?",
+      "sub_a2": "No. Actually, there were supposed to be two applicants, but one of the interviews has been canceled. So, we have only one applicant for that position.",
+      "sub_q3": "I'd like to know about the applicants from Business Focus. Can you tell me about them?",
+      "sub_a3": "Yes, there are two applicants from Business Focus. First, at 9:30, there is an interview with Eli Bennett, who applied for the business analyst position. Next, at 11:30, there is an interview with Gloria Bell, who applied for the accountant position."
+    },
+    {
+      "image": "/images/part4_18.jpg",
+      "sub_q1": "I was told that one of my colleagues, Jennie Frank, is giving a speech at this seminar. Can you tell me what time she will give a speech and the title of the session?",
+      "sub_a1": "Her session will start at 9:00 a.m., and the title is How to Use Video Editing Software.",
+      "sub_q2": "I have a video conference with my client at 3:00 p.m., so I'm afraid I have to leave after 3:00 p.m. Will I miss any of the sessions?",
+      "sub_a2": "Yes, from 3:00 to 4:00 p.m., there is a session on Useful Tips for Windows Users by Jannet Morris. So, you will miss that session.",
+      "sub_q3": "I'm highly interested in learning how to use video editing software. Can you tell me about the sessions that deal with video editing?",
+      "sub_a3": "Yes. First, from 9:00 to 10:00 a.m., there is How to Use Video Editing Software by Jennie Frank. Next, from 11:00 a.m. to noon, there is Advanced Functions of Video Editing Software by Shelly Brad."
+    },
+    {
+      "image": "/images/part4_19.jpg",
+      "sub_q1": "Where and when will the lectures be held?",
+      "sub_a1": "The lectures will be held on June 13th at the Maxwell Lecture Hall.",
+      "sub_q2": "How can I sign up for the lectures and how much do I have to pay?",
+      "sub_a2": "You can sign up online through our website, and the full-day registration fee is 25 dollars.",
+      "sub_q3": "I have a teenage daughter. Can you tell me about any afternoon session that would be suitable for her?",
+      "sub_a3": "Yes. There are two lectures. First, at 1:00 p.m., there is a lecture on How to Use Al Tools in Everyday Life. It's for students aged 17 to 19."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FrYVA1%2FdJMcaiIyDHl%2FAAAAAAAAAAAAAAAAAAAAAMh0b_RPtmqevcAAEU-BJh5hTXMo1MnkKiuwWU6fFv-z%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DiRjyX77ejJBEbUGEdW5FjFqAm1Y%253D",
@@ -908,7 +995,19 @@
     },
     {
       "question": "When having a meeting with clients at work, which one do you think is a more efficient way: Having a video conference or Talking face-to-face? Use specific reasons and examples to support your opinion.",
-      "answer_sheet": "I think talking face-to-face is a more efficient way. Let me explain why I think so. Most of all, emplotees can understand the clients’ feelings more accurately, so it causes less misunderstanding. From my experience, I used to work at a company, and I had a video conference with my client. For me, it was not helpful at all because we couldn’t talk face-to-face and it caused a lot of misunderstanding. Also, talking face-to-face is more personal and builds a closer relationships with clients. According to a recent news report, the majority of successful CEOs in Korea said that talking face-to-face with clients is very important because it builds a closer relationship with clients and clients will be more satisfied. That's why I think so."
+      "answer_sheet": "I think talking face-to-face is a more efficient way. Let me explain why I think so. Most of all, emplotees can understand the clients’ feelings more accurately, so it causes less misunderstanding. From my experience, I used to work at a company, and I had a video conference with my client. For me, it was not helpful at all because we couldn’t talk face-to-face and it caused a lot of misunderstanding. Also, talking face-to-face is more personal and builds a closer relationships with clients. According to a recent news report, the majority of successful CEOs in Korea said that talking face-to-face with clients is very important because it builds a closer relationship with clients and clients will be more satisfied. That’s why I think so."
+    },
+    {
+      "question": "Do you agree or disagree with the following statement: Employees should be allowed to listen to music while working. Use specific reasons and examples to support your opinion.",
+      "answer_sheet": "I disagree with the statement. Let me explain why I think this way. Most of all, employees can't focus on their work if they listen to music while working. From my experience, I used to listen to music at work. For me, it was not helpful at all because I couldn't concentrate on my tasks. Listening to music was very distracting. On top of that, employees may not communicate well with their colleagues(co-workers) when they listen to music at work. According to a recent news report, the majority of successful CEOs in Korea said that employees should not be allowed to listen to music while working because people communicate better when they are not listening to music. Therefore, I disagree with the statement."
+    },
+    {
+      "question": "What are the disadvantages of being a leader of a team? Use specific reasons and examples to support your opinion.",
+      "answer_sheet": "There are some disadvantages of being a leader of a team. Let me explain why I think this way. Most of all, it takes a lot of time and can be very distracting. From my experience, when I was a college student, I was the leader of a team project. For me, it was not helpful at all because I had to spend extra time helping other people. It was very distracting. I couldn't focus on my studies or get good grades. I even fell behind in class. On top of that, according to a recent news report, the majority of college students in Korea said that being a team leader is not beneficial because it is too distracting for them. Therefore, I believe that being a team leader has more disadvantages than advantages."
+    },
+    {
+      "question": "Do you think handwritten letters are still meaningful in today's digital world? Why or why not? Use specific reasons and examples to support your opinion.",
+      "answer_sheet": "I think handwritten letters are still meaningful in today's digital world. Let me explain why I think this way. Most of all, handwritten letters feel more personal, so they can help people build closer relationships. From my experience, I used to write many handwritten letters to my friends. It was great because we were able to understand each other's feelings better and stay close. On top of that, handwritten letters have sentimental value. It's very meaningful to keep letters from family members and friends. As you know, getting letters from your best friends or family members makes you happy and gives you a great and meaningful experience."
     },
     {
       "question": "What are the advantages of participating in sports during university? Give reasons or examples to support your opinion.",
