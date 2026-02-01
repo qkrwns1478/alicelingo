@@ -374,6 +374,7 @@ export default function ExamPage() {
 
     } catch (error) {
       setScore(0);
+      setFluencyLevel("Unknown");
       setFeedbackMsg(["AI 평가 서버 연결 실패 또는 오디오 처리 오류."]);
     } finally {
       setExamState("result");

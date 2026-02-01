@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import OpenAI, { toFile } from "openai";
+import fs from "fs";
+import path from "path";
 
 const client = new OpenAI({
   apiKey: process.env.GROQ_API_KEY,
@@ -36,6 +38,40 @@ function parseFallback(text: string): EvaluationResult {
   }
 
   return { score, feedback, fluency };
+}
+
+function getImageAsBase64(imagePathStr: string): string | null {
+  try {
+    // 1. 이미 완전한 URL인 경우
+    if (imagePathStr.startsWith("http")) {
+      return imagePathStr; 
+    }
+
+    // 2. 로컬 public 폴더 경로인 경우
+    if (imagePathStr.startsWith("/")) {
+      const filePath = path.join(process.cwd(), "public", imagePathStr);
+      
+      if (fs.existsSync(filePath)) {
+        const fileBuffer = fs.readFileSync(filePath);
+        
+        const ext = path.extname(filePath).toLowerCase();
+        let mimeType = "image/jpeg";
+        if (ext === ".png") mimeType = "image/png";
+        else if (ext === ".webp") mimeType = "image/webp";
+        else if (ext === ".gif") mimeType = "image/gif";
+
+        const base64Data = fileBuffer.toString("base64");
+
+        return `data:${mimeType};base64,${base64Data}`;
+      } else {
+        console.warn(`[Vision Warning] Image file not found: ${filePath}`);
+      }
+    }
+    return null;
+  } catch (e) {
+    console.error("[Vision Error] Failed to read image:", e);
+    return null;
+  }
 }
 
 export async function POST(request: Request) {
@@ -87,7 +123,8 @@ export async function POST(request: Request) {
       });
     }
 
-    const imageContext = image ? `Provided (URL: ${image})` : "None";
+    const base64Image = image ? getImageAsBase64(image) : null;
+    const hasImage = !!base64Image;
 
     const systemPrompt = `
 You are a strict TOEIC Speaking examiner.
@@ -136,7 +173,6 @@ You must strictly adhere to these **NEGATIVE CONSTRAINTS**:
 [Context]
 - Part: ${part}
 - Question: "${question}"
-- Image: ${imageContext} 
 - User's Answer (Transcript): "${userTranscript}"
 - Reference Context: "${modelAnswer}"
 
@@ -154,11 +190,32 @@ Output JSON.
 }
 `;
 
+    const messages: any[] = [
+      { role: "system", content: systemPrompt }
+    ];
+
+    if (hasImage && base64Image) {
+      messages.push({
+        role: "user",
+        content: [
+          { type: "text", text: userPrompt },
+          { 
+            type: "image_url", 
+            image_url: { 
+              url: base64Image 
+            } 
+          }
+        ]
+      });
+    } else {
+      messages.push({
+        role: "user",
+        content: userPrompt
+      });
+    }
+
     const completion = await client.chat.completions.create({
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: userPrompt }
-      ],
+      messages: messages,
       model: "meta-llama/llama-4-scout-17b-16e-instruct",
       temperature: 0.2,
       response_format: { type: "json_object" },
