@@ -160,7 +160,7 @@
     },
     {
       "image": "/images/part2_7.jpg",
-      "answer_sheet": "This is a picture taken This is a picture taken in a subway station. On the left side of the picture, there is a man playing the guitar and singing. In front of him, I can see a guitar case. On the right side of the picture, I can see two people watching the performance. One of them is a man, and he is wearing a cap. The other is a woman, and she is wearing a scarf."
+      "answer_sheet": "This is a picture taken in a subway station. On the left side of the picture, there is a man playing the guitar and singing. In front of him, I can see a guitar case. On the right side of the picture, I can see two people watching the performance. One of them is a man, and he is wearing a cap. The other is a woman, and she is wearing a scarf."
     },
     {
       "image": "/images/part2_8.jpg",
@@ -908,33 +908,6 @@
       "sub_a3": "Of course! There are two morning events in November. The AI and Machine Learning Keynote is on November 1st from 10:00 to 11:00 a.m., and the Cybersecurity Best Practices seminar is on November 10th from 9:30 to 11:00 a.m."
     },
     {
-      "image": "/images/part4_8.jpg",
-      "sub_q1": "When does the seminar start and what is the first event?",
-      "sub_a1": "The seminar starts at 9:00 A.M. with opening remarks and an introduction by Laura Brown.",
-      "sub_q2": "Is there any event scheduled for lunch?",
-      "sub_a2": "Yes, there is a lunch break scheduled from 12:00 P.M. to 1:00 P.M., but you’ll need to arrange your own lunch as it is not provided.",
-      "sub_q3": "Can you provide more details about the workshop?",
-      "sub_a3": "The workshop, which will take place from 1:00 P.M. to 2:30 P.M., focuses on painting techniques and will be led by Jessica Greene. Participants will be guided through different styles of painting and hands-on practice."
-    },
-    {
-      "image": "/images/part4_9.jpg",
-      "sub_q1": "When exactly is the summit being held, and where is the location?",
-      "sub_a1": "The summit will take place on August 10th, from 9:00 a.m. to 5:30 p.m., at the Grandview Conference Center in Boston.",
-      "sub_q2": "Could you tell me more about the workshops that will be available during the summit?",
-      "sub_a2": "Sure! There are two workshops. The Leadership in a Global Economy workshop will be held from 11:00 a.m. to 12:30 p.m., and the Financial Strategy for Leaders workshop will take place from 2:00 p.m. to 3:30 p.m.",
-      "sub_q3": "Besides the workshops and speaker sessions, what other activities are planned?",
-      "sub_a3": "Apart from the workshops, there will be a CEO networking lunch at 12:45 p.m. and a keynote address from 4:00 p.m. to 5:00 p.m."
-    },
-    {
-      "image": "/images/part4_10.jpg",
-      "sub_q1": "What are the dates of the seminar, and where is it being held?",
-      "sub_a1": "The seminar will be held on May 5th and 6th at the GreenTech Convention Center. The full seminar covers a range of sustainability topics.",
-      "sub_q2": "Can I attend just one day of the seminar, or do I need to register for both days?",
-      "sub_a2": "Yes, you can attend just one day. There are options for single-day or full seminar registration.",
-      "sub_q3": "I’m particularly interested in Dr. Susan White’s keynote. Could you give me more information about her session?",
-      "sub_a3": "Dr. Susan White will deliver the keynote on May 5th at 9:00 a.m. The session will focus on innovations in green energy and the latest advancements in renewable technologies."
-    },
-    {
       "image": "/images/part4_11.jpg",
       "sub_q1": "When is the Renaissance Art Lecture, and what time does it start?",
       "sub_a1": "The Renaissance Art Lecture is on October 3rd. It starts at 10:00 a.m. and will last until 11:30 a.m.",
@@ -942,33 +915,6 @@
       "sub_a2": "No, the Contemporary Art Exhibition Opening is scheduled to start at 3:00 p.m. and will run until 5:00 p.m.",
       "sub_q3": "I’m only free in the mornings. Could you tell me which events in October are held in the morning?",
       "sub_a3": "There are two morning events. First, the Renaissance Art Lecture on October 3rd from 10:00 to 11:30 a.m., and second, the Behind-the-Scenes Art Tour on October 12th from 9:00 a.m. to 12:00 p.m."
-    },
-    {
-      "image": "/images/part4_12.jpg",
-      "sub_q1": "Where is the conference being held and on what date is it being held?",
-      "sub_a1": "The conference is being held at the Greenville Conference Center on Saturday, August 20.",
-      "sub_q2": "I have to leave at 5:00 PM. Can you tell me what I will miss if I leave at 5:00 PM?",
-      "sub_a2": "The last scheduled session of the conference is the workshop on intercultural information exchange led by Chew Peng from 3:00 to 4:00 P.M., so you won’t miss anything if you leave at 5:00 P.M.",
-      "sub_q3": "I would like to know about workshops that are being held at the conference. Can you tell me about the workshop sessions at the conference in detail?",
-      "sub_a3": "There are two workshops scheduled. The first workshop on communication and social networks will be held from 11:00 A.M. to noon and is led by Julia Wood. The second workshop, on intercultural information exchange, will take place from 3:00 to 4:00 P.M. and will be conducted by Chew Peng."
-    },
-    {
-      "image": "/images/part4_13.jpg",
-      "sub_q1": "When exactly is the forum being held, and where is the location?",
-      "sub_a1": "The forum will take place on July 15th, from 10:00 a.m. to 6:00 p.m., at the Pacific Conference Hall in Silicon Valley.",
-      "sub_q2": "I’m interested in the workshops. Could you tell me more about what’s scheduled and the timings?",
-      "sub_a2": "Of course! The forum includes two workshops. The AI & Machine Learning workshop will take place from 1:30 p.m. to 3:00 p.m., and the Cybersecurity Trends workshop will be held from 3:30 p.m. to 5:00 p.m.",
-      "sub_q3": "Apart from the speaker sessions, what other activities are happening at the forum?",
-      "sub_a3": "In addition to the talks, there’s an exclusive product demo from 2:30 p.m. to 4:00 p.m. and a networking dinner at 6:30 p.m."
-    },
-    {
-      "image": "/images/part4_14.jpg",
-      "sub_q1": "What are the details of the conference, and where is it being held?",
-      "sub_a1": "The conference will be held on April 24th and 25th at the Martin Business Center. The single-day attendance fee is $45, and the full conference costs $75.",
-      "sub_q2": "If I can only attend one day of the conference, do I still have to pay for the full conference?",
-      "sub_a2": "No, if you attend just one day, the cost is $45. You don’t need to pay for the full conference unless you plan to attend both days.",
-      "sub_q3": "Pedro Marquez is a good friend of mine, so I would like to attend as many of his sessions as I can. Can you give me all the details about the sessions Pedro is leading?",
-      "sub_a3": "Pedro Marquez is leading two sessions. First, he will give a lecture on leadership styles on April 24th at 10:00 a.m. Second, he will lead a workshop on managing large teams on April 25th at 2:00 p.m."
     },
     {
       "image": "/images/part4_15.jpg",
