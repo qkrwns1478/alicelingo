@@ -380,7 +380,7 @@ export default function ExamPage() {
           .trim();
         setUserTranscript(cleanedTranscript);
       }
-      
+
       playDingDong();
 
     } catch (error) {
@@ -493,6 +493,7 @@ export default function ExamPage() {
             </div>
           )}
 
+          {/* Stop Recording Button */}
           {examState === "recording" && (
             <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300">
               <button
@@ -649,14 +650,34 @@ export default function ExamPage() {
                     <label className="text-xs font-bold text-blue-500/80 uppercase mb-2 flex items-center gap-2">
                       <CheckCircle2 className="w-3 h-3" /> Model Answer
                       <button 
-                        onClick={() => playTTS(currentQuestion.modelAnswer, "female")}
-                        className={`ml-auto p-1.5 rounded-full transition-all ${isPlayingModelAnswer ? "text-white bg-blue-500" : "text-blue-400 hover:bg-blue-500/20"}`}
-                        title="Listen"
+                        onClick={() => {
+                          if (isPlayingModelAnswer) {
+                            window.speechSynthesis.cancel();
+                            setIsPlayingModelAnswer(false);
+                          } else {
+                            playTTS(currentQuestion.modelAnswer, "female");
+                          }
+                        }}
+                        className={`ml-auto p-1.5 rounded-full transition-all ${isPlayingModelAnswer ? "text-white bg-red-500 hover:bg-red-600" : "text-blue-400 hover:bg-blue-500/20"}`}
+                        title={isPlayingModelAnswer ? "Stop" : "Listen"}
                       >
-                        <Volume2 className="w-4 h-4" />
+                        {isPlayingModelAnswer ? <Square className="w-4 h-4 fill-current" /> : <Volume2 className="w-4 h-4" />}
                       </button>
                     </label>
-                    <div className="flex-1 p-4 bg-blue-950/10 border border-blue-500/10 rounded-xl text-blue-200/70 text-sm leading-relaxed">{currentQuestion.modelAnswer}</div>
+                    <div className="flex-1 p-4 bg-blue-950/10 border border-blue-500/10 rounded-xl text-blue-200/70 text-sm leading-relaxed">
+                      {currentQuestion.modelAnswer.split(" ").map((word, i) => (
+                        <span 
+                          key={i}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            playTTS(word, "female");
+                          }}
+                          className="hover:text-blue-100 hover:bg-blue-500/20 cursor-pointer rounded px-0.5 transition-colors"
+                        >
+                          {word}{" "}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
