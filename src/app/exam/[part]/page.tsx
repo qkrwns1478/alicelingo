@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import problemData from "../../../data/problems.json";
 import Timer from "../../../components/Timer";
-import { ArrowLeft, Mic, List, CheckCircle2, Play, RefreshCw, MessageSquare, Eye, EyeOff, SkipForward, X, Bot, Menu, Volume2 } from "lucide-react";
+import { ArrowLeft, Mic, List, CheckCircle2, Play, RefreshCw, MessageSquare, Eye, EyeOff, SkipForward, X, Bot, Menu, Volume2, Square } from "lucide-react";
 
 // 문제 데이터 타입 정의
 type ProblemData = typeof problemData;
@@ -38,11 +38,14 @@ export default function ExamPage() {
   const [isPlayingModelAnswer, setIsPlayingModelAnswer] = useState(false);
 
   const recognitionRef = useRef<any>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null); 
   const isRecordingRef = useRef(false);
   const finalTranscriptRef = useRef("");
   const isTransitioningRef = useRef(false);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const isMountedRef = useRef(false); 
+  const currentUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
 
@@ -92,6 +95,12 @@ export default function ExamPage() {
   const currentQuestion = questions[currentQuestionIndex];
 
   useEffect(() => {
+    isMountedRef.current = true;
+    
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+
     const loadVoices = () => {
       const availVoices = window.speechSynthesis.getVoices();
       setVoices(availVoices);
@@ -102,14 +111,6 @@ export default function ExamPage() {
       window.speechSynthesis.onvoiceschanged = loadVoices;
     }
 
-    return () => {
-      if (typeof window !== "undefined") {
-        window.speechSynthesis.cancel();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     if (typeof window !== "undefined") {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       if (SpeechRecognition) {
@@ -119,6 +120,7 @@ export default function ExamPage() {
         recognition.lang = "en-US";
 
         recognition.onresult = (event: any) => {
+          if (!isMountedRef.current) return; 
           let interim = "";
           if (event.results.length > 0) {
             const transcript = event.results[0][0].transcript;
@@ -132,6 +134,7 @@ export default function ExamPage() {
         };
         
         recognition.onend = () => {
+          if (!isMountedRef.current) return;
           if (isRecordingRef.current) {
             try { recognition.start(); } catch (e) {}
           }
@@ -139,11 +142,37 @@ export default function ExamPage() {
         recognitionRef.current = recognition;
       }
     }
+
+    return () => {
+      isMountedRef.current = false;
+      isRecordingRef.current = false;
+
+      if (recognitionRef.current) {
+        recognitionRef.current.onend = null;
+        recognitionRef.current.onresult = null;
+        try { recognitionRef.current.abort(); } catch(e) {} 
+      }
+
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+        mediaRecorderRef.current.stop();
+      }
+
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => {
+            try { track.stop(); } catch(e) {}
+        });
+        streamRef.current = null;
+      }
+
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
   }, []);
 
   const playTTS = (text: string, gender: "male" | "female" = "female"): Promise<void> => {
     return new Promise((resolve) => {
-      if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      if (!isMountedRef.current || typeof window === "undefined" || !("speechSynthesis" in window)) {
         return resolve();
       }
 
@@ -151,6 +180,8 @@ export default function ExamPage() {
 
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = "en-US";
+      
+      currentUtteranceRef.current = utter;
       
       let targetVoice = null;
       if (gender === "male") {
@@ -174,27 +205,29 @@ export default function ExamPage() {
         utter.pitch = 1.0;
       }
 
-      utter.onend = () => {
-        setIsPlayingModelAnswer(false);
-        resolve();
-      };
-      utter.onerror = () => {
-        setIsPlayingModelAnswer(false);
+      const handleEnd = () => {
+        if (isMountedRef.current && currentUtteranceRef.current === utter) {
+          setIsPlayingModelAnswer(false);
+          currentUtteranceRef.current = null;
+        }
         resolve();
       };
 
+      utter.onend = handleEnd;
+      utter.onerror = handleEnd;
+
       try {
-        setIsPlayingModelAnswer(true);
+        if (isMountedRef.current) setIsPlayingModelAnswer(true);
         window.speechSynthesis.speak(utter);
       } catch {
-        setIsPlayingModelAnswer(false);
-        resolve();
+        handleEnd();
       }
     });
   };
 
   const playBeep = (): Promise<void> => {
     return new Promise((resolve) => {
+      if (!isMountedRef.current) return resolve();
       try {
         const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
         const ctx = new AudioContext();
@@ -212,7 +245,7 @@ export default function ExamPage() {
         osc.stop(ctx.currentTime + 0.5);
 
         setTimeout(() => {
-          ctx.close();
+          try { ctx.close(); } catch(e) {}
           resolve();
         }, 500);
       } catch (e) {
@@ -223,10 +256,10 @@ export default function ExamPage() {
 
   const playDingDong = (): Promise<void> => {
     return new Promise((resolve) => {
+      if (!isMountedRef.current) return resolve();
       try {
         const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
         const ctx = new AudioContext();
-        
         const now = ctx.currentTime;
 
         // Ding
@@ -252,7 +285,7 @@ export default function ExamPage() {
         osc2.stop(now + 2.0);
 
         setTimeout(() => {
-          ctx.close();
+          try { ctx.close(); } catch(e) {}
           resolve();
         }, 2000);
       } catch (e) {
@@ -262,7 +295,7 @@ export default function ExamPage() {
   };
 
   const startCurrentQuestion = async () => {
-    if (isTransitioningRef.current) return;
+    if (isTransitioningRef.current || !isMountedRef.current) return;
     isTransitioningRef.current = true;
     setExamState("listening");
 
@@ -272,68 +305,104 @@ export default function ExamPage() {
 
     if (textToRead) {
       await playTTS(textToRead, "female");
-      if (!isTransitioningRef.current) return;
+      if (!isTransitioningRef.current || !isMountedRef.current) return;
     }
 
     await playTTS("Begin preparing now.", "male");
-    if (!isTransitioningRef.current) return;
+    if (!isTransitioningRef.current || !isMountedRef.current) return;
 
     await playBeep();
-    if (!isTransitioningRef.current) return;
+    if (!isTransitioningRef.current || !isMountedRef.current) return;
 
     setExamState("prep");
     isTransitioningRef.current = false;
   };
 
   const startRecordingSequence = useCallback(async () => {
-    if (isTransitioningRef.current) return;
+    if (isTransitioningRef.current || !isMountedRef.current) return;
     isTransitioningRef.current = true;
 
     await playTTS("Begin speaking now.", "male");
-    if (!isTransitioningRef.current) return;
+    if (!isTransitioningRef.current || !isMountedRef.current) return;
 
     await playBeep();
-    if (!isTransitioningRef.current) return;
+    if (!isTransitioningRef.current || !isMountedRef.current) return;
 
     isRecordingRef.current = true;
     finalTranscriptRef.current = ""; 
     setUserTranscript("");
-    setExamState("recording");
 
-    try { recognitionRef.current?.stop(); } catch(e) {}
-    setTimeout(() => { try { recognitionRef.current?.start(); } catch (e) {} }, 100);
+    try { recognitionRef.current?.abort(); } catch(e) {}
+    setTimeout(() => { 
+        if (isMountedRef.current && isRecordingRef.current) {
+            try { recognitionRef.current?.start(); } catch (e) {} 
+        }
+    }, 100);
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      
+      if (!isMountedRef.current) {
+        stream.getTracks().forEach(track => { track.stop(); });
+        return;
+      }
+
+      streamRef.current = stream;
+
       const preferredMimeType = "audio/webm";
       const mediaRecorder = MediaRecorder.isTypeSupported?.(preferredMimeType)
         ? new MediaRecorder(stream, { mimeType: preferredMimeType })
         : new MediaRecorder(stream);
+        
       mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
+      audioChunksRef.current = []; // 초기화 확실히
+      
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) audioChunksRef.current.push(event.data);
       };
+      
       mediaRecorder.start();
+
+      if (isMountedRef.current) {
+        setExamState("recording");
+      }
     } catch (err) {
-      alert("마이크 권한이 필요합니다.");
-      setExamState("idle");
+      isRecordingRef.current = false;
+      if (isMountedRef.current) {
+        alert("마이크 권한이 필요합니다.");
+        setExamState("idle");
+      }
     }
 
     isTransitioningRef.current = false;
   }, [voices]);
 
   const stopRecordingAndAnalyze = useCallback(async () => {
+    if (!isRecordingRef.current) return;
     isRecordingRef.current = false;
-    try { recognitionRef.current?.stop(); } catch(e) {}
+
+    try { recognitionRef.current?.abort(); } catch(e) {}
 
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-      mediaRecorderRef.current.stop();
       await new Promise<void>((resolve) => {
-        if (!mediaRecorderRef.current) return resolve();
-        mediaRecorderRef.current.onstop = () => resolve();
+        mediaRecorderRef.current!.onstop = () => resolve();
+        mediaRecorderRef.current!.stop();
       });
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+    }
+
+    if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => { track.stop(); });
+        streamRef.current = null;
+    }
+
+    if (!isMountedRef.current) return;
+
+    if (audioChunksRef.current.length === 0) {
+      setScore(0);
+      setFeedbackMsg(["녹음된 오디오가 없습니다. 마이크 설정을 확인해주세요."]);
+      setFluencyLevel("Error");
+      setExamState("result");
+      return;
     }
 
     setExamState("processing");
@@ -364,20 +433,33 @@ export default function ExamPage() {
         }),
       });
 
+      if (!isMountedRef.current) return;
+
       if (!response.ok) throw new Error("Evaluation failed");
       const data = await response.json();
       setScore(data.score);
       setFeedbackMsg(data.feedback || ["No feedback provided."]);
       setFluencyLevel(data.fluency || "N/A");
-      if (data.userTranscript) setUserTranscript(data.userTranscript);
+      
+      if (data.userTranscript) {
+        const cleanedTranscript = data.userTranscript
+          .replace(/(\bThank you\.?|\bThanks for watching\.?|\bMBC News\.?)/gi, "")
+          .replace(/\s+/g, " ")
+          .trim();
+        setUserTranscript(cleanedTranscript);
+      }
       playDingDong();
 
     } catch (error) {
-      setScore(0);
-      setFluencyLevel("Unknown");
-      setFeedbackMsg(["AI 평가 서버 연결 실패 또는 오디오 처리 오류."]);
+      if (isMountedRef.current) {
+        setScore(0);
+        setFluencyLevel("Unknown");
+        setFeedbackMsg(["AI 평가 서버 연결 실패 또는 오디오 처리 오류."]);
+      }
     } finally {
-      setExamState("result");
+      if (isMountedRef.current) {
+        setExamState("result");
+      }
     }
   }, [currentQuestion, partKey]);
 
@@ -385,13 +467,19 @@ export default function ExamPage() {
     isRecordingRef.current = false;
     isTransitioningRef.current = false;
     setIsPlayingModelAnswer(false);
+    currentUtteranceRef.current = null;
 
-    if (examState === "recording" || examState === "listening" || examState === "prep") {
-      recognitionRef.current?.stop();
-      mediaRecorderRef.current?.stop();
-      window.speechSynthesis.cancel();
-      mediaRecorderRef.current?.stream?.getTracks().forEach((track) => track.stop());
+    try { recognitionRef.current?.abort(); } catch(e) {}
+    
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+        mediaRecorderRef.current.stop();
     }
+    if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => { track.stop(); });
+        streamRef.current = null;
+    }
+    window.speechSynthesis.cancel();
+
     setCurrentQuestionIndex(index);
     setExamState("idle");
     setUserTranscript("");
@@ -478,6 +566,20 @@ export default function ExamPage() {
               >
                 <SkipForward className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" /> 
                 Skip Preparation
+              </button>
+            </div>
+          )}
+
+          {/* Stop Recording Button */}
+          {examState === "recording" && (
+            <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300">
+              <button
+                onClick={stopRecordingAndAnalyze}
+                disabled={isTransitioningRef.current}
+                className="flex items-center gap-2 px-6 py-3 bg-red-600/90 hover:bg-red-500 text-white rounded-full text-sm font-bold transition-all border border-red-500 shadow-2xl backdrop-blur group disabled:opacity-50 hover:scale-105 active:scale-95"
+              >
+                <Square className="w-4 h-4 text-white fill-current" /> 
+                Stop Recording
               </button>
             </div>
           )}
@@ -625,14 +727,35 @@ export default function ExamPage() {
                     <label className="text-xs font-bold text-blue-500/80 uppercase mb-2 flex items-center gap-2">
                       <CheckCircle2 className="w-3 h-3" /> Model Answer
                       <button 
-                        onClick={() => playTTS(currentQuestion.modelAnswer, "female")}
-                        className={`ml-auto p-1.5 rounded-full transition-all ${isPlayingModelAnswer ? "text-white bg-blue-500" : "text-blue-400 hover:bg-blue-500/20"}`}
-                        title="Listen"
+                        onClick={() => {
+                          if (isPlayingModelAnswer) {
+                            window.speechSynthesis.cancel();
+                            setIsPlayingModelAnswer(false);
+                            currentUtteranceRef.current = null;
+                          } else {
+                            playTTS(currentQuestion.modelAnswer, "female");
+                          }
+                        }}
+                        className={`ml-auto p-1.5 rounded-full transition-all ${isPlayingModelAnswer ? "text-white bg-red-500 hover:bg-red-600" : "text-blue-400 hover:bg-blue-500/20"}`}
+                        title={isPlayingModelAnswer ? "Stop" : "Listen"}
                       >
-                        <Volume2 className="w-4 h-4" />
+                        {isPlayingModelAnswer ? <Square className="w-4 h-4 fill-current" /> : <Volume2 className="w-4 h-4" />}
                       </button>
                     </label>
-                    <div className="flex-1 p-4 bg-blue-950/10 border border-blue-500/10 rounded-xl text-blue-200/70 text-sm leading-relaxed">{currentQuestion.modelAnswer}</div>
+                    <div className="flex-1 p-4 bg-blue-950/10 border border-blue-500/10 rounded-xl text-blue-200/70 text-sm leading-relaxed">
+                      {currentQuestion.modelAnswer.split(" ").map((word, i) => (
+                        <span 
+                          key={i}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            playTTS(word, "female");
+                          }}
+                          className="hover:text-blue-100 hover:bg-blue-500/20 cursor-pointer rounded px-0.5 transition-colors"
+                        >
+                          {word}{" "}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
