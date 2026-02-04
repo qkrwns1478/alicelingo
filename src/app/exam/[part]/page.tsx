@@ -38,11 +38,13 @@ export default function ExamPage() {
   const [isPlayingModelAnswer, setIsPlayingModelAnswer] = useState(false);
 
   const recognitionRef = useRef<any>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const isRecordingRef = useRef(false);
   const finalTranscriptRef = useRef("");
   const isTransitioningRef = useRef(false);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const isMountedRef = useRef(false);
 
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
 
@@ -92,6 +94,12 @@ export default function ExamPage() {
   const currentQuestion = questions[currentQuestionIndex];
 
   useEffect(() => {
+    isMountedRef.current = true;
+
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+
     const loadVoices = () => {
       const availVoices = window.speechSynthesis.getVoices();
       setVoices(availVoices);
@@ -102,14 +110,7 @@ export default function ExamPage() {
       window.speechSynthesis.onvoiceschanged = loadVoices;
     }
 
-    return () => {
-      if (typeof window !== "undefined") {
-        window.speechSynthesis.cancel();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
+    // SpeechRecognition 초기화
     if (typeof window !== "undefined") {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       if (SpeechRecognition) {
@@ -119,6 +120,7 @@ export default function ExamPage() {
         recognition.lang = "en-US";
 
         recognition.onresult = (event: any) => {
+          if (!isMountedRef.current) return; // 언마운트 시 무시
           let interim = "";
           if (event.results.length > 0) {
             const transcript = event.results[0][0].transcript;
@@ -132,6 +134,7 @@ export default function ExamPage() {
         };
         
         recognition.onend = () => {
+          if (!isMountedRef.current) return;
           if (isRecordingRef.current) {
             try { recognition.start(); } catch (e) {}
           }
@@ -139,11 +142,42 @@ export default function ExamPage() {
         recognitionRef.current = recognition;
       }
     }
+
+    // 컴포넌트 언마운트 시 강제로 리소스 정리
+    return () => {
+      isMountedRef.current = false;
+      isRecordingRef.current = false;
+
+      // STT 종료
+      if (recognitionRef.current) {
+        recognitionRef.current.onend = null;
+        recognitionRef.current.onresult = null;
+        try { recognitionRef.current.abort(); } catch(e) {}
+      }
+
+      // MediaRecorder 종료
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+        mediaRecorderRef.current.stop();
+      }
+
+      // 마이크 스트림 트랙 종료
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => {
+            try { track.stop(); } catch(e) {}
+        });
+        streamRef.current = null;
+      }
+
+      // TTS 종료
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
   }, []);
 
   const playTTS = (text: string, gender: "male" | "female" = "female"): Promise<void> => {
     return new Promise((resolve) => {
-      if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      if (!isMountedRef.current || typeof window === "undefined" || !("speechSynthesis" in window)) {
         return resolve();
       }
 
@@ -175,19 +209,19 @@ export default function ExamPage() {
       }
 
       utter.onend = () => {
-        setIsPlayingModelAnswer(false);
+        if (isMountedRef.current) setIsPlayingModelAnswer(false);
         resolve();
       };
       utter.onerror = () => {
-        setIsPlayingModelAnswer(false);
+        if (isMountedRef.current) setIsPlayingModelAnswer(false);
         resolve();
       };
 
       try {
-        setIsPlayingModelAnswer(true);
+        if (isMountedRef.current) setIsPlayingModelAnswer(true);
         window.speechSynthesis.speak(utter);
       } catch {
-        setIsPlayingModelAnswer(false);
+        if (isMountedRef.current) setIsPlayingModelAnswer(false);
         resolve();
       }
     });
@@ -195,6 +229,7 @@ export default function ExamPage() {
 
   const playBeep = (): Promise<void> => {
     return new Promise((resolve) => {
+      if (!isMountedRef.current) return resolve();
       try {
         const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
         const ctx = new AudioContext();
@@ -212,7 +247,7 @@ export default function ExamPage() {
         osc.stop(ctx.currentTime + 0.5);
 
         setTimeout(() => {
-          ctx.close();
+          try { ctx.close(); } catch(e) {}
           resolve();
         }, 500);
       } catch (e) {
@@ -223,10 +258,10 @@ export default function ExamPage() {
 
   const playDingDong = (): Promise<void> => {
     return new Promise((resolve) => {
+      if (!isMountedRef.current) return resolve();
       try {
         const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
         const ctx = new AudioContext();
-        
         const now = ctx.currentTime;
 
         // Ding
@@ -252,7 +287,7 @@ export default function ExamPage() {
         osc2.stop(now + 2.0);
 
         setTimeout(() => {
-          ctx.close();
+          try { ctx.close(); } catch(e) {}
           resolve();
         }, 2000);
       } catch (e) {
@@ -262,7 +297,7 @@ export default function ExamPage() {
   };
 
   const startCurrentQuestion = async () => {
-    if (isTransitioningRef.current) return;
+    if (isTransitioningRef.current || !isMountedRef.current) return;
     isTransitioningRef.current = true;
     setExamState("listening");
 
@@ -272,72 +307,101 @@ export default function ExamPage() {
 
     if (textToRead) {
       await playTTS(textToRead, "female");
-      if (!isTransitioningRef.current) return;
+      if (!isTransitioningRef.current || !isMountedRef.current) return;
     }
 
     await playTTS("Begin preparing now.", "male");
-    if (!isTransitioningRef.current) return;
+    if (!isTransitioningRef.current || !isMountedRef.current) return;
 
     await playBeep();
-    if (!isTransitioningRef.current) return;
+    if (!isTransitioningRef.current || !isMountedRef.current) return;
 
     setExamState("prep");
     isTransitioningRef.current = false;
   };
 
   const startRecordingSequence = useCallback(async () => {
-    if (isTransitioningRef.current) return;
+    if (isTransitioningRef.current || !isMountedRef.current) return;
     isTransitioningRef.current = true;
 
     await playTTS("Begin speaking now.", "male");
-    if (!isTransitioningRef.current) return;
+    if (!isTransitioningRef.current || !isMountedRef.current) return;
 
     await playBeep();
-    if (!isTransitioningRef.current) return;
+    if (!isTransitioningRef.current || !isMountedRef.current) return;
 
+    // 녹음 시작 전 상태 설정
     isRecordingRef.current = true;
     finalTranscriptRef.current = ""; 
     setUserTranscript("");
     setExamState("recording");
 
-    try { recognitionRef.current?.stop(); } catch(e) {}
-    setTimeout(() => { try { recognitionRef.current?.start(); } catch (e) {} }, 100);
+    // STT 재시작
+    try { recognitionRef.current?.abort(); } catch(e) {}
+    setTimeout(() => { 
+        if (isMountedRef.current && isRecordingRef.current) {
+            try { recognitionRef.current?.start(); } catch (e) {} 
+        }
+    }, 100);
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      
+      // 비동기 대기 중 컴포넌트가 언마운트 되었다면 즉시 스트림 종료 후 중단
+      if (!isMountedRef.current) {
+        stream.getTracks().forEach(track => track.stop());
+        return;
+      }
+
+      streamRef.current = stream; // 스트림 저장
+
       const preferredMimeType = "audio/webm";
       const mediaRecorder = MediaRecorder.isTypeSupported?.(preferredMimeType)
         ? new MediaRecorder(stream, { mimeType: preferredMimeType })
         : new MediaRecorder(stream);
+
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
+
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) audioChunksRef.current.push(event.data);
       };
+
       mediaRecorder.start();
     } catch (err) {
-      alert("마이크 권한이 필요합니다.");
-      setExamState("idle");
+      if (isMountedRef.current) {
+        alert("마이크 권한이 필요합니다.");
+        setExamState("idle");
+      }
     }
 
     isTransitioningRef.current = false;
   }, [voices]);
 
   const stopRecordingAndAnalyze = useCallback(async () => {
-    if (!isRecordingRef.current) return; // 중복 실행 방지
+    if (!isRecordingRef.current) return;
     isRecordingRef.current = false;
 
-    try { recognitionRef.current?.stop(); } catch(e) {}
+    // STT 중단
+    try { recognitionRef.current?.abort(); } catch(e) {}
 
+    // MediaRecorder 중단 및 스트림 정리
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
       mediaRecorderRef.current.stop();
       await new Promise<void>((resolve) => {
-        if (!mediaRecorderRef.current) return resolve();
+        // 이미 null이거나 inactive면 즉시 resolve
+        if (!mediaRecorderRef.current || mediaRecorderRef.current.state === "inactive") return resolve();
         mediaRecorderRef.current.onstop = () => resolve();
       });
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
     }
 
+    // 3. 스트림 트랙 명시적 종료 (마이크 끄기)
+    if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+    }
+
+    if (!isMountedRef.current) return;
     setExamState("processing");
 
     const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
@@ -366,6 +430,8 @@ export default function ExamPage() {
         }),
       });
 
+      if (!isMountedRef.current) return;
+
       if (!response.ok) throw new Error("Evaluation failed");
       const data = await response.json();
       setScore(data.score);
@@ -373,22 +439,24 @@ export default function ExamPage() {
       setFluencyLevel(data.fluency || "N/A");
       
       if (data.userTranscript) {
-        // Whisper STT 환각 문구 필터링 (Thank you, Thanks for watching 등)
         const cleanedTranscript = data.userTranscript
           .replace(/(\bThank you\.?|\bThanks for watching\.?|\bMBC News\.?)/gi, "")
           .replace(/\s+/g, " ")
           .trim();
         setUserTranscript(cleanedTranscript);
       }
-
       playDingDong();
 
     } catch (error) {
-      setScore(0);
-      setFluencyLevel("Unknown");
-      setFeedbackMsg(["AI 평가 서버 연결 실패 또는 오디오 처리 오류."]);
+      if (isMountedRef.current) {
+        setScore(0);
+        setFluencyLevel("Unknown");
+        setFeedbackMsg(["AI 평가 서버 연결 실패 또는 오디오 처리 오류."]);
+      }
     } finally {
-      setExamState("result");
+      if (isMountedRef.current) {
+        setExamState("result");
+      }
     }
   }, [currentQuestion, partKey]);
 
@@ -397,12 +465,18 @@ export default function ExamPage() {
     isTransitioningRef.current = false;
     setIsPlayingModelAnswer(false);
 
-    if (examState === "recording" || examState === "listening" || examState === "prep") {
-      recognitionRef.current?.stop();
-      mediaRecorderRef.current?.stop();
-      window.speechSynthesis.cancel();
-      mediaRecorderRef.current?.stream?.getTracks().forEach((track) => track.stop());
+    // 리소스 정리
+    try { recognitionRef.current?.abort(); } catch(e) {}
+    
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+        mediaRecorderRef.current.stop();
     }
+    if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+    }
+    window.speechSynthesis.cancel();
+
     setCurrentQuestionIndex(index);
     setExamState("idle");
     setUserTranscript("");
