@@ -123,6 +123,14 @@ export async function POST(request: Request) {
       });
     }
 
+    const get_criteria = (part: number): string => {
+      if (part == 1) return "**Part 1 (Read a Text Aloud):** Focus on Pronunciation, Intonation, Stress.";
+      else if (part == 2) return "**Part 2 (Describe a Picture):** Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency";
+      else if (part == 3) return "**Part 3 (Respond to Questions):** Focus on Pronunciation, Intonation, Stress, Relevance to the problem, Appropriateness and completeness of the content";
+      else if (part == 4) return "**Part 4 (Respond to Questions Using Information Provided):** Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency, Relevance to the problem, Appropriateness and completeness of the content";
+      else return "**Part 5 (Give a Opinion):** Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency, Relevance to the problem, Appropriateness and completeness of the content";
+    };
+
     const base64Image = image ? getImageAsBase64(image) : null;
     const hasImage = !!base64Image;
 
@@ -158,11 +166,7 @@ You must strictly adhere to these **NEGATIVE CONSTRAINTS**:
    - **IF** the user conveys the same *meaning* with different words/structure, **GIVE FULL CREDIT**.
 
 [SCORING CRITERIA]
-- **Part 1 (Read a Text Aloud):** Focus on Pronunciation, Intonation, Stress.
-- **Part 2 (Describe a Picture):** Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency
-- **Part 3 (Respond to Questions):** Focus on Pronunciation, Intonation, Stress, Relevance to the problem, Appropriateness and completeness of the content
-- **Part 4 (Respond to Questions Using Information Provided):** Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency, Relevance to the problem, Appropriateness and completeness of the content
-- **Part 5 (Give a Opinion):** Focus on Pronunciation, Intonation, Stress, Grammar, Vocabulary, Consistency, Relevance to the problem, Appropriateness and completeness of the content
+- ${get_criteria(part)}
 
 [Feedback Rules]
 - Feedback MUST be in **Korean**.
