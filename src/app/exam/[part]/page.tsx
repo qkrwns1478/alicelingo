@@ -343,7 +343,7 @@ export default function ExamPage() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       
       if (!isMountedRef.current) {
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach(track => { track.stop(); });
         return;
       }
 
@@ -367,6 +367,7 @@ export default function ExamPage() {
         setExamState("recording");
       }
     } catch (err) {
+      isRecordingRef.current = false;
       if (isMountedRef.current) {
         alert("마이크 권한이 필요합니다.");
         setExamState("idle");
@@ -390,7 +391,7 @@ export default function ExamPage() {
     }
 
     if (streamRef.current) {
-        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current.getTracks().forEach(track => { track.stop(); });
         streamRef.current = null;
     }
 
@@ -474,7 +475,7 @@ export default function ExamPage() {
         mediaRecorderRef.current.stop();
     }
     if (streamRef.current) {
-        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current.getTracks().forEach(track => { track.stop(); });
         streamRef.current = null;
     }
     window.speechSynthesis.cancel();
