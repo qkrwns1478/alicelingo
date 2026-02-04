@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import problemData from "../../../data/problems.json";
 import Timer from "../../../components/Timer";
-import { ArrowLeft, Mic, List, CheckCircle2, Play, RefreshCw, MessageSquare, Eye, EyeOff, SkipForward, X, Bot, Menu, Volume2 } from "lucide-react";
+import { ArrowLeft, Mic, List, CheckCircle2, Play, RefreshCw, MessageSquare, Eye, EyeOff, SkipForward, X, Bot, Menu, Volume2, Square } from "lucide-react";
 
 // 문제 데이터 타입 정의
 type ProblemData = typeof problemData;
@@ -324,7 +324,9 @@ export default function ExamPage() {
   }, [voices]);
 
   const stopRecordingAndAnalyze = useCallback(async () => {
+    if (!isRecordingRef.current) return; // 중복 실행 방지
     isRecordingRef.current = false;
+
     try { recognitionRef.current?.stop(); } catch(e) {}
 
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
@@ -369,7 +371,16 @@ export default function ExamPage() {
       setScore(data.score);
       setFeedbackMsg(data.feedback || ["No feedback provided."]);
       setFluencyLevel(data.fluency || "N/A");
-      if (data.userTranscript) setUserTranscript(data.userTranscript);
+      
+      if (data.userTranscript) {
+        // Whisper STT 환각 문구 필터링 (Thank you, Thanks for watching 등)
+        const cleanedTranscript = data.userTranscript
+          .replace(/(\bThank you\.?|\bThanks for watching\.?|\bMBC News\.?)/gi, "")
+          .replace(/\s+/g, " ")
+          .trim();
+        setUserTranscript(cleanedTranscript);
+      }
+      
       playDingDong();
 
     } catch (error) {
@@ -478,6 +489,19 @@ export default function ExamPage() {
               >
                 <SkipForward className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" /> 
                 Skip Preparation
+              </button>
+            </div>
+          )}
+
+          {examState === "recording" && (
+            <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300">
+              <button
+                onClick={stopRecordingAndAnalyze}
+                disabled={isTransitioningRef.current}
+                className="flex items-center gap-2 px-6 py-3 bg-red-600/90 hover:bg-red-500 text-white rounded-full text-sm font-bold transition-all border border-red-500 shadow-2xl backdrop-blur group disabled:opacity-50 hover:scale-105 active:scale-95"
+              >
+                <Square className="w-4 h-4 text-white fill-current" /> 
+                Stop Recording
               </button>
             </div>
           )}
