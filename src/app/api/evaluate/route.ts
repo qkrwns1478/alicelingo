@@ -160,10 +160,7 @@ You must strictly adhere to these **NEGATIVE CONSTRAINTS**:
    - **< 50:** Unintelligible. **MAX SCORE: 40.**
 
 [PHASE 2: CONTENT EVALUATION (CRITICAL)]
-1. **IMAGE CONTEXT:** If the context says an image is provided, assume the user is describing it.
-2. **ROLE OF MODEL ANSWER:** Use the Model Answer **ONLY as a reference for facts**. 
-   - **DO NOT** compare sentence structure.
-   - **IF** the user conveys the same *meaning* with different words/structure, **GIVE FULL CREDIT**.
+- **IMAGE CONTEXT:** If the context says an image is provided, assume the user is describing it.
 
 [SCORING CRITERIA]
 - ${get_criteria(part)}
@@ -178,7 +175,6 @@ You must strictly adhere to these **NEGATIVE CONSTRAINTS**:
 - Part: ${part}
 - Question: "${question}"
 - User's Answer (Transcript): "${userTranscript}"
-- Reference Context: "${modelAnswer}"
 
 [Technical Metrics]
 - **Speed:** ${wps.toFixed(2)} Words/Sec
