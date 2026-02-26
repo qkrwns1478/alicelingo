@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "../../public/icon.png"
+import Logo from "../../public/icon.webp"
 
 export default function Header() {
   return (
