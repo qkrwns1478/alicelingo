@@ -74,7 +74,7 @@ export default function ExamPage() {
       });
     } else if (partKey === "part3") {
       rawData.forEach((item: any) => {
-        addQ({ type: "text", content: `Situation: ${item.question}\n\n${item.sub_q1}`, modelAnswer: item.sub_a1, prepTime: 3, responseTime: 15 });
+        addQ({ type: "text", content: `${item.sub_q1}`, modelAnswer: item.sub_a1, prepTime: 3, responseTime: 15 });
         addQ({ type: "text", content: `${item.sub_q2}`, modelAnswer: item.sub_a2, prepTime: 3, responseTime: 15 });
         addQ({ type: "text", content: `${item.sub_q3}`, modelAnswer: item.sub_a3, prepTime: 3, responseTime: 30 });
       });

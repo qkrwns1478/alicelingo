@@ -22,6 +22,19 @@
       "sentence": "Thank you for joining us for our Best Employee Awards Ceremony. Today’s ceremony will recognize our employees’ great customer service, individual work performance, and our new product development. At the end of this event, some of our best employees will get a bonus and an opportunity to participate in an international workshop."
     },
     {
+      "sentence": "Welcome to City Bookstore. Starting next Monday, we will hold a special event to celebrate our 10th anniversary. During the event, all customers can enjoy discounts on novels, comic books, and travel guides. In addition, famous authors will give lectures and sign their books. We hope you will explore our wide selection of books, and enjoy the special programs that we have prepared for this occasion."
+    },
+    {
+      "sentence": "Welcome to Fairview Community News. City council members took a break to honor a man who served the Fairview City Council for nine years. Kenneth Olsen, who also served nine years on committees, began serving the city council in 2010. After stepping down, Olsen plans on continuing to serve for a smaller city. Stay tuned and we'll be right back with details."
+    },
+    {
+      "sentence": "Attention, library visitors. For your safety, the fire alarm system will be tested tomorrow morning at 10 a.m. The alarm may sound loudly, but no action is required. During the test, you may hear bells, sirens, and announcements throughout the building. Please remain calm and continue your activities as usual, as this is only a routine safety check. Thank you for your cooperation and understanding."
+    },
+    {
+      "sentence": "This message is for all customers of the Watson Hotel. Our hotel is undergoing renovations for the next few months. The hotel is now open with limited amenities while this transformation takes place. At this time, the restaurants and bars are available, but we are unable to offer parking. If you would like further information, please contact us. Thank you."
+    },
+
+    {
       "sentence": "Welcome to this week’s episode of Academic Voices. Today, we are honored to introduce Dr. Michael Lee, a renowned professor of environmental science. Dr. Lee has been recognized for his research on climate change adaptation, urban sustainability, and renewable energy. He currently teaches at Green Valley University. Stay tuned as we discuss his groundbreaking work and insights on future environmental policies."
     },
     {
@@ -149,7 +162,7 @@
     },
     {
       "image": "/images/part2_5.jpg",
-      "answer_sheet": "This is a picture taken outdoors. The first thing I can see in this picture is some poeple. On the left side of the picture, I can see a man sitting on the ground and taking a picture. On the right side of the picture, I can see two men walking on the street. They are wearing black clothes. In the background of the picture, I can see buildings, parasols, and more people walking around."
+      "answer_sheet": "This is a picture taken outdoors. The first thing I can see in this picture is some people. On the left side of the picture, I can see a man sitting on the ground and taking a picture. On the right side of the picture, I can see two men walking on the street. They are wearing black clothes. In the background of the picture, I can see buildings, parasols, and more people walking around."
     },
     {
       "image": "/images/part2_6.jpg",
@@ -178,6 +191,22 @@
     {
       "image": "/images/part2_12.jpg",
       "answer_sheet": "This is a picture taken at a market. On the right side of the picture, I can see a woman putting some fruit into a net bag. She is wearing a yellow T-shirt and carrying a white bag on her shoulder. Next to her, there is a girl looking at the fruit. In front of them, I can see a box full of fruit. In the background of the picture, I can see many other kinds of fruit arranged on the shelves."
+    },
+    {
+      "image": "/images/part2_13.jpg",
+      "answer_sheet": "This is a picture taken at a store. The first thing I can see in this picture is two women. On the left side of the picture, there is a woman looking at the other woman. She is waring aq pink cardigan. On the right side of the picture, there is a woman wearing a yellow cardigan and carrying a white handbag. Both of them have blond hair. In the background of the picture, I can see some clothes hanging on a rack."
+    },
+    {
+      "image": "/images/part2_14.jpg",
+      "answer_sheet": "This is a picture taken outdoors. The first thing I can see in this picture is some people. On the right side of the picture, I can see two people. They are taking a walk. One of them is a woman. She is walking a dog. The other is a girl. She has a ponytail and she is wearing a blue shirt. In the background of the picture, I can see a house and a woman pushing a stroller."
+    },
+    {
+      "image": "/images/part2_15.jpg",
+      "answer_sheet": "This is a picture taken outdoors. The first thing I can see in this picture is two people. They are wearing helmets, sunglasses and sportswear. Also, they are riding bicycles. On the left side of the picture, there is a man smiling and wearing a black T-shirt. In the background of the picture, I can see green grass."
+    },
+    {
+      "image": "/images/part2_16.jpg",
+      "answer_sheet": "This is a picture taken indoors. The first thing I can see in this picture is a woman. She is wearing a hijab and green clothes. She is working and using a drill. Also, she is holding a piece of wood and looking at it. In front of her, there is a table. On the right side of the picture, I can see shelves. Overall, it seems like the woman is busy."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbboZ1J%2FdJMcahQqVUy%2FAAAAAAAAAAAAAAAAAAAAALN1L2JUMvSmV8U701vxYzR6L0Lis6GtAQXrST1Ic7lR%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DrnaNRsvIH0iEwY9WUdTYZ98%252FsLM%253D",
@@ -336,13 +365,13 @@
       "sub_a3": "I think postings on social media are the best way to attract more donors. First, people frequently use social media, so it would be very effective. Also, people can get a lot of useful information on social media about the campaign."
     },
     {
-      "question": "Imagine that a local gym is offering new sports classes. You have agreed to participate in a telephone interview about sports classes at gyms.",
-      "sub_q1": "How often do you take sports classes at the gym, and why?",
-      "sub_a1": "I take sports classes about twice a week. They help me stay active and make exercising more fun than working out alone.",
-      "sub_q2": "What types of sports classes do you enjoy the most?",
-      "sub_a2": "I enjoy yoga classes the most because they help me relax and improve my flexibility.",
-      "sub_q3": "What would most influence your decision to join a sports class at the gym, and why? (Type of class / Instructor’s experience / Class size)",
-      "sub_a3": "The type of class would influence me the most. I prefer classes that match my goals, like strength training or cardio workouts. If a class fits my interests and fitness level, I’m more likely to stay motivated and attend regularly. A class that aligns with my goals helps me see progress, which is important for long‑term commitment."
+      "question": "Imagine a lifestyle magazine is conducting research in your area. You have agreed to participate in telephone interview about places to live.",
+      "sub_q1": "How long have you lived in your area? Do you live in an apartment or a house?",
+      "sub_a1": "I have lived in my area for 3 years, and I live in an apartment. I like my apartment very much.",
+      "sub_q2": "Where is the best place to visit in your area? Why is that?",
+      "sub_a2": "I think Seoul Park is the best place to visit in my area because it has great facilities.",
+      "sub_q3": "If you are planning to move to another place, which of the following features do you consider the most? (The proximity to great restaurants and cafes / The proximity to gyms or parks / The interior of an apartment or a house)",
+      "sub_a3": "If I am planning to move to another place, I consider the proximity to gyms or parks the most. First, exercising at a park is my favorite thing to do. Also, it is good for my health. As you know, exercising can develop healthy habits."
     },
     {
       "question": "Imagine that you are talking on the telepohne with a friend. You are having a telephone conversation about taking a trip.",
@@ -352,6 +381,34 @@
       "sub_a2": "I prefer to planm a trip in advance because I don’t have to waste time if I plan a trip in advance.",
       "sub_q3": "When you travel to another city, which of the following places would you like to visit the most? (Tourist spots / Parks or beaches / Local stores)",
       "sub_a3": "When I travel to another city, I would like to visit local stores the most, because it’s my favorite thing to do. Also, it makes me happy, and I can have a great experience."
+    },
+    {
+      "question": "Imagine that a flower shop is doing research in your area. You have agreed to participate in a telephone interview about flower shops.",
+      "sub_q1": "How many flower shops are there in your town, and how often do you visit them?",
+      "sub_a1": "There are two flower shops in my town, and I visit them once in a while.",
+      "sub_q2": "How far is the nearest flower shop from where you live? Have you ever had potted plants delivers from there?",
+      "sub_a2": "The nearest flower shop is about 10 minutes away. And, yes, I have had potted plants delivered from there because it was faster and more conveninet.",
+      "sub_q3": "Do you prefer to order potted plants online or buy them at flower shops? Why?",
+      "sub_a3": "I prefer to order potted plants online because I can order potted plants online anytime anywhere on my smartphone. Also, I can save time. I don't have to waste my time going to the flower shop."
+    },
+    {
+      "question": "Imagaine that a British marketing firm is doing research in your country. You have agreed to participate in a telep[hone interview about food delivery.",
+      "sub_q1": "When was the last time you ordered food delivery? What did you order?",
+      "sub_a1": "The last time I ordered food delivery was two weeks ago, and I ordered some dubai chewy cookies.",
+      "sub_q2": "Do you prefer to order food delivery online or visit a restaurant?",
+      "sub_a2": "I prefer to order food delivery online because I can save time. I don't want to waste my time going to a restaurant.",
+      "sub_q3": "What are some advantages of having food delivered over the phone rather than on the internet?",
+      "sub_a3": "There are some advantages of having food delivered over the phone. First, I can get responses right away. Also, I can get a better understanding of what is available. The other day, I had food delivered over the phone. I really liked it. It was awesome."
+    },
+
+    {
+      "question": "Imagine that a local gym is offering new sports classes. You have agreed to participate in a telephone interview about sports classes at gyms.",
+      "sub_q1": "How often do you take sports classes at the gym, and why?",
+      "sub_a1": "I take sports classes about twice a week. They help me stay active and make exercising more fun than working out alone.",
+      "sub_q2": "What types of sports classes do you enjoy the most?",
+      "sub_a2": "I enjoy yoga classes the most because they help me relax and improve my flexibility.",
+      "sub_q3": "What would most influence your decision to join a sports class at the gym, and why? (Type of class / Instructor’s experience / Class size)",
+      "sub_a3": "The type of class would influence me the most. I prefer classes that match my goals, like strength training or cardio workouts. If a class fits my interests and fitness level, I’m more likely to stay motivated and attend regularly. A class that aligns with my goals helps me see progress, which is important for long‑term commitment."
     },
     {
       "question": "Imagine that a company is conducting research on job training programs. You have agreed to participate in a telephone interview about workplace training.",
@@ -704,7 +761,25 @@
       "sub_q2": "How can I sign up for the lectures and how much do I have to pay?",
       "sub_a2": "You can sign up online through our website, and the full-day registration fee is 25 dollars.",
       "sub_q3": "I have a teenage daughter. Can you tell me about any afternoon session that would be suitable for her?",
-      "sub_a3": "Yes. There are two lectures. First, at 1:00 p.m., there is a lecture on How to Use Al Tools in Everyday Life. It's for students aged 17 to 19."
+      "sub_a3": "Yes. There are two lectures. First, at 1:00 p.m., there is a lecture on How to Use Al Tools in Everyday Life. It's for students aged 17 to 19. Next, at 2:00 p.m., there's another one called Smart Money Tips for Young People. It's for stduents aged 16 to 22."
+    },
+    {
+      "image": "/images/part4_20.jpg",
+      "sub_q1": "What time will the team meeting take place, and what will we be discussing?",
+      "sub_a1": "It will be held at 1 p.m., and the topic will be reviewing safety issues.",
+      "sub_q2": "I'm planning to have a lunch appointment with my friend at noon. Would that be possible?",
+      "sub_a2": "No, actually it's not possible. You have a lunch meeting with your client, John Brown.",
+      "sub_q3": "I want to know about the things I have to do before noon. Can you tell me all the items scheduled before noon?",
+      "sub_a3": "Yes. First, at 10 a.m., there is a meeting with Samuel Greene, the sales director. Next, at 11 a.m., there is a meeting with Shawna Choi, the regional director."
+    },
+    {
+      "image": "/images/part4_21.jpg",
+      "sub_q1": "When and where is it scheduled to take place?",
+      "sub_a1": "It will be held on Monday, November 2nd at Washington Convention Center.",
+      "sub_q2": "I'm going with some other people, so we will be a group of six people. Can we get a discount? And, if so, how much is the discounted registration fee per person?",
+      "sub_a2": "Yes, you can get a group discount, and it's 15 dollars per person.",
+      "sub_q3": "I'm looking forward to sessions that deal with customer service. Could you give me all the details of the sessions related to customer service?",
+      "sub_a3": "Sure. First, at 2 p.m., there is a workshop on How to Provide Great Customer Service by Ashley Parker. Next, at 4 p.m., there is a lecture on Customer Service Skills for Small Business Oweners by Susan Foster."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FrYVA1%2FdJMcaiIyDHl%2FAAAAAAAAAAAAAAAAAAAAAMh0b_RPtmqevcAAEU-BJh5hTXMo1MnkKiuwWU6fFv-z%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DiRjyX77ejJBEbUGEdW5FjFqAm1Y%253D",
@@ -933,12 +1008,12 @@
       "answer_sheet": "I agree with the statement. Let me explain why I think so. Most of all, making more green spaces such as parks is a good investment because it makes people’s lives better, and it’s good for people’s health. So, it’s not a waste of money. Also, making green spaces is good for the environment. Pollution is a serious issue these days. If the local governments provide more financial support for making more green spaces, we will be able to protect the environment. Therefore, I agree with the statement."
     },
     {
-      "question": "When you do projects, do you prefer to work with the poeple in your own department every time or collaborate with employees of other departments? Why? Use specific reasons and examples to support your opinion.",
-      "answer_sheet": "When I do projects, I prefer to collaborate with employees from other departments. Let me explain why I think so. Most of all, I can get information from employees from other departments and share it with poeple in my own department. From my experience, I used to work at a company. At that time, I collaborated with employees from other departments. For me, it was very helpful because I was able to get new information. Also, I can meet new people from other departments and expand my network. Therefore, when I do projects, I prefer to collaborate with employees from other departments."
+      "question": "When you do projects, do you prefer to work with the people in your own department every time or collaborate with employees of other departments? Why? Use specific reasons and examples to support your opinion.",
+      "answer_sheet": "When I do projects, I prefer to collaborate with employees from other departments. Let me explain why I think so. Most of all, I can get information from employees from other departments and share it with people in my own department. From my experience, I used to work at a company. At that time, I collaborated with employees from other departments. For me, it was very helpful because I was able to get new information. Also, I can meet new people from other departments and expand my network. Therefore, when I do projects, I prefer to collaborate with employees from other departments."
     },
     {
       "question": "When having a meeting with clients at work, which one do you think is a more efficient way: Having a video conference or Talking face-to-face? Use specific reasons and examples to support your opinion.",
-      "answer_sheet": "I think talking face-to-face is a more efficient way. Let me explain why I think so. Most of all, emplotees can understand the clients’ feelings more accurately, so it causes less misunderstanding. From my experience, I used to work at a company, and I had a video conference with my client. For me, it was not helpful at all because we couldn’t talk face-to-face and it caused a lot of misunderstanding. Also, talking face-to-face is more personal and builds a closer relationships with clients. According to a recent news report, the majority of successful CEOs in Korea said that talking face-to-face with clients is very important because it builds a closer relationship with clients and clients will be more satisfied. That’s why I think so."
+      "answer_sheet": "I think talking face-to-face is a more efficient way. Let me explain why I think so. Most of all, employees can understand the clients’ feelings more accurately, so it causes less misunderstanding. From my experience, I used to work at a company, and I had a video conference with my client. For me, it was not helpful at all because we couldn’t talk face-to-face and it caused a lot of misunderstanding. Also, talking face-to-face is more personal and builds a closer relationships with clients. According to a recent news report, the majority of successful CEOs in Korea said that talking face-to-face with clients is very important because it builds a closer relationship with clients and clients will be more satisfied. That’s why I think so."
     },
     {
       "question": "Do you agree or disagree with the following statement: Employees should be allowed to listen to music while working. Use specific reasons and examples to support your opinion.",
