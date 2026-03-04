@@ -33,6 +33,12 @@
     {
       "sentence": "This message is for all customers of the Watson Hotel. Our hotel is undergoing renovations for the next few months. The hotel is now open with limited amenities while this transformation takes place. At this time, the restaurants and bars are available, but we are unable to offer parking. If you would like further information, please contact us. Thank you."
     },
+    {
+      "sentence": "Passengers, we will soon begin preparing for your flight to Barcelona. Fasten your seatbelts and keep your belongings under the front seat. Please open the window coverings. If you have anything to throw away, the flight attendant will pass through the hallway soon, so please forward it to them. Thank you for choosing our flight. We hope you enjoy your flight."
+    },
+    {
+      "sentence": "Good evening, and welcome back to My Music. On our program, we are excited to showcase local guitarist Timothy Jenkins. First, he will please us with his exceptional guitar skills by performing a selection of his favorite pieces. Following the performance, Timothy will share insights into his musical journey, including the inspirations behind his compositions."
+    },
 
     {
       "sentence": "Welcome to this week’s episode of Academic Voices. Today, we are honored to introduce Dr. Michael Lee, a renowned professor of environmental science. Dr. Lee has been recognized for his research on climate change adaptation, urban sustainability, and renewable energy. He currently teaches at Green Valley University. Stay tuned as we discuss his groundbreaking work and insights on future environmental policies."
@@ -209,6 +215,14 @@
       "answer_sheet": "This is a picture taken indoors. The first thing I can see in this picture is a woman. She is wearing a hijab and green clothes. She is working and using a drill. Also, she is holding a piece of wood and looking at it. In front of her, there is a table. On the right side of the picture, I can see shelves. Overall, it seems like the woman is busy."
     },
     {
+      "image": "/images/part2_17.webp",
+      "answer_sheet": "In this picture, there are two people. who are doing their own work in the room. On the left, there is one woman who is looking at her laptop. She is wearing blue jeans. On the right, there is one man who is looking at his tablet. He is wearing a white shirt and black pants. One common point is that they are focusing on something. On the background, there is a lot furniture and the mood is modern. Overall, it seems busy."
+    },
+    {
+      "image": "/images/part2_18.webp",
+      "answer_sheet": "In this picture, there are several people who are doing their own work indoors, in an office, On the left, there is one man who is looking at his desktop and he is typing something. On the right, there are two people who are having a conversation to each other. They are looking at the same laptop. One common point is that everyoine is spending a good time. On the background, there are other people who are also working. Overall, it seems very busy."
+    },
+    {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbboZ1J%2FdJMcahQqVUy%2FAAAAAAAAAAAAAAAAAAAAALN1L2JUMvSmV8U701vxYzR6L0Lis6GtAQXrST1Ic7lR%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DrnaNRsvIH0iEwY9WUdTYZ98%252FsLM%253D",
       "answer_sheet": "In the picture, I can see several people playing tennis on an outdoor court. In the foreground, a woman wearing an orange tank top is focusing on the ball and swinging her racket. Next to her, another woman in a white sleeveless top is smiling and preparing to hit the ball as well. In the background, a few more players are standing and watching the game. It looks sunny and bright, and the atmosphere seems energetic and lively."
     },
@@ -378,7 +392,7 @@
       "sub_q1": "What time of the year do you prefer to take a trip?",
       "sub_a1": "I prefer to take a trip in the summer because I can go to the beach. It’s fun and entertaining, so I don’t get board.",
       "sub_q2": "Before traveling, do you prefer to plan a trip in advance?",
-      "sub_a2": "I prefer to planm a trip in advance because I don’t have to waste time if I plan a trip in advance.",
+      "sub_a2": "I prefer to plan a trip in advance because I don’t have to waste time if I plan a trip in advance.",
       "sub_q3": "When you travel to another city, which of the following places would you like to visit the most? (Tourist spots / Parks or beaches / Local stores)",
       "sub_a3": "When I travel to another city, I would like to visit local stores the most, because it’s my favorite thing to do. Also, it makes me happy, and I can have a great experience."
     },
@@ -399,6 +413,15 @@
       "sub_a2": "I prefer to order food delivery online because I can save time. I don't want to waste my time going to a restaurant.",
       "sub_q3": "What are some advantages of having food delivered over the phone rather than on the internet?",
       "sub_a3": "There are some advantages of having food delivered over the phone. First, I can get responses right away. Also, I can get a better understanding of what is available. The other day, I had food delivered over the phone. I really liked it. It was awesome."
+    },
+    {
+      "question": "Imagine a marketing firm is conducting research about buying ice cream. You have agreed to participate in a telephone interview about it.",
+      "sub_q1": "What is your favorite type of ice cream, and when was the last time you ate it?",
+      "sub_a1": "My favorite type of ice cream is chocolate ice cream, and the last time I ate it was yesterday. I ate it near my house.",
+      "sub_q2": "Are there many ice cream shops in your area? How often do you visit there?",
+      "sub_a2": "Yes, there are many ice cream shops in my area, and I visit there once a week with my family members. I always feel refreshed whenever I visit there.",
+      "sub_q3": "If a new ice cream shop were to open in your area, which of the following would make you visit the store the most? (Newspaper advertisements / Free sampling / Recommendations from friends",
+      "sub_a3": "I think recommendations from friends would be the best and there are two reasons why. First, recommendations from friends will be most convincing. Since it is a real experience from friends, it will be very good to believe. And the second reason is because actually, I visited an ice cream store yesterday. And it was a recommendation from my friend. I was really satisfied with that store so I felt very happy. These are the reasons why."
     },
 
     {
@@ -1028,6 +1051,11 @@
       "answer_sheet": "I think handwritten letters are still meaningful in today's digital world. Let me explain why I think this way. Most of all, handwritten letters feel more personal, so they can help people build closer relationships. From my experience, I used to write many handwritten letters to my friends. It was great because we were able to understand each other's feelings better and stay close. On top of that, handwritten letters have sentimental value. It's very meaningful to keep letters from family members and friends. As you know, getting letters from your best friends or family members makes you happy and gives you a great and meaningful experience."
     },
     {
+      "question": "Do you agree or disagree with the following statement? Students should be required to take computer classes.",
+      "answer_sheet": "I agree to the statement that students should be required to take computer classes, and there are two reasons why. First, I think it could be the foundation of self-development. It will be very beneficial if we use computers well. Since it will be a very good ability in both work and school, I think students should be required to take computer classes. And the second reason is because acutally, my colleague is really good at using the computer. And she actually got the promotion very fast. Whenever I see her, she always gets good words from their co-workers. So I thought that it will be very good to have good computer skills. And these are the two reasons why I agree to the statement."
+    },
+
+    {
       "question": "What are the advantages of participating in sports during university? Give reasons or examples to support your opinion.",
       "answer_sheet": "I think one major advantage of participating in sports during university is that it helps students stay healthy. First, doing sports regularly improves physical fitness and reduces stress. For example, playing basketball or swimming can help students refresh their minds after studying for long hours. Second, sports teach time management because students need to balance their classes and practice schedules. For these reasons, I believe joining sports activities keeps students both healthy and organized."
     },
@@ -1060,7 +1088,7 @@
       "answer_sheet": "Yes, I think collaboration is the best way to encourage innovation. First, employees can learn from each other’s experiences and skills. For instance, engineers and designers can cooperate to create user-friendly technology. Second, working together increases communication and trust, which makes people more open to sharing bold ideas. Therefore, I believe collaboration leads to innovative and successful outcomes."
     },
     {
-      "question": "Do you agree or disagree with the following statement? Workinbg from home should become a standart option for all emplyees.",
+      "question": "Do you agree or disagree with the following statement? Workinbg from home should become a standart option for all employees.",
       "answer_sheet": "I strongly agree that working from home should be a standard option for all employees. First, it gives workers more flexibility and improves work-life balance. For example, parents can spend more time with their children instead of commuting long hours every day. Second, remote work helps employees stay more productive because they can focus in a comfortable environment. For these reasons, I believe companies should allow everyone the option to work from home."
     },
     {
