@@ -56,9 +56,14 @@ export default function ExamPage() {
     const list: QuestionStep[] = [];
     let qCounter = 1;
 
+    const processText = (text: any) => typeof text === 'string' ? text.replace(/\\n/g, '\n') : text;
+
     const addQ = (item: Omit<QuestionStep, "id" | "label">) => {
       list.push({
         ...item,
+        content: processText(item.content),
+        subText: processText(item.subText),
+        modelAnswer: processText(item.modelAnswer),
         id: `${partKey}_${qCounter}`,
         label: `Question ${qCounter++}`,
       });
@@ -620,7 +625,7 @@ export default function ExamPage() {
               <div className={`w-full h-full flex flex-col items-center justify-center transition-all duration-500 ${!isContentVisible ? "opacity-30 blur-sm scale-95 grayscale" : "opacity-100 scale-100"}`}>
                 {currentQuestion.type === "image" && <img src={currentQuestion.content} alt="Exam Prompt" className="w-full h-full object-contain max-h-[500px] rounded-lg shadow-lg" />}
                 {currentQuestion.type === "text" && (
-                  <div className="p-4 md:p-10 text-center max-w-3xl">
+                  <div className="p-4 md:p-10 max-w-3xl">
                     <span className="text-blue-400 font-bold tracking-widest text-xs uppercase mb-6 block opacity-80">Question {currentQuestionIndex + 1}</span>
                     <h2 className={`text-xl md:text-3xl font-bold leading-relaxed whitespace-pre-wrap transition-colors duration-300 ${examState === 'listening' ? 'text-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'text-slate-100'}`}>
                       {currentQuestion.content}
@@ -634,7 +639,7 @@ export default function ExamPage() {
                     </div>
                     <div className={`flex-none w-full text-left p-4 rounded-xl border backdrop-blur-sm transition-all duration-300 ${examState === 'listening' ? 'bg-blue-900/40 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'bg-slate-800/80 border-slate-700'}`}>
                       <span className="text-green-400 font-bold tracking-widest text-xs uppercase mb-2 block">Question {currentQuestionIndex + 1}</span>
-                      <p className={`text-lg md:text-xl font-semibold leading-relaxed transition-colors duration-300 ${examState === 'listening' ? 'text-blue-300' : 'text-white'}`}>
+                      <p className={`text-lg md:text-xl font-semibold leading-relaxed whitespace-pre-wrap transition-colors duration-300 ${examState === 'listening' ? 'text-blue-300' : 'text-white'}`}>
                         {currentQuestion.subText}
                       </p>
                     </div>
