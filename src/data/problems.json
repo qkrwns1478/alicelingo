@@ -39,6 +39,12 @@
     {
       "sentence": "Good evening, and welcome back to My Music. On our program, we are excited to showcase local guitarist Timothy Jenkins. First, he will please us with his exceptional guitar skills by performing a selection of his favorite pieces. Following the performance, Timothy will share insights into his musical journey, including the inspirations behind his compositions."
     },
+    {
+      "sentence": "Looking to refresh your home with smart and budget-friendly gadgets? Come visit Bright Nest Electronics today. Conveniently located just around the corner, we offer a wide variety of must-have items including smart vacuum cleaners, energy-saving fans, and high-performance blenders. Discover our latest arrivals and enjoy unbeatable launch prices. Give your home the upgrade it deserves today!"
+    },
+    {
+      "sentence": "Attention all guests, just a quick reminder that our store will be closing in 30 minutes. We've truly enjoyed sharing our collection with you today, including gripping thrillers, inspiring biographies, and the latest fashion magazines. Before you leave, please make sure you have all your personal belongings with you. We sincerely appreciate your visit this weekend and hope to see you again soon. Thank you!"
+    },
 
     {
       "sentence": "Welcome to this week’s episode of Academic Voices. Today, we are honored to introduce Dr. Michael Lee, a renowned professor of environmental science. Dr. Lee has been recognized for his research on climate change adaptation, urban sustainability, and renewable energy. He currently teaches at Green Valley University. Stay tuned as we discuss his groundbreaking work and insights on future environmental policies."
@@ -221,6 +227,14 @@
     {
       "image": "/images/part2_18.webp",
       "answer_sheet": "In this picture, there are several people who are doing their own work indoors, in an office, On the left, there is one man who is looking at his desktop and he is typing something. On the right, there are two people who are having a conversation to each other. They are looking at the same laptop. One common point is that everyoine is spending a good time. On the background, there are other people who are also working. Overall, it seems very busy."
+    },
+    {
+      "image": "/images/part2_19.webp",
+      "answer_sheet": "This is a picture take at an airport. The first thing I can see in this picture is a woman carrying a suitcase. She is wearing a mask and holding a bag. On the left side of the picture, a woman and a girl are standing together. Next to them, I can see their suitcases. In the background of the picture, there are check-in counters, display screens, and people waiting in line."
+    },
+    {
+      "image": "/images/part2_20.webp",
+      "answer_sheet": "This is a picture taken outdoors. On the left side of the picture, a woman is wearing a black top and a checkered skirt. On the right side of the picture, I can see two other women. All of them are wearing sunglasses and smiling. They are holding glasses of wine. On the table, there is a small plant and some food."
     },
     {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FbboZ1J%2FdJMcahQqVUy%2FAAAAAAAAAAAAAAAAAAAAALN1L2JUMvSmV8U701vxYzR6L0Lis6GtAQXrST1Ic7lR%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DrnaNRsvIH0iEwY9WUdTYZ98%252FsLM%253D",
@@ -422,6 +436,15 @@
       "sub_a2": "Yes, there are many ice cream shops in my area, and I visit there once a week with my family members. I always feel refreshed whenever I visit there.",
       "sub_q3": "If a new ice cream shop were to open in your area, which of the following would make you visit the store the most? (Newspaper advertisements / Free sampling / Recommendations from friends",
       "sub_a3": "I think recommendations from friends would be the best and there are two reasons why. First, recommendations from friends will be most convincing. Since it is a real experience from friends, it will be very good to believe. And the second reason is because actually, I visited an ice cream store yesterday. And it was a recommendation from my friend. I was really satisfied with that store so I felt very happy. These are the reasons why."
+    },
+    {
+      "question": "Imagine that a British marketing firm is doing research in your country. You have agreed to participate in a telephone interview about fashion.",
+      "sub_q1": "When was the last time you watched fashion videos and online content? What was it about?",
+      "sub_a1": "The last time I watched fashion videos and online content weas two weeks ago. It was a bag review.",
+      "sub_q2": "Do you usually check fashion videos or online content for ideas before deciding what to buy?",
+      "sub_a2": "Yes, I usually check fashion videos or online content for ideas. This way, I don't have to waste too much time visiting many stores.",
+      "sub_q3": "Which of the following do you usually go to for fashion inspiration?\\n• Follow social media influencers\\n• Ask fashion savvy friends for advice\\n• Visit popular offline stores and go window shopping",
+      "sub_a3": "I usually follow social media influencers. First, they give me up-to-date fashion tips and useful advice. I can get a lot of helpful information from them, such as trends, styles, and prices. Also, they are very fashionable, so I can get a lot of fashion inspiration."
     },
 
     {
@@ -805,6 +828,15 @@
       "sub_a3": "Sure. First, at 2 p.m., there is a workshop on How to Provide Great Customer Service by Ashley Parker. Next, at 4 p.m., there is a lecture on Customer Service Skills for Small Business Oweners by Susan Foster."
     },
     {
+      "image": "/images/part4_22.webp",
+      "sub_q1": "When is the musical showcase scheduled, and what time does the first performance begin?",
+      "sub_a1": "It will be held on July 20th, and the first show will start at 10:00 a.m.",
+      "sub_q2": "I heard there's an early registration discount. Can you tell me how much discount I can get and how to get it?",
+      "sub_a2": "Yes, if you register before July 10th, you can get $5 off per ticket.",
+      "sub_q3": "I'm really interested in family-friendly shows. Could you tell me the details of any musicals that fall under the 'Family' genre?",
+      "sub_a3": "Yes, there are two musicals. First, at 2 p.m., there is Voices of Spring. It will be held in Stella Hall. Next, at 6 p.m., there is Keep Going. It'll be held in Phoenix Hall."
+    },
+    {
       "image": "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FrYVA1%2FdJMcaiIyDHl%2FAAAAAAAAAAAAAAAAAAAAAMh0b_RPtmqevcAAEU-BJh5hTXMo1MnkKiuwWU6fFv-z%2Fimg.jpg%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DiRjyX77ejJBEbUGEdW5FjFqAm1Y%253D",
       "sub_q1": "I’d like to try Korean calligraphy. When is the class, and do I need to bring anything?",
       "sub_a1": "The Korean Calligraphy Class will be held on Tuesday, August 6th, at 10:00 a.m., and you don’t need to bring anything because all materials are provided.",
@@ -1053,6 +1085,10 @@
     {
       "question": "Do you agree or disagree with the following statement? Students should be required to take computer classes.",
       "answer_sheet": "I agree to the statement that students should be required to take computer classes, and there are two reasons why. First, I think it could be the foundation of self-development. It will be very beneficial if we use computers well. Since it will be a very good ability in both work and school, I think students should be required to take computer classes. And the second reason is because acutally, my colleague is really good at using the computer. And she actually got the promotion very fast. Whenever I see her, she always gets good words from their co-workers. So I thought that it will be very good to have good computer skills. And these are the two reasons why I agree to the statement."
+    },
+    {
+      "question": "If your school decided to switch all textbooks to e-Books, would you support the change? Why or why not? Use specific reasons and examples to support your opinion.",
+      "answer_sheet": "If my school decided to switch all textbooks to e-Books, I would not support the change. Let me explain why I think this way. Most of all, students might not be able to focus well if all textbooks are switched to e-Books. E-books can be very distracting, and students may not get good grades. They might even fall behind in class. On top of that, using e-Books too much is not good for students' physical health. If they spend too much time reading e-Books, it can be very harmful to their eyes. According to a recent news report, most doctors in Korea said that spending too much time reading e-Books can be harmful to students' health. Therefore, I would not support the change."
     },
 
     {
