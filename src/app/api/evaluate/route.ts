@@ -290,11 +290,6 @@ Output JSON.
 
     evaluation.userTranscript = userTranscript;
 
-    await supabase.from('users').update({
-      daily_eval_count: currentCount + 1,
-      last_eval_date: today
-    }).eq('id', user.id);
-
     return NextResponse.json(evaluation);
 
   } catch (error) {
