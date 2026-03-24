@@ -17,7 +17,8 @@ export async function POST() {
     const { error } = await supabaseAdmin.auth.admin.deleteUser(user.id);
     if (error) throw error;
 
-    await supabase.auth.signOut();
+    const { error: signOutError } = await supabase.auth.signOut();
+    if (signOutError) throw signOutError;
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -30,7 +30,7 @@ export default function LoginPage() {
         router.push('/');
         router.refresh();
       } else {
-        setError(data.message || '아이디 또는 비밀번호가 잘못되었습니다.');
+        setError(data.message || '이메일 또는 비밀번호가 잘못되었습니다.');
       }
     } catch (err) {
       setError('로그인 중 오류가 발생했습니다.');

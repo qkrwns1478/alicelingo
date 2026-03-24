@@ -43,13 +43,11 @@ export default async function Home() {
     <main className="min-h-screen bg-[#F2F4F8] p-8 flex flex-col items-center justify-center font-sans">
       <div className="absolute top-8 right-8 z-10 flex items-center gap-3">
         {nickname && (
-          <>
-            <span className="text-sm font-bold text-slate-600 mr-2 drop-shadow-sm">
-              {nickname}님, {randomMessage}
-            </span>
-            <MyPageButton />
-          </>
+          <span className="text-sm font-bold text-slate-600 mr-2 drop-shadow-sm">
+            {nickname}님, {randomMessage}
+          </span>
         )}
+        {user && <MyPageButton />}
         <LogoutButton />
       </div>
 

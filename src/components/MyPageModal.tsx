@@ -50,19 +50,24 @@ export default function MyPageModal({ isOpen, onClose }: MyPageModalProps) {
     e.preventDefault();
     setIsLoading(true);
     
-    const res = await fetch('/api/user/profile', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nickname })
-    });
-    
-    if (res.ok) {
-      alert('닉네임이 성공적으로 변경되었습니다!');
-      window.location.reload();
-    } else {
-      alert('닉네임 변경에 실패했습니다.');
+    try {
+      const res = await fetch('/api/user/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nickname })
+      });
+
+      if (res.ok) {
+        alert('닉네임이 성공적으로 변경되었습니다!');
+        window.location.reload();
+      } else {
+        alert('닉네임 변경에 실패했습니다.');
+      }
+    } catch {
+      alert('서버 통신 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleWithdraw = async () => {
