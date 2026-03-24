@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import OpenAI, { toFile } from "openai";
 import fs from "fs";
 import path from "path";
+import { createClient } from "../../../utils/supabase/server";
 
 const client = new OpenAI({
   apiKey: process.env.GROQ_API_KEY,
@@ -76,6 +77,48 @@ function getImageAsBase64(imagePathStr: string): string | null {
 
 export async function POST(request: Request) {
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({
+        score: 0,
+        feedback: ["로그인이 필요한 서비스입니다."],
+        fluency: "Low"
+      }, { status: 401 });
+    }
+
+    const { data: userData } = await supabase
+      .from('users')
+      .select('plan')
+      .eq('id', user.id)
+      .single();
+
+    if (!userData) {
+      return NextResponse.json({ error: "사용자 정보를 찾을 수 없습니다." }, { status: 404 });
+    }
+
+    const plan = userData.plan || 'Free';
+    const limits: Record<string, number> = { Free: 50, Plus: 100, Pro: 9999999 };
+    const maxCount = limits[plan] || 50;
+
+    const { data: canConsume, error: consumeError } = await supabase.rpc('consume_eval_quota', {
+      target_user_id: user.id,
+      max_limit: maxCount
+    });
+
+    if (consumeError || !canConsume) {
+      return NextResponse.json({
+        score: 0,
+        feedback: [
+          `오늘 AI 평가를 모두 사용하셨습니다. (일일 ${plan === 'Pro' ? '무제한' : maxCount + '회'} 제한)`,
+          "본 서비스는 포트폴리오 목적으로 운영되어, 과도한 서버 비용 방지를 위해 일일 사용량을 제한하고 있습니다.",
+          "내일 다시 이용해 주시거나 관리자에게 문의해 주세요."
+        ],
+        fluency: "Low"
+      }, { status: 429 });
+    }
+
     const body = await request.json();
     const { part, question, audioData, modelAnswer, image } = body;
 
