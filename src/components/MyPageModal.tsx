@@ -2,10 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from '../../components/Header';
-import { Zap, Activity, Calendar } from 'lucide-react';
+import { Zap, Activity, Calendar, X } from 'lucide-react';
 
-export default function MyPage() {
+interface MyPageModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function MyPageModal({ isOpen, onClose }: MyPageModalProps) {
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [planInfo, setPlanInfo] = useState({
@@ -17,22 +21,26 @@ export default function MyPage() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch('/api/user/profile')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          setNickname(data.user.nickname);
-          setEmail(data.user.email);
-          setPlanInfo({
-            plan: data.user.plan || 'Free',
-            dailyCount: data.user.daily_eval_count || 0,
-            lastDate: data.user.last_eval_date || '-'
-          });
-        } else {
-          router.push('/login');
-        }
-      });
-  }, [router]);
+    if (isOpen) {
+      fetch('/api/user/profile')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setNickname(data.user.nickname);
+            setEmail(data.user.email);
+            setPlanInfo({
+              plan: data.user.plan || 'Free',
+              dailyCount: data.user.daily_eval_count || 0,
+              lastDate: data.user.last_eval_date || '-'
+            });
+          } else {
+            router.push('/login');
+          }
+        });
+    }
+  }, [isOpen, router]);
+
+  if (!isOpen) return null;
 
   const limits: Record<string, number | string> = { Free: 50, Plus: 100, Pro: '무제한' };
   const maxCount = limits[planInfo.plan] || 50;
@@ -50,7 +58,7 @@ export default function MyPage() {
     
     if (res.ok) {
       alert('닉네임이 성공적으로 변경되었습니다!');
-      window.location.reload(); 
+      window.location.reload();
     } else {
       alert('닉네임 변경에 실패했습니다.');
     }
@@ -71,9 +79,20 @@ export default function MyPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F2F4F8] flex items-center justify-center p-4 font-sans">
-      <div className="bg-white p-8 rounded-[2rem] shadow-xl border border-slate-100 w-full max-w-md">
-        <Header />
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 transition-all"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-white rounded-[2rem] shadow-2xl w-full max-w-md relative p-8"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button 
+          onClick={onClose}
+          className="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors p-1"
+        >
+          <X className="w-6 h-6" />
+        </button>
 
         <div className="mb-6 text-center border-b pb-4 border-slate-100">
           <h2 className="text-xl font-bold text-slate-800">마이페이지</h2>
@@ -152,6 +171,6 @@ export default function MyPage() {
           </button>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
