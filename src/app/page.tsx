@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { BookOpen, Mic, MicVocal, Image, Table, MessageCircle, Pencil, GraduationCap, PlayCircle } from 'lucide-react';
 import LogoutButton from '../components/LogoutButton';
+import MyPageButton from '../components/MyPageButton';
 import Header from '../components/Header';
+import { createClient } from '../utils/supabase/server';
 
 const parts = [
   { id: 'part1', title: 'Part 1', desc: '지문 읽기', icon: <MicVocal className="w-8 h-8" /> },
@@ -11,10 +13,43 @@ const parts = [
   { id: 'part5', title: 'Part 5', desc: '의견 제시하기', icon: <Mic className="w-8 h-8" /> },
 ];
 
-export default function Home() {
+const GREETINGS = [
+  "안녕하세요!",
+  "오늘도 화이팅!",
+  "반갑습니다!",
+  "열공할 준비 되셨나요?",
+  "오늘도 목표를 향해 달려봐요!",
+  "좋은 하루 보내세요!",
+  "환영합니다!"
+];
+
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  let nickname = '';
+  if (user) {
+    const { data } = await supabase
+      .from('users')
+      .select('nickname')
+      .eq('id', user.id)
+      .single();
+    nickname = data?.nickname || '';
+  }
+
+  const randomMessage = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
+
   return (
     <main className="min-h-screen bg-[#F2F4F8] p-8 flex flex-col items-center justify-center font-sans">
-      <div className="absolute top-8 right-8 z-10">
+      <div className="absolute top-8 right-8 z-10 flex items-center gap-3">
+        {nickname && (
+          <>
+            <span className="text-sm font-bold text-slate-600 mr-2 drop-shadow-sm">
+              {nickname}님, {randomMessage}
+            </span>
+            <MyPageButton />
+          </>
+        )}
         <LogoutButton />
       </div>
 
@@ -59,7 +94,7 @@ export default function Home() {
             </div>
           ))}
 
-          <div className="bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-start gap-6 group hover:-translate-y-1">
+          {/* <div className="bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-start gap-6 group hover:-translate-y-1">
               <div className="flex items-center gap-4 w-full">
                 <div className="p-4 bg-indigo-50 rounded-2xl text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300 shadow-inner">
                   <GraduationCap className="w-8 h-8" />
@@ -79,7 +114,7 @@ export default function Home() {
                   <span>문제풀기</span>
                 </Link>
               </div>
-            </div>
+            </div> */}
         </div>
 
         <footer className="mt-20 text-center text-slate-400 text-sm">
