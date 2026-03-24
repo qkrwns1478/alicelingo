@@ -1,22 +1,41 @@
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { createClient } from '../../../../utils/supabase/server';
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const { id, password } = body;
+  try {
+    const body = await request.json();
+    const { email, password } = body;
 
-  // TODO: 실제 로그인 기능 구현
-  if (id === process.env.ADMIN_ID && password === process.env.ADMIN_PW) {
-    const cookieStore = await cookies();
-    cookieStore.set('auth_token', 'authenticated', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24,
-      path: '/',
+    const supabase = await createClient();
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
 
-    return NextResponse.json({ success: true });
-  }
+    if (error) {
+      return NextResponse.json(
+        { success: false, message: '이메일 또는 비밀번호가 잘못되었습니다.' }, 
+        { status: 401 }
+      );
+    }
 
-  return NextResponse.json({ success: false }, { status: 401 });
+    const { data: userData } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', data.user.id)
+      .single();
+
+    return NextResponse.json({ 
+      success: true, 
+      message: '로그인 성공', 
+      user: { ...data.user, role: userData?.role }
+    }, { status: 200 });
+
+  } catch (error) {
+    return NextResponse.json(
+      { success: false, message: '서버에서 오류가 발생했습니다.' }, 
+      { status: 500 }
+    );
+  }
 }
