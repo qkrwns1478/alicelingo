@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import OpenAI, { toFile } from "openai";
 import fs from "fs";
 import path from "path";
+import { createClient } from "../../../utils/supabase/server";
 
 const client = new OpenAI({
   apiKey: process.env.GROQ_API_KEY,
@@ -76,6 +77,55 @@ function getImageAsBase64(imagePathStr: string): string | null {
 
 export async function POST(request: Request) {
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({
+        score: 0,
+        feedback: ["로그인이 필요한 서비스입니다."],
+        fluency: "Low"
+      }, { status: 401 });
+    }
+
+    const { data: userData } = await supabase
+      .from('users')
+      .select('plan, daily_eval_count, last_eval_date')
+      .eq('id', user.id)
+      .single();
+
+    if (!userData) {
+      return NextResponse.json({ error: "사용자 정보를 찾을 수 없습니다." }, { status: 404 });
+    }
+
+    const now = new Date();
+    const kstDate = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+    const today = kstDate.toISOString().split('T')[0];
+
+    let currentCount = userData.daily_eval_count || 0;
+    let lastDate = userData.last_eval_date;
+
+    if (lastDate !== today) {
+      currentCount = 0;
+      lastDate = today;
+    }
+
+    const plan = userData.plan || 'Free';
+    const limits = { Free: 50, Plus: 100, Pro: Infinity };
+    const maxCount = limits[plan as keyof typeof limits] || 50;
+
+    if (currentCount >= maxCount) {
+      return NextResponse.json({
+        score: 0,
+        feedback: [
+          `오늘 AI 평가를 모두 사용하셨습니다. (일일 ${maxCount}회 제한)`,
+          "본 서비스는 포트폴리오 목적으로 운영되어, 과도한 서버 비용 방지를 위해 일일 사용량을 제한하고 있습니다.",
+          "내일 다시 이용해 주시거나 관리자에게 문의해 주세요."
+        ],
+        fluency: "Low"
+      }, { status: 429 });
+    }
+
     const body = await request.json();
     const { part, question, audioData, modelAnswer, image } = body;
 
@@ -246,6 +296,11 @@ Output JSON.
     }
 
     evaluation.userTranscript = userTranscript;
+
+    await supabase.from('users').update({
+      daily_eval_count: currentCount + 1,
+      last_eval_date: today
+    }).eq('id', user.id);
 
     return NextResponse.json(evaluation);
 

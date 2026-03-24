@@ -9,11 +9,32 @@ export async function GET() {
 
   const { data } = await supabase
     .from('users')
-    .select('email, nickname')
+    .select('email, nickname, plan, daily_eval_count, last_eval_date')
     .eq('id', user.id)
     .single();
 
-  return NextResponse.json({ success: true, user: data });
+  if (!data) return NextResponse.json({ success: false }, { status: 404 });
+
+  const now = new Date();
+  const kstDate = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+  const today = kstDate.toISOString().split('T')[0];
+
+  let currentCount = data.daily_eval_count || 0;
+  let lastDate = data.last_eval_date;
+
+  if (lastDate !== today) {
+    currentCount = 0;
+    lastDate = today;
+  }
+
+  return NextResponse.json({ 
+    success: true, 
+    user: {
+      ...data,
+      daily_eval_count: currentCount,
+      last_eval_date: lastDate
+    } 
+  });
 }
 
 export async function PUT(request: Request) {
