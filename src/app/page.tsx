@@ -82,37 +82,37 @@ export default async function Home() {
                 </Link>
 
                 <Link 
-                  href={`/exam/${part.id}`}
+                  href={`/practice/${part.id}`}
                   className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-slate-200 active:scale-95"
                 >
                   <Pencil className="w-4 h-4" />
-                  <span>문제풀기</span>
+                  <span>연습문제</span>
                 </Link>
               </div>
             </div>
           ))}
 
-          {/* <div className="bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-start gap-6 group hover:-translate-y-1">
-              <div className="flex items-center gap-4 w-full">
-                <div className="p-4 bg-indigo-50 rounded-2xl text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300 shadow-inner">
-                  <GraduationCap className="w-8 h-8" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold text-slate-800">모의고사</h2>
-                  <p className="text-slate-400 font-medium text-sm">실전처럼 시험보기</p>
-                </div>
+          <div className="bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-start gap-6 group hover:-translate-y-1">
+            <div className="flex items-center gap-4 w-full">
+              <div className="p-4 bg-indigo-50 rounded-2xl text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300 shadow-inner">
+                <GraduationCap className="w-8 h-8" />
               </div>
+              <div>
+                <h2 className="text-2xl font-bold text-slate-800">모의고사</h2>
+                <p className="text-slate-400 font-medium text-sm">실전처럼 문제풀기</p>
+              </div>
+            </div>
 
-              <div className="w-full mt-2">
-                <Link 
-                  href={`/`}
-                  className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-slate-200 active:scale-95"
-                >
-                  <Pencil className="w-4 h-4" />
-                  <span>문제풀기</span>
-                </Link>
-              </div>
-            </div> */}
+            <div className="w-full mt-2">
+              <Link 
+                href={`/`}
+                className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-slate-200 active:scale-95"
+              >
+                <Pencil className="w-4 h-4" />
+                <span>시험보기</span>
+              </Link>
+            </div>
+          </div>
         </div>
 
         <footer className="mt-20 text-center text-slate-400 text-sm">
