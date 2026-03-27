@@ -15,6 +15,7 @@ type ExamPhase =
   | "listening"
   | "prep"
   | "recording"
+  | "stop_notice"
   | "submitting"
   | "finalizing"
   | "completed";
@@ -36,7 +37,6 @@ interface ExamQuestion {
   modelAnswer: string;
   prepTime: number;
   responseTime: number;
-  promptLabel?: string;
   contextText?: string;
 }
 
@@ -237,7 +237,7 @@ const questionPromptForEval = (question: ExamQuestion) => {
 
 const questionReadText = (question: ExamQuestion) => {
   if (question.partKey === "part1") return "";
-  if (question.partKey === "part2") return "Please describe the picture in detail.";
+  if (question.partKey === "part2") return "";
   if (question.partKey === "part4") return question.subText || "Please answer using the information.";
   return question.content;
 };
@@ -257,7 +257,7 @@ const createQuestions = (examId: string): ExamQuestion[] => {
       content: text(item.sentence),
       modelAnswer: text(item.sentence),
       prepTime: 45,
-      responseTime: 45,
+      responseTime: 45
     });
     no += 1;
   });
@@ -272,8 +272,7 @@ const createQuestions = (examId: string): ExamQuestion[] => {
       content: text(item.image),
       modelAnswer: text(item.answer_sheet),
       prepTime: 45,
-      responseTime: 45,
-      promptLabel: "Describe the picture.",
+      responseTime: 45
     });
     no += 1;
   });
@@ -293,7 +292,6 @@ const createQuestions = (examId: string): ExamQuestion[] => {
       modelAnswer: text(item.a),
       prepTime: 3,
       responseTime: item.t,
-      promptLabel: "Respond to the question.",
       contextText: text(part3Set.question),
     });
     no += 1;
@@ -316,7 +314,6 @@ const createQuestions = (examId: string): ExamQuestion[] => {
       modelAnswer: text(item.a),
       prepTime: 3,
       responseTime: item.t,
-      promptLabel: "Use the provided information.",
     });
     no += 1;
   });
@@ -332,7 +329,6 @@ const createQuestions = (examId: string): ExamQuestion[] => {
     modelAnswer: text(part5.answer_sheet),
     prepTime: 45,
     responseTime: 60,
-    promptLabel: "Give your opinion with reasons.",
   });
 
   return questions;
@@ -407,6 +403,7 @@ export default function ExamPage() {
   const [loading, setLoading] = useState(true);
   const [startError, setStartError] = useState("");
   const [userTranscript, setUserTranscript] = useState("");
+  const [showRestartModal, setShowRestartModal] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
 
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
@@ -618,7 +615,6 @@ export default function ExamPage() {
       return;
     }
 
-    setPhase("submitting");
     await stopCurrentRecording();
 
     if (audioChunksRef.current.length === 0) {
@@ -657,12 +653,19 @@ export default function ExamPage() {
     finalTranscriptRef.current = "";
     setUserTranscript("");
 
+    setPhase("stop_notice");
+    await new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), 2000);
+    });
+
     if (question.number === TOTAL_QUESTIONS) {
+      setPhase("submitting");
       await finalizeExam();
       transitionRef.current = false;
       return;
     }
 
+    setPhase("submitting");
     setSession((prev) => {
       if (!prev) return prev;
       return { ...prev, currentQuestionIndex: prev.currentQuestionIndex + 1 };
@@ -789,6 +792,7 @@ export default function ExamPage() {
 
   const startNewExam = useCallback(async () => {
     setStartError("");
+    setShowRestartModal(false);
     const micReady = await ensureMicrophoneReady();
     if (!micReady) return;
 
@@ -808,6 +812,7 @@ export default function ExamPage() {
   const continueExam = useCallback(async () => {
     if (!savedSession) return;
     setStartError("");
+    setShowRestartModal(false);
     const micReady = await ensureMicrophoneReady();
     if (!micReady) return;
 
@@ -818,6 +823,19 @@ export default function ExamPage() {
     startedQuestionIdRef.current = null;
   }, [ensureMicrophoneReady, savedSession]);
 
+  const handleStartClick = useCallback(() => {
+    setStartError("");
+    if (savedSession) {
+      setShowRestartModal(true);
+      return;
+    }
+    void startNewExam();
+  }, [savedSession, startNewExam]);
+
+  const confirmStartNewExam = useCallback(() => {
+    void startNewExam();
+  }, [startNewExam]);
+
   useEffect(() => {
     sessionRef.current = session;
   }, [session]);
@@ -827,6 +845,10 @@ export default function ExamPage() {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
     setSavedSession(session.finalResult ? null : session);
   }, [session]);
+
+  useEffect(() => {
+    if (!savedSession) setShowRestartModal(false);
+  }, [savedSession]);
 
   useEffect(() => {
     if (view !== "running" || phase !== "idle" || !session || !currentQuestion) return;
@@ -949,14 +971,7 @@ export default function ExamPage() {
                 <Play className="w-10 h-10 text-white ml-1" />
               </div>
 
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Mock Test</h2>
-              <p className="text-slate-300 text-center max-w-2xl leading-relaxed mb-6">
-                Are you ready?
-              </p>
-
-              {/* <div className="w-full max-w-2xl p-4 rounded-xl border border-slate-700 bg-slate-900/50 text-sm text-slate-300 mb-6">
-                11문항 구성: Part 1(2문항), Part 2(2문항), Part 3(1세트), Part 4(1세트), Part 5(1문항)
-              </div> */}
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">TOEIC SPEAKING 모의고사</h2>
 
               {startError && (
                 <div className="w-full max-w-2xl mb-6 px-4 py-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-200 text-sm">
@@ -966,7 +981,7 @@ export default function ExamPage() {
 
               <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-3">
                 <button
-                  onClick={startNewExam}
+                  onClick={handleStartClick}
                   className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-white text-blue-900 font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-xl"
                 >
                   <Play className="w-4 h-4" />
@@ -985,13 +1000,38 @@ export default function ExamPage() {
                     disabled
                     className="py-3.5 px-4 rounded-xl bg-slate-800/60 border border-slate-700 text-slate-500 font-bold cursor-not-allowed"
                   >
-                    이어서 하기 (저장된 시험 없음)
+                    이어서 하기
                   </button>
                 )}
               </div>
             </div>
           </div>
         </main>
+
+        {showRestartModal && (
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="w-full max-w-md rounded-2xl border border-slate-600 bg-slate-900 text-white shadow-2xl p-6">
+              <h3 className="text-xl font-bold">진행 중인 모의고사가 있어요</h3>
+              <p className="mt-3 text-sm text-slate-300 leading-relaxed">
+                새 시험을 시작하면 저장된 진행 상황은 덮어쓰기됩니다. 계속 진행할까요?
+              </p>
+              <div className="mt-6 flex gap-3">
+                <button
+                  onClick={() => setShowRestartModal(false)}
+                  className="flex-1 py-3 rounded-xl border border-slate-500 text-slate-200 hover:bg-slate-800 transition-colors"
+                >
+                  취소
+                </button>
+                <button
+                  onClick={confirmStartNewExam}
+                  className="flex-1 py-3 rounded-xl bg-white text-blue-900 font-bold hover:opacity-90 transition-opacity"
+                >
+                  새로 시작
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -1007,7 +1047,7 @@ export default function ExamPage() {
     return (
       <div className="min-h-screen bg-[#f2f2f2] text-[#111]">
         <header className="h-24 bg-gradient-to-r from-[#0d5ea8] via-[#4b4b8a] to-[#9b003f] text-white flex items-end justify-center pb-5">
-          <h1 className="text-3xl font-semibold">Mock Test Result</h1>
+          <h1 className="text-3xl font-semibold">Result</h1>
         </header>
 
         <main className="max-w-5xl mx-auto px-6 py-10 space-y-6">
@@ -1055,17 +1095,11 @@ export default function ExamPage() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center px-6 py-8">
+      <main className="flex-1 flex flex-col items-center justify-center px-6 py-8 relative">
         <div className={`w-full ${isDirectionsPhase ? "" : "max-w-5xl"}`}>
           <p className="sr-only" aria-live="polite">
             {message}
           </p>
-          {/* {pendingCount > 0 && (
-            <div className="mb-3 px-4 py-3 rounded-lg bg-[#eff6ff] border border-[#bfdbfe] text-sm">
-              백그라운드 채점 중: {pendingCount}문항
-            </div>
-          )}
-          {message && <div className="mb-3 px-4 py-3 rounded-lg bg-white border border-[#d6d6d6] text-sm">{message}</div>} */}
 
           <section className={isDirectionsPhase ? "flex-1 flex items-center justify-center px-6 py-8" : "min-h-[58vh] flex items-center justify-center px-4 py-8"}>
             {isDirectionsPhase && currentDirections ? (
@@ -1089,9 +1123,6 @@ export default function ExamPage() {
               </div>
             ) : (
               <div className="max-w-3xl w-full space-y-5">
-                {currentQuestion.promptLabel && (
-                  <p className="text-lg font-semibold text-[#444]">{currentQuestion.promptLabel}</p>
-                )}
                 {currentQuestion.contextText && (
                   <p className="text-2xl leading-relaxed whitespace-pre-wrap">{currentQuestion.contextText}</p>
                 )}
@@ -1102,7 +1133,7 @@ export default function ExamPage() {
                   <img
                     src={currentQuestion.content}
                     alt={`Q${currentQuestion.number}`}
-                    className="w-full max-h-[360px] object-contain bg-white border border-[#d6d6d6] rounded-lg"
+                    className="w-full max-h-[480px] object-contain bg-white border border-[#d6d6d6] rounded-lg"
                   />
                 )}
                 {currentQuestion.type === "image_text" && (
@@ -1110,9 +1141,8 @@ export default function ExamPage() {
                     <img
                       src={currentQuestion.content}
                       alt={`Q${currentQuestion.number}`}
-                      className="w-full max-h-[320px] object-contain bg-white border border-[#d6d6d6] rounded-lg"
+                      className="w-full max-h-[480px] object-contain bg-white border border-[#d6d6d6] rounded-lg"
                     />
-                    <p className="text-2xl leading-relaxed whitespace-pre-wrap">{currentQuestion.subText}</p>
                   </div>
                 )}
               </div>
@@ -1143,13 +1173,25 @@ export default function ExamPage() {
               </div>
             )}
 
-            {/* {phase === "recording" && userTranscript && (
-              <div className="w-full max-w-3xl p-4 rounded-xl bg-white border border-[#d6d6d6] text-sm text-slate-600">
-                {userTranscript}
-              </div>
-            )} */}
           </section>
         </div>
+
+        {phase === "stop_notice" && (
+          <div className="absolute inset-0 z-40 flex items-center justify-center px-4 py-8 bg-black/15">
+            <div className="w-full max-w-5xl bg-gradient-to-r from-[#0d5ea8] via-[#4b4b8a] to-[#9b003f] p-5 md:p-7 shadow-2xl">
+              <h2 className="text-white text-center text-4xl font-semibold drop-shadow-md">Stop Talking</h2>
+              <div className="mt-5 bg-[#f4f4f4] text-[#111] px-6 md:px-12 py-10 md:py-16 text-center">
+                <p className="text-2xl leading-relaxed">
+                  Your response time has ended. Stop speaking now.
+                </p>
+                <p className="mt-6 text-2xl leading-relaxed">
+                  You will automatically proceed to the next question after your response has been saved.
+                </p>
+                <p className="mt-6 text-2xl leading-relaxed">This may take several seconds.</p>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
