@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BookOpen, Mic, MicVocal, Image, Table, MessageCircle, Pencil, GraduationCap, PlayCircle } from 'lucide-react';
+import { BookOpen, Mic, MicVocal, Image, Table, MessageCircle, Pencil, GraduationCap } from 'lucide-react';
 import LogoutButton from '../components/LogoutButton';
 import MyPageButton from '../components/MyPageButton';
 import Header from '../components/Header';
@@ -105,7 +105,7 @@ export default async function Home() {
 
             <div className="w-full mt-2">
               <Link 
-                href={`/`}
+                href={`/exam`}
                 className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold hover:bg-indigo-600 transition-all shadow-lg shadow-slate-200 active:scale-95"
               >
                 <Pencil className="w-4 h-4" />

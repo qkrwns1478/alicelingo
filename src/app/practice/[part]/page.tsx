@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import problemData from "../../../data/problems.json";
 import Timer from "../../../components/Timer";
 import { ArrowLeft, Mic, List, CheckCircle2, Play, RefreshCw, MessageSquare, Eye, EyeOff, SkipForward, X, Bot, Menu, Volume2, Square } from "lucide-react";
@@ -623,7 +624,17 @@ export default function PracticePage() {
               )}
 
               <div className={`w-full h-full flex flex-col items-center justify-center transition-all duration-500 ${!isContentVisible ? "opacity-30 blur-sm scale-95 grayscale" : "opacity-100 scale-100"}`}>
-                {currentQuestion.type === "image" && <img src={currentQuestion.content} alt="Practice Prompt" className="w-full h-full object-contain max-h-[500px] rounded-lg shadow-lg" />}
+                {currentQuestion.type === "image" && (
+                  <Image
+                    src={currentQuestion.content}
+                    alt={`Question ${currentQuestionIndex + 1} prompt image`}
+                    width={1280}
+                    height={720}
+                    loader={({ src }) => src}
+                    unoptimized
+                    className="w-full h-full object-contain max-h-[500px] rounded-lg shadow-lg"
+                  />
+                )}
                 {currentQuestion.type === "text" && (
                   <div className="p-4 md:p-10 max-w-3xl">
                     <span className="text-blue-400 font-bold tracking-widest text-xs uppercase mb-6 block opacity-80">Question {currentQuestionIndex + 1}</span>
@@ -635,7 +646,15 @@ export default function PracticePage() {
                 {currentQuestion.type === "image_text" && (
                   <div className="flex flex-col gap-4 w-full h-full">
                     <div className="flex-1 bg-white p-2 rounded-lg shadow-xl w-full min-h-0 overflow-hidden flex items-center justify-center">
-                      <img src={currentQuestion.content} alt="Schedule" className="w-full h-full object-contain" />
+                      <Image
+                        src={currentQuestion.content}
+                        alt={`Question ${currentQuestionIndex + 1} schedule image`}
+                        width={1280}
+                        height={720}
+                        loader={({ src }) => src}
+                        unoptimized
+                        className="w-full h-full object-contain"
+                      />
                     </div>
                     <div className={`flex-none w-full text-left p-4 rounded-xl border backdrop-blur-sm transition-all duration-300 ${practiceState === 'listening' ? 'bg-blue-900/40 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'bg-slate-800/80 border-slate-700'}`}>
                       <span className="text-green-400 font-bold tracking-widest text-xs uppercase mb-2 block">Question {currentQuestionIndex + 1}</span>
