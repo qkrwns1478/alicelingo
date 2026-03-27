@@ -16,9 +16,31 @@ interface EvaluationResult {
   userTranscript?: string;
 }
 
+type EvaluationMode = "practice" | "exam";
+
+interface TranscriptionSegment {
+  start: number;
+  end: number;
+  avg_logprob?: number;
+}
+
+interface TranscriptionResponse {
+  text: string;
+  duration?: number;
+  segments?: TranscriptionSegment[];
+}
+
+type VisionMessageContent =
+  | { type: "text"; text: string }
+  | { type: "image_url"; image_url: { url: string } };
+
+type CompletionMessage =
+  | { role: "system"; content: string }
+  | { role: "user"; content: string | VisionMessageContent[] };
+
 function parseFallback(text: string): EvaluationResult {
   const scoreMatch = text.match(/"?score"?\s*:\s*(\d+)/i);
-  let score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+  const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
   
   const fluencyMatch = text.match(/"?fluency"?\s*:\s*["']?(High|Medium|Low)["']?/i);
   const fluency = fluencyMatch ? fluencyMatch[1] : "Low";
@@ -120,7 +142,9 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { part, question, audioData, modelAnswer, image } = body;
+    const { part, question, audioData, modelAnswer, image, mode } = body;
+    const evaluationMode: EvaluationMode = mode === "exam" ? "exam" : "practice";
+    const referenceAnswer = typeof modelAnswer === "string" ? modelAnswer : "";
 
     if (!audioData) {
       return NextResponse.json({ error: "No audio data" }, { status: 400 });
@@ -130,12 +154,12 @@ export async function POST(request: Request) {
     const audioBuffer = Buffer.from(base64Content, "base64");
     const audioFile = await toFile(audioBuffer, "audio.webm", { type: "audio/webm" });
 
-    const transcription: any = await client.audio.transcriptions.create({
+    const transcription = (await client.audio.transcriptions.create({
       file: audioFile,
       model: "whisper-large-v3",
       language: "en",
       response_format: "verbose_json",
-    });
+    })) as unknown as TranscriptionResponse;
 
     const userTranscript = transcription.text.trim();
 
@@ -151,7 +175,7 @@ export async function POST(request: Request) {
     
     let confidenceScore = 0;
     if (transcription.segments && transcription.segments.length > 0) {
-      const totalLogprob = transcription.segments.reduce((acc: number, seg: any) => acc + (seg.avg_logprob || 0), 0);
+      const totalLogprob = transcription.segments.reduce((acc: number, seg: TranscriptionSegment) => acc + (seg.avg_logprob || 0), 0);
       const avgLogprob = totalLogprob / transcription.segments.length;
       confidenceScore = Math.max(0, 100 + (avgLogprob * 40)); 
     } else {
@@ -176,6 +200,27 @@ export async function POST(request: Request) {
 
     const base64Image = image ? getImageAsBase64(image) : null;
     const hasImage = !!base64Image;
+    const modeSpecificPrompt =
+      evaluationMode === "exam"
+        ? `
+[EXAM MODE - STRICT SCORING CALIBRATION]
+- This is a full mock exam. Be noticeably stricter than practice mode.
+- Never inflate scores for partially correct answers.
+- Use this anchor strictly:
+  - 0-29: Mostly unintelligible, irrelevant, or almost no usable response.
+  - 30-44: Very limited response; frequent breakdowns; major grammar/pronunciation issues.
+  - 45-59: Understandable in parts but weak development and many errors.
+  - 60-74: Adequate but limited detail; noticeable errors or hesitation.
+  - 75-84: Good response with clear organization and minor errors.
+  - 85-94: Excellent, highly natural, accurate, and sustained fluency.
+  - 95-100: Near-native and consistently strong; extremely rare.
+- For Parts 3-5, if reasons/examples are thin, repetitive, or insufficiently developed, keep score under 75.
+- Do not award 85+ unless content is complete, precise, and delivery is consistently fluent with minimal mistakes.
+`
+        : `
+[PRACTICE MODE]
+- Give fair and educational scoring for practice use.
+`;
 
     const systemPrompt = `
 You are a strict TOEIC Speaking examiner.
@@ -207,6 +252,7 @@ You must strictly adhere to these **NEGATIVE CONSTRAINTS**:
 
 [SCORING CRITERIA]
 - ${get_criteria(part)}
+${modeSpecificPrompt}
 
 [Feedback Rules]
 - Feedback MUST be in **Korean**.
@@ -215,8 +261,10 @@ You must strictly adhere to these **NEGATIVE CONSTRAINTS**:
 
     const userPrompt = `
 [Context]
+- Evaluation Mode: ${evaluationMode}
 - Part: ${part}
 - Question: "${question}"
+- Reference Answer: "${referenceAnswer}"
 - User's Answer (Transcript): "${userTranscript}"
 
 [Technical Metrics]
@@ -233,7 +281,7 @@ Output JSON.
 }
 `;
 
-    const messages: any[] = [
+    const messages: CompletionMessage[] = [
       { role: "system", content: systemPrompt }
     ];
 
@@ -258,7 +306,7 @@ Output JSON.
     }
 
     const completion = await client.chat.completions.create({
-      messages: messages,
+      messages: messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
       model: "meta-llama/llama-4-scout-17b-16e-instruct",
       temperature: 0.2,
       response_format: { type: "json_object" },
@@ -284,7 +332,7 @@ Output JSON.
       else if (evaluation.score >= 50) evaluation.fluency = "Medium";
       else evaluation.fluency = "Low";
 
-    } catch (e) {
+    } catch {
       evaluation = parseFallback(responseText);
     }
 
@@ -292,7 +340,7 @@ Output JSON.
 
     return NextResponse.json(evaluation);
 
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { 
         score: 0, 

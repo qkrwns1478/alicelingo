@@ -540,6 +540,7 @@ export default function ExamPage() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+              mode: "exam",
               part: question.partNumber,
               question: questionPromptForEval(question),
               image: question.type === "image" || question.type === "image_text" ? question.content : undefined,
