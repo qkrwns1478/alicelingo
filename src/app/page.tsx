@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BookOpen, Mic, MicVocal, Image, Table, MessageCircle, Pencil, GraduationCap, PlayCircle } from 'lucide-react';
+import { BookOpen, Mic, MicVocal, Image, Table, MessageCircle, Pencil, GraduationCap } from 'lucide-react';
 import LogoutButton from '../components/LogoutButton';
 import MyPageButton from '../components/MyPageButton';
 import Header from '../components/Header';

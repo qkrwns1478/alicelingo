@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, Play } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, Loader2, Play, GraduationCap } from "lucide-react";
 import problemData from "../../data/problems.json";
 
 type PartKey = "part1" | "part2" | "part3" | "part4" | "part5";
@@ -277,6 +278,7 @@ const createQuestions = (examId: string): ExamQuestion[] => {
     no += 1;
   });
   const part3Set = pick(source.part3, 1)[0];
+  if (!part3Set) throw new Error("Part 3 문제 데이터가 없습니다.");
   [
     { q: part3Set.sub_q1, a: part3Set.sub_a1, t: 15 },
     { q: part3Set.sub_q2, a: part3Set.sub_a2, t: 15 },
@@ -298,6 +300,7 @@ const createQuestions = (examId: string): ExamQuestion[] => {
   });
 
   const part4Set = pick(source.part4, 1)[0];
+  if (!part4Set) throw new Error("Part 4 문제 데이터가 없습니다.");
   [
     { q: part4Set.sub_q1, a: part4Set.sub_a1, t: 15 },
     { q: part4Set.sub_q2, a: part4Set.sub_a2, t: 15 },
@@ -319,6 +322,7 @@ const createQuestions = (examId: string): ExamQuestion[] => {
   });
 
   const part5 = pick(source.part5, 1)[0];
+  if (!part5) throw new Error("Part 5 문제 데이터가 없습니다.");
   questions.push({
     id: `${examId}_q${no}`,
     number: no,
@@ -969,7 +973,7 @@ export default function ExamPage() {
           <div className="w-full max-w-5xl flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="w-full bg-black/40 backdrop-blur-md border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl min-h-[500px] flex flex-col items-center justify-center relative p-6 md:p-10">
               <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mb-8 shadow-lg shadow-blue-500/40 ring-4 ring-blue-500/20">
-                <Play className="w-10 h-10 text-white ml-1" />
+                <GraduationCap className="w-10 h-10 text-white ml-1" />
               </div>
 
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">TOEIC SPEAKING 모의고사</h2>
@@ -1131,17 +1135,25 @@ export default function ExamPage() {
                   <p className="text-2xl leading-relaxed whitespace-pre-wrap">{currentQuestion.content}</p>
                 )}
                 {currentQuestion.type === "image" && (
-                  <img
+                  <Image
                     src={currentQuestion.content}
                     alt={`Q${currentQuestion.number}`}
+                    width={1280}
+                    height={720}
+                    loader={({ src }) => src}
+                    unoptimized
                     className="w-full max-h-[480px] object-contain bg-white border border-[#d6d6d6] rounded-lg"
                   />
                 )}
                 {currentQuestion.type === "image_text" && (
                   <div className="space-y-4">
-                    <img
+                    <Image
                       src={currentQuestion.content}
                       alt={`Q${currentQuestion.number}`}
+                      width={1280}
+                      height={720}
+                      loader={({ src }) => src}
+                      unoptimized
                       className="w-full max-h-[480px] object-contain bg-white border border-[#d6d6d6] rounded-lg"
                     />
                   </div>
