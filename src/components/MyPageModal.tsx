@@ -128,7 +128,7 @@ export default function MyPageModal({ isOpen, onClose }: MyPageModalProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-slate-600 font-medium text-sm">
               <Calendar className="w-4 h-4 text-slate-400" />
-              <span>마지막 사용일 (KST)</span>
+              <span>마지막 사용일</span>
             </div>
             <span className="font-medium text-slate-500 text-sm">
               {planInfo.lastDate}
@@ -138,7 +138,7 @@ export default function MyPageModal({ isOpen, onClose }: MyPageModalProps) {
 
         <form onSubmit={handleUpdate} className="space-y-5">
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-2">이메일 (아이디)</label>
+            <label className="block text-sm font-bold text-slate-700 mb-2">이메일</label>
             <input
               type="text"
               value={email}
@@ -153,7 +153,7 @@ export default function MyPageModal({ isOpen, onClose }: MyPageModalProps) {
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all font-medium"
-              placeholder="사용하실 닉네임을 입력하세요"
+              placeholder="닉네임을 입력해 주세요"
               required
             />
           </div>
@@ -170,7 +170,7 @@ export default function MyPageModal({ isOpen, onClose }: MyPageModalProps) {
         <div className="mt-8 pt-6 border-t border-slate-100 text-center">
           <button
             onClick={handleWithdraw}
-            className="text-sm font-bold text-red-500 hover:text-red-600 underline underline-offset-4"
+            className="text-sm text-gray-400 hover:text-gray-500 underline underline-offset-4"
           >
             회원탈퇴
           </button>
