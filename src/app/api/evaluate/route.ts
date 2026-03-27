@@ -143,7 +143,10 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const { part, question, audioData, modelAnswer, image, mode } = body;
-    const evaluationMode: EvaluationMode = mode === "exam" ? "exam" : "practice";
+    if (mode !== undefined && mode !== "practice" && mode !== "exam") {
+      return NextResponse.json({ error: "Invalid mode. Use 'practice' or 'exam'." }, { status: 400 });
+    }
+    const evaluationMode: EvaluationMode = mode ?? "practice";
     const referenceAnswer = typeof modelAnswer === "string" ? modelAnswer : "";
 
     if (!audioData) {

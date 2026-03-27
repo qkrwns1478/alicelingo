@@ -627,7 +627,7 @@ export default function PracticePage() {
                 {currentQuestion.type === "image" && (
                   <Image
                     src={currentQuestion.content}
-                    alt="Practice Prompt"
+                    alt={`Question ${currentQuestionIndex + 1} prompt image`}
                     width={1280}
                     height={720}
                     loader={({ src }) => src}
@@ -648,7 +648,7 @@ export default function PracticePage() {
                     <div className="flex-1 bg-white p-2 rounded-lg shadow-xl w-full min-h-0 overflow-hidden flex items-center justify-center">
                       <Image
                         src={currentQuestion.content}
-                        alt="Schedule"
+                        alt={`Question ${currentQuestionIndex + 1} schedule image`}
                         width={1280}
                         height={720}
                         loader={({ src }) => src}
