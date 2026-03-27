@@ -21,12 +21,12 @@ interface QuestionStep {
   responseTime: number;
 }
 
-export default function ExamPage() {
+export default function PracticePage() {
   const params = useParams();
   const router = useRouter();
   const partKey = params.part as PartKey;
 
-  const [examState, setExamState] = useState<"idle" | "listening" | "prep" | "recording" | "processing" | "result">("idle");
+  const [practiceState, setPracticeState] = useState<"idle" | "listening" | "prep" | "recording" | "processing" | "result">("idle");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userTranscript, setUserTranscript] = useState("");
   const [score, setScore] = useState<number>(0);
@@ -302,7 +302,7 @@ export default function ExamPage() {
   const startCurrentQuestion = async () => {
     if (isTransitioningRef.current || !isMountedRef.current) return;
     isTransitioningRef.current = true;
-    setExamState("listening");
+    setPracticeState("listening");
 
     let textToRead = "";
     if (partKey === "part3" || partKey === "part5") textToRead = currentQuestion.content;
@@ -319,7 +319,7 @@ export default function ExamPage() {
     await playBeep();
     if (!isTransitioningRef.current || !isMountedRef.current) return;
 
-    setExamState("prep");
+    setPracticeState("prep");
     isTransitioningRef.current = false;
   };
 
@@ -360,7 +360,7 @@ export default function ExamPage() {
         : new MediaRecorder(stream);
         
       mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = []; // 초기화 확실히
+      audioChunksRef.current = [];
       
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) audioChunksRef.current.push(event.data);
@@ -369,13 +369,13 @@ export default function ExamPage() {
       mediaRecorder.start();
 
       if (isMountedRef.current) {
-        setExamState("recording");
+        setPracticeState("recording");
       }
     } catch (err) {
       isRecordingRef.current = false;
       if (isMountedRef.current) {
         alert("마이크 권한이 필요합니다.");
-        setExamState("idle");
+        setPracticeState("idle");
       }
     }
 
@@ -406,11 +406,11 @@ export default function ExamPage() {
       setScore(0);
       setFeedbackMsg(["녹음된 오디오가 없습니다. 마이크 설정을 확인해주세요."]);
       setFluencyLevel("Error");
-      setExamState("result");
+      setPracticeState("result");
       return;
     }
 
-    setExamState("processing");
+    setPracticeState("processing");
 
     const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
     const blobToBase64 = (blob: Blob): Promise<string> => {
@@ -463,7 +463,7 @@ export default function ExamPage() {
       }
     } finally {
       if (isMountedRef.current) {
-        setExamState("result");
+        setPracticeState("result");
       }
     }
   }, [currentQuestion, partKey]);
@@ -486,7 +486,7 @@ export default function ExamPage() {
     window.speechSynthesis.cancel();
 
     setCurrentQuestionIndex(index);
-    setExamState("idle");
+    setPracticeState("idle");
     setUserTranscript("");
     finalTranscriptRef.current = "";
     setScore(0);
@@ -508,7 +508,7 @@ export default function ExamPage() {
     return <div className="h-screen bg-slate-900 text-white flex justify-center items-center">Loading...</div>;
   }
 
-  const isContentVisible = examState !== "idle";
+  const isContentVisible = practiceState !== "idle";
 
   return (
     <div className="min-h-screen bg-slate-900 text-white flex flex-col font-sans relative">
@@ -521,7 +521,7 @@ export default function ExamPage() {
         </button>
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end">
-            <span className="font-mono text-slate-500 text-xs tracking-wider">EXAM MODE</span>
+            <span className="font-mono text-slate-500 text-xs tracking-wider">PRACTICE MODE</span>
             <span className="text-sm text-blue-400 font-bold capitalize">{partKey?.replace("part", "Part ")}</span>
           </div>
           <button onClick={() => setIsMobileMenuOpen(true)} className="md:hidden p-2 rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-white">
@@ -535,9 +535,9 @@ export default function ExamPage() {
         <main className="flex-1 flex flex-col items-center justify-center h-[calc(100vh-4rem)] p-4 relative">
 
           {/* Timer Progress Bar */}
-          {isContentVisible && (examState === "prep" || examState === "recording") && (
+          {isContentVisible && (practiceState === "prep" || practiceState === "recording") && (
             <div className="fixed top-24 left-6 z-50">
-              {examState === "prep" ? (
+              {practiceState === "prep" ? (
                 <Timer
                   key={`prep-${currentQuestionIndex}`}
                   duration={currentQuestion.prepTime}
@@ -562,7 +562,7 @@ export default function ExamPage() {
           )}
 
           {/* Skip Prep Button */}
-          {examState === "prep" && (
+          {practiceState === "prep" && (
             <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300">
               <button
                 onClick={startRecordingSequence}
@@ -576,7 +576,7 @@ export default function ExamPage() {
           )}
 
           {/* Stop Recording Button */}
-          {examState === "recording" && (
+          {practiceState === "recording" && (
             <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-bottom-4 fade-in duration-300">
               <button
                 onClick={stopRecordingAndAnalyze}
@@ -609,7 +609,7 @@ export default function ExamPage() {
 
               {!isContentVisible && (
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-slate-900/60 backdrop-blur-md">
-                  {examState === "idle" && (
+                  {practiceState === "idle" && (
                     <div className="text-center animate-in zoom-in duration-300">
                       <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/40 ring-4 ring-blue-500/20">
                         <Play className="w-8 h-8 text-white ml-1" />
@@ -623,11 +623,11 @@ export default function ExamPage() {
               )}
 
               <div className={`w-full h-full flex flex-col items-center justify-center transition-all duration-500 ${!isContentVisible ? "opacity-30 blur-sm scale-95 grayscale" : "opacity-100 scale-100"}`}>
-                {currentQuestion.type === "image" && <img src={currentQuestion.content} alt="Exam Prompt" className="w-full h-full object-contain max-h-[500px] rounded-lg shadow-lg" />}
+                {currentQuestion.type === "image" && <img src={currentQuestion.content} alt="Practice Prompt" className="w-full h-full object-contain max-h-[500px] rounded-lg shadow-lg" />}
                 {currentQuestion.type === "text" && (
                   <div className="p-4 md:p-10 max-w-3xl">
                     <span className="text-blue-400 font-bold tracking-widest text-xs uppercase mb-6 block opacity-80">Question {currentQuestionIndex + 1}</span>
-                    <h2 className={`text-xl md:text-3xl font-bold leading-relaxed whitespace-pre-wrap transition-colors duration-300 ${examState === 'listening' ? 'text-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'text-slate-100'}`}>
+                    <h2 className={`text-xl md:text-3xl font-bold leading-relaxed whitespace-pre-wrap transition-colors duration-300 ${practiceState === 'listening' ? 'text-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'text-slate-100'}`}>
                       {currentQuestion.content}
                     </h2>
                   </div>
@@ -637,9 +637,9 @@ export default function ExamPage() {
                     <div className="flex-1 bg-white p-2 rounded-lg shadow-xl w-full min-h-0 overflow-hidden flex items-center justify-center">
                       <img src={currentQuestion.content} alt="Schedule" className="w-full h-full object-contain" />
                     </div>
-                    <div className={`flex-none w-full text-left p-4 rounded-xl border backdrop-blur-sm transition-all duration-300 ${examState === 'listening' ? 'bg-blue-900/40 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'bg-slate-800/80 border-slate-700'}`}>
+                    <div className={`flex-none w-full text-left p-4 rounded-xl border backdrop-blur-sm transition-all duration-300 ${practiceState === 'listening' ? 'bg-blue-900/40 border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'bg-slate-800/80 border-slate-700'}`}>
                       <span className="text-green-400 font-bold tracking-widest text-xs uppercase mb-2 block">Question {currentQuestionIndex + 1}</span>
-                      <p className={`text-lg md:text-xl font-semibold leading-relaxed whitespace-pre-wrap transition-colors duration-300 ${examState === 'listening' ? 'text-blue-300' : 'text-white'}`}>
+                      <p className={`text-lg md:text-xl font-semibold leading-relaxed whitespace-pre-wrap transition-colors duration-300 ${practiceState === 'listening' ? 'text-blue-300' : 'text-white'}`}>
                         {currentQuestion.subText}
                       </p>
                     </div>
@@ -649,12 +649,12 @@ export default function ExamPage() {
 
               {isContentVisible && (
                 <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wide backdrop-blur border z-10 ${
-                    examState === "listening" ? "bg-blue-500/10 text-blue-200 border-blue-500/20 animate-pulse" :
-                    examState === "prep" ? "bg-yellow-500/10 text-yellow-200 border-yellow-500/20" :
-                    examState === "recording" ? "bg-red-500/10 text-red-200 border-red-500/20 animate-pulse" :
+                    practiceState === "listening" ? "bg-blue-500/10 text-blue-200 border-blue-500/20 animate-pulse" :
+                    practiceState === "prep" ? "bg-yellow-500/10 text-yellow-200 border-yellow-500/20" :
+                    practiceState === "recording" ? "bg-red-500/10 text-red-200 border-red-500/20 animate-pulse" :
                     "bg-slate-700/50 text-slate-300 border-slate-600"
                   }`}>
-                  {examState === "listening" ? "● Listening..." : examState === "prep" ? "● Preparation Time" : examState === "recording" ? "● Recording..." : "Review"}
+                  {practiceState === "listening" ? "● Listening..." : practiceState === "prep" ? "● Preparation Time" : practiceState === "recording" ? "● Recording..." : "Review"}
                 </div>
               )}
             </div>
@@ -676,7 +676,7 @@ export default function ExamPage() {
           </div>
         </aside>
 
-        {examState === "processing" && (
+        {practiceState === "processing" && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-300">
             <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 flex flex-col items-center gap-6 shadow-2xl max-w-sm w-full mx-4 animate-in zoom-in-95 duration-300">
                 <div className="relative">
@@ -685,7 +685,7 @@ export default function ExamPage() {
                 </div>
                 <div className="text-center space-y-2">
                   <h3 className="text-xl font-bold text-white">Evaluating...</h3>
-                  <p className="text-slate-400 text-sm">AI examiner is analyzing your answer.</p>
+                  <p className="text-slate-400 text-sm">AI practiceiner is analyzing your answer.</p>
                 </div>
                 <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
                   <div className="h-full bg-blue-500 animate-progress-indeterminate"></div>
@@ -714,7 +714,7 @@ export default function ExamPage() {
           </div>
         )}
 
-        {examState === "result" && (
+        {practiceState === "result" && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-300">
             <div className="w-full max-w-4xl max-h-[90vh] bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl overflow-hidden flex flex-col relative">
               <div className="p-6 border-b border-slate-700 bg-slate-800/50 flex justify-between items-center flex-none">
